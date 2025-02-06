@@ -85,7 +85,9 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/styles.scss", 
+              "node_modules/tailwindcss/tailwind.css" 
             ],
             "scripts": []
           }
