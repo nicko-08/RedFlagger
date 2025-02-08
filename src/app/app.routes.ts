@@ -12,7 +12,7 @@ import { AboutUsComponent } from './components/components/about-us/about-us.comp
 export const routes: Routes = [
   
   { path: 'signup', component: SignUpComponent },
-  { path: '', redirectTo: '/signup', pathMatch: 'full' }, // Default route
+  { path: '', redirectTo: 'home', pathMatch: 'full' }, // Default route
   { path: 'sign-in', component: SignInComponent},
   { path: 'home', component: HomeComponent},
   { path: 'legal', component: LegalComponent},

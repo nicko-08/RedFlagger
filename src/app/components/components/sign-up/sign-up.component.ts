@@ -31,7 +31,7 @@ export class SignUpComponent {
       if (result.error) {
         this.errorMessage = result.error.message;
       } else {
-        this.router.navigateByUrl('/');
+        window.location.replace('/home');
       }
     });
   }

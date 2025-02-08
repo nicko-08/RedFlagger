@@ -29,7 +29,10 @@ export class SignInComponent {
         this.errorMessage = result.error.message;
       } else {
         console.log(result);
-        this.router.navigateByUrl('/home');
+        this.authService.supabase.auth.onAuthStateChange((event) => {
+          console.log(event);
+        })
+        window.location.replace('/home');
       }
     });
   }
