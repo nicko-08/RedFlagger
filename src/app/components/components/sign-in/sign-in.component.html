@@ -1,16 +1,17 @@
-<main class="flex justify-center items-center p-4 w-full h-full">
+<main class="grid place-items-center w-full p-4">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     
-    <div class="bg-red-700 text-white p-16 text-center w-full max-w-xl mx-auto rounded-lg shadow-lg">
-        <h2 class="text-4xl font-bold font-jua mb-4">Hello! Welcome Back</h2>
+    <div class="h-[500px] bg-red-700 text-white p-16 text-center w-full max-w-xl mx-auto rounded-lg shadow-lg h-500px flex flex-col justify-between">
+        <h2 class="text-4xl font-bold font-jua mb-6 text-left" style="font-family: 'Jua', sans-serif;">Hello! Welcome Back</h2>
         <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
-            <p class="text-sm mb-4 text-left">Email</p>
-            <input type="email" placeholder="Enter Email Address" formControlName="email" aria-label="Email Address" required class="w-full text-center p-4 mb-4 rounded-lg border-2 border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600">
-            <p class="text-sm mb-4 text-left">Password</p>
-            <input type="password" placeholder="Enter Password" formControlName="password" aria-label="Password" required class="w-full text-center p-4 mb-4 rounded-lg border-2 border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600">
+            <p class="text-2xl mb-4 text-left" style="font-family: 'Jua', sans-serif;">Email</p>
+            <input type="email" placeholder="Enter Email Address..." formControlName="email" aria-label="Email Address" required class="w-full text-left text-red-600 p-4 mb-4 rounded-lg border-2 bg-white border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600">
+            <p class="text-2xl mb-4 text-left" style="font-family: 'Jua', sans-serif;">Password</p>
+            <input type="password" placeholder="Enter Password..." formControlName="password" aria-label="Password" required class="w-full text-left text-red-600 p-4 mb-4 rounded-lg border-2 bg-white border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600">
             @if (errorMessage) {
-            <div class="text-yellow-400 mb-4">{{ errorMessage }}</div>
+            <div class="text-yellow-400 mb-4" style="font-family: 'Jua', sans-serif;">{{ errorMessage }}</div>
             }
-            <button type="submit" class="bg-white text-red-600 py-3 px-6 rounded-full font-bold hover:bg-yellow-400 hover:text-red-600 transition-all transform hover:scale-110">
+            <button type="submit" style="font-family: 'Jua', sans-serif;" class="bg-white text-red-600 w-full text-3xl py-3 px-6 rounded-full font-bold mt-2 hover:bg-yellow-300 hover:text-red-600 transition-all transform hover:scale-110">
                 LOGIN
             </button>
         </form>
