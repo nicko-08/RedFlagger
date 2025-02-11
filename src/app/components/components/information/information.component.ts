@@ -9,16 +9,15 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./information.component.css']
 })
 export class InformationComponent {
-  isExpanded = false; 
-  expandedImage: string | null = null; 
+  isLightboxOpen = false;
 
   images = ["image1.jpg", "image2.jpg", "image3.jpg"]; 
 
   toggleGraph() {
-    this.isExpanded = !this.isExpanded;
+    this.isLightboxOpen = true;
   }
 
-  toggleImage(img: string) {
-    this.expandedImage = this.expandedImage === img ? null : img;
+  closeLightbox() {
+    this.isLightboxOpen = false;
   }
 }

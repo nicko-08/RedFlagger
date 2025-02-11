@@ -10,7 +10,7 @@ import { CheckEmailComponent } from './components/components/check-email/check-e
 
 @Component({
   selector: 'app-root',
-  imports: [SignUpComponent, HeaderComponent, FooterComponent, RouterOutlet, EmailConfirmedComponent],
+  imports: [HeaderComponent, FooterComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
