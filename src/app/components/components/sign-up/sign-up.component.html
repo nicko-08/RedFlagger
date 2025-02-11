@@ -1,18 +1,18 @@
 
+<main class="flex flex-col justify-between items-center p-4 w-full h-full">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     
-<main class="flex justify-center items-center p-4 w-full h-full">
-    
-    <div class="bg-red-700 text-white p-16 text-center w-full max-w-xl mx-auto rounded-lg shadow-lg">
-        <h2 class="text-4xl font-bold font-jua mb-4">Create Account</h2>
+    <div class="h-[500px] bg-red-700 text-white p-16 text-center w-full max-w-xl mx-auto rounded-lg shadow-lg h-500px flex flex-col justify-between">
+        <h2 class="text-4xl font-bold font-jua mb-4" style="font-family: 'Jua', sans-serif;">Create Account</h2>
         <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-            <input type="email" placeholder="Enter Email Address" formControlName="email" aria-label="Email Address" required class="w-full text-center p-4 mb-4 rounded-lg border-2 border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600">
-            <input type="text" placeholder="Enter Username" formControlName="username" aria-label="Username" required class="w-full text-center p-4 mb-4 rounded-lg border-2 border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600">
-            <input type="password" placeholder="Enter Password" formControlName="password" aria-label="Password" required class="w-full text-center p-4 mb-4 rounded-lg border-2 border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600">
-            <p class="text-sm mb-4">*Password must be atleast 6 characters long</p>
+            <input type="email" placeholder="Enter Email Address..." formControlName="email" aria-label="Email Address" required class="w-full text-left p-4 mb-4 rounded-lg border-2 text-red-600 bg-white border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600" style="font-family: 'Jua', sans-serif;">
+            <input type="text" placeholder="Enter Username..." formControlName="username" aria-label="Username" required class="w-full text-left p-4 mb-4 rounded-lg border-2 text-red-600 bg-white border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600" style="font-family: 'Jua', sans-serif;">
+            <input type="password" placeholder="Enter Password..." formControlName="password" aria-label="Password" required class="w-full text-left p-4 mb-4 rounded-lg border-2 text-red-600 bg-white border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600" style="font-family: 'Jua', sans-serif;">
+            <p class="text-sm mb-4" style="font-family: 'Jua', sans-serif;">*Password must be atleast 6 characters long</p>
             @if (errorMessage) {
             <div class="text-yellow-400 mb-4">{{ errorMessage }}</div>
             }
-            <button type="submit" class="bg-white text-red-600 py-3 px-6 rounded-full font-bold hover:bg-yellow-400 hover:text-red-600 transition-all transform hover:scale-110">
+            <button type="submit" class="bg-white text-3xl w-full text-red-600 py-3 px-6 rounded-full font-bold hover:bg-yellow-400 hover:text-red-600 transition-all transform hover:scale-110" style="font-family: 'Jua', sans-serif;">
                 SIGN UP
             </button>
         </form>
