@@ -8,6 +8,7 @@ import { LegalComponent } from './components/components/legal/legal.component';
 import { ReportComponent } from './components/components/report/report.component';
 import { InformationComponent } from './components/components/information/information.component';
 import { AboutUsComponent } from './components/components/about-us/about-us.component';
+import { ConfirmEmailComponent } from './components/components/confirm-email/confirm-email.component';
 
 export const routes: Routes = [
   
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'report', component: ReportComponent},
   { path: 'information', component: InformationComponent},
   { path: 'aboutus', component: AboutUsComponent},
+  { path: 'confirm-email', component: ConfirmEmailComponent},
 ];
 
 @NgModule({
