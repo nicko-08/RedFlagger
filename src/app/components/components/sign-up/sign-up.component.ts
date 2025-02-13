@@ -31,7 +31,7 @@ export class SignUpComponent {
       if (result.error) {
         this.errorMessage = result.error.message;
       } else {
-        window.location.replace('/home');
+        window.location.replace('check-email');
       }
     });
   }
