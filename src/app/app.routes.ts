@@ -8,8 +8,9 @@ import { LegalComponent } from './components/components/legal/legal.component';
 import { ReportComponent } from './components/components/report/report.component';
 import { InformationComponent } from './components/components/information/information.component';
 import { AboutUsComponent } from './components/components/about-us/about-us.component';
-import { ConfirmEmailComponent } from './components/components/confirm-email/confirm-email.component';
-
+import { PageInformationComponent } from './components/components/page-information/page-information.component';
+import { EmailConfirmedComponent } from './components/components/email-confirmed/email-confirmed.component';
+import { CheckEmailComponent} from './components/components/check-email/check-email.component';
 export const routes: Routes = [
   
   { path: 'signup', component: SignUpComponent },
@@ -20,7 +21,9 @@ export const routes: Routes = [
   { path: 'report', component: ReportComponent},
   { path: 'information', component: InformationComponent},
   { path: 'aboutus', component: AboutUsComponent},
-  { path: 'confirm-email', component: ConfirmEmailComponent},
+  {path: "page-information", component: PageInformationComponent},
+  {path: "email-confirmed", component: EmailConfirmedComponent},
+  {path: "check-email", component: CheckEmailComponent}
 ];
 
 @NgModule({
