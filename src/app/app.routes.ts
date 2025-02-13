@@ -10,9 +10,7 @@ import { InformationComponent } from './components/components/information/inform
 import { AboutUsComponent } from './components/components/about-us/about-us.component';
 import { PageInformationComponent } from './components/components/page-information/page-information.component';
 import { EmailConfirmedComponent } from './components/components/email-confirmed/email-confirmed.component';
-import { CheckEmailComponent
-
- } from './components/components/check-email/check-email.component';
+import { CheckEmailComponent} from './components/components/check-email/check-email.component';
 export const routes: Routes = [
   
   { path: 'signup', component: SignUpComponent },
@@ -23,7 +21,7 @@ export const routes: Routes = [
   { path: 'report', component: ReportComponent},
   { path: 'information', component: InformationComponent},
   { path: 'aboutus', component: AboutUsComponent},
-  {path: 'page-information', component: PageInformationComponent},
+  {path: "page-information", component: PageInformationComponent},
   {path: "email-confirmed", component: EmailConfirmedComponent},
   {path: "check-email", component: CheckEmailComponent}
 ];
