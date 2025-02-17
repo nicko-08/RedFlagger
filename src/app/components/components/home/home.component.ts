@@ -8,11 +8,7 @@ import { AuthService } from '../../../auth.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  authService = inject(AuthService);
-
-  ngOnInit(): void{
-    this.authService.listenForAuthChanges();
-  }
+  
   
 }
 

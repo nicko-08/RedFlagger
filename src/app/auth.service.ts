@@ -27,6 +27,7 @@ export class AuthService {
         data: {
           username,
         },
+        emailRedirectTo: 'https://redflagger-9c382.web.app/email-confirmed',
       },
     });
     return from(promise)
