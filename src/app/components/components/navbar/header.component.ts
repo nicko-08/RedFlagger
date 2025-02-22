@@ -28,22 +28,19 @@ export class HeaderComponent implements OnInit {
   const session = await this.authService.getSession();
 
   this.isLoggedIn = !!session; // Set isLoggedIn to true if a session exists
-}
+  }
 
   async logoutUser() {
     await this.authService.logout();
     this.isLoggedIn = false; // Update the login status
-}
+  }
 
   searchAction(): void{
   console.log('searching...');
   console.log('Search action triggered with input:', this.userInputUrl);
   this.determinePostType();
   this.sharedService.updateInput(this.userInputUrl);
-  
-  
-
-}
+  }
 
 determinePostType(){
   if(!this.userInputUrl){
