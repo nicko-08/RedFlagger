@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../../auth.service';
 
 @Component({
   selector: 'app-page-information',
@@ -7,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './page-information.component.css'
 })
 export class PageInformationComponent {
+
 
 }

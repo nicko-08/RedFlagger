@@ -60,7 +60,7 @@ listenForAuthChanges(): void{
 
       console.log(baseHeaders.get('Authorization'))
       
-      this.http.post<{message : string}>('https://redflagger-api.et.r.appspot.com/user/new',{},{headers: baseHeaders}).subscribe({
+      this.http.post<{message : string}>('https://redflagger-api-10796636392.asia-southeast1.run.app/user/new',{},{headers: baseHeaders}).subscribe({
         next: (response: {message: string})=>{
           console.log('User inserted Successfully:', response);
         },
@@ -71,6 +71,9 @@ listenForAuthChanges(): void{
     }
   });
 }
+
+getPageData(urlLink: String): Observable<any>{
+  return this.http.get('https://redflagger-api.et.r.appspot.com/page?pageurl='+urlLink);
 }
 
-
+}

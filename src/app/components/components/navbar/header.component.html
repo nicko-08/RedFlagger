@@ -11,9 +11,9 @@
     </div>
 
     <div class="relative w-full max-w-[700px] md:ml-5 px-3 py-3">
-        <input type="text" placeholder=" "  
+        <input type="text" [(ngModel)]="userInputUrl" placeholder=" "  
             class="search-input w-full px-4 py-3 pl-8 bg-red-700 text-black border-4 border-gray-100 rounded-full focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-all duration-300">
-            <a href="home" class="absolute right-1 top-0 text-white" onclick="searchAction()">
+            <a routerLink="/information" [queryParams]="{input: userInputUrl}" class="absolute right-1 top-0 text-white" (click)="searchAction()">
             <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-7 top-5 h-10 w-10 text-white" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M8 4a4 4 0 0 1 2.45 7.15l3.1 3.1a1 1 0 0 1-1.4 1.4l-3.1-3.1A4 4 0 1 1 8 4zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" clip-rule="evenodd"/>
         </svg>
