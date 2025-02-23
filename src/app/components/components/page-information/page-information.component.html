@@ -11,11 +11,11 @@
         <div class="hidden sm:block sm:ml-4 w-full text-center sm:text-center">
             <h2 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-red-600 "
                 style="font-family: 'Jua', sans-serif;">
-                Pamzeth Computer Center
+                {{pageName}}
             </h2>
         <div class="text-gray-600 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl py-4 sm:py-6">
             <span class="text-red-600 font-bold" 
-                style="font-family: 'Jua', sans-serif;">4/5 🚩</span> 
+                style="font-family: 'Jua', sans-serif;">{{threatLevel}}/10 🚩</span> 
         </div>  
     </div>
 </div>
@@ -42,15 +42,15 @@
     <div class="grid grid-cols-3 gap-4 mt-4 text-center">
       <div class="border-4 border-red-500 p-4 bg-white shadow-md hidden sm:block hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
         <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Total Reports</p>
-        <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">430</span>
+        <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{reportTotal}}</span>
       </div>
       <div class="border-4 border-red-500 p-4 bg-white shadow-md hidden sm:block hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
         <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Peak Daily Reports</p>
-        <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">430</span>
+        <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{peakReport}}</span>
       </div>
       <div class="border-4 border-red-500 p-4 bg-white shadow-md hidden sm:block hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
         <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Average Daily Reports</p>
-        <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">12.2</span>
+        <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{averagePostCount}}</span>
       </div>
     </div>
   </div>

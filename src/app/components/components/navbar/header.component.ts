@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   
   isLoggedIn = false;
   userInputUrl: string = "";
-  isPost: boolean | null = null;
+  
 
   authService = inject(AuthService);
   constructor(private router: Router) {}
@@ -50,19 +50,19 @@ determinePostType(){
   }
 
   if(this.userInputUrl.includes('/posts') || this.userInputUrl.includes('/permalink')){
-    this.isPost = true; //link is a post
-    this.router.navigate(['/information'], {queryParams: {input:this.userInputUrl}});
-    console.log(this.isPost);
+    
+    this.router.navigate(['/information'], {queryParams: {input:this.userInputUrl}}); //goes to post info
+    
   }
   else if (this.userInputUrl.includes('facebook.com')){
-    this.isPost = false; //link is a page
-    this.router.navigate(['/page-information'], {queryParams: {input:this.userInputUrl}});
-    console.log(this.isPost);
+    
+    this.router.navigate(['/page-information'], {queryParams: {input:this.userInputUrl}}); //goes to page info
+    
   }
   else{
     alert('Invalid Facebook URL');
-    this.isPost = null;
-    this.router.navigate(['/home']);
+
+    this.router.navigate(['/home']); //redirect back to home if invalid url
   }
 }
 }

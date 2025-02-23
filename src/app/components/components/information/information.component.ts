@@ -10,7 +10,7 @@ import { AuthService } from '../../../auth.service';
 @Component({
   selector: 'app-information',
   standalone: true, 
-  imports: [CommonModule, PageInformationComponent, PageInformationComponent, RouterModule], 
+  imports: [CommonModule, RouterModule], 
   templateUrl: './information.component.html',
   styleUrls: ['./information.component.css']
 })
@@ -20,7 +20,6 @@ userInputUrl: string | null = null;
 postContent: string | null = null;
 reportTotal: number | null = null;
 fbEmbedUrl: SafeResourceUrl | null = null;
-isPost: boolean | null = null;
 averagePostCount: string | null = null;
 threatLevel: string | null = null; //this is needed to be a string to display the threat level decimal in the UI
 peakReport: number | null = null;
@@ -81,9 +80,10 @@ sanitizer = inject(DomSanitizer);
         this.postContent = 'Failed to fetch post content. Please try again.';
       }
     });
-
+    
     this.http.get<{ total_reports: number }>(apiPostStatsUrl).subscribe({
       next: (response) => {
+        console.log('Total reports:', response.total_reports);
         this.reportTotal = response.total_reports || 0;// Extract total reports from API response
       },
       error: (err) => {
@@ -95,7 +95,7 @@ sanitizer = inject(DomSanitizer);
 
     this.http.get<{ average_daily_reports: number }>(apiPostStatsUrl).subscribe({
       next: (response) => {
-        this.averagePostCount = (response.average_daily_reports ?? 0).toFixed(2) // Extract total reports from API response
+        this.averagePostCount = (response.average_daily_reports ?? 0).toFixed(1) // Extract total reports from API response
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
@@ -115,7 +115,7 @@ sanitizer = inject(DomSanitizer);
 
     this.http.get<{threat: {threat_level: number} }>(apiPostStatsUrl).subscribe({
       next: (response) => {
-        this.threatLevel = (response.threat?.threat_level ?? 0).toFixed(2)// Extract total reports from API response
+        this.threatLevel = (response.threat?.threat_level ?? 0).toFixed(1)// Extract total reports from API response
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
