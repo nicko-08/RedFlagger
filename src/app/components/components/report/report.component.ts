@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../auth.service';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-report',
@@ -17,7 +18,7 @@ export class ReportComponent {
   imageError: string | null = null;
   authService = inject(AuthService);
   session = this.authService.getSession();
-
+  router = inject(Router);
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.reportForm = this.fb.group({
       pageLink: ['', [Validators.required, Validators.pattern(/https?:\/\/.+/)]],
@@ -53,6 +54,7 @@ export class ReportComponent {
   }
 
   async onSubmit(): Promise<void> {
+    //required urls for http POST
     if (this.reportForm.valid && this.images.length <= 3) {
       const baseUrl = 'https://redflagger-api-10796636392.asia-southeast1.run.app/report/new';
       const postUrl = encodeURIComponent(this.reportForm.value.pageLink);
@@ -63,13 +65,17 @@ export class ReportComponent {
       this.images.forEach((file) => {
         formData.append('images', file);
       });
-
+      
+      //to get the user token if logged in (will ask UI/UX to disable report button for user)
       const accessToken = await this.getAccessToken();
       if (!accessToken) {
         alert('Failed to retrieve access token. Please log in again.');
+        this.router.navigate(['/home'])
         return;
       }
 
+
+      //main function of HTTP POST
       const headers = new HttpHeaders({
         Authorization: `Bearer ${accessToken}`,
       });
@@ -90,6 +96,7 @@ export class ReportComponent {
     }
   }
 
+  //to get session token (user's unique token)
   private async getAccessToken(): Promise<string | null> {
     const session = await this.authService.getSession();
     return session?.access_token || null;
