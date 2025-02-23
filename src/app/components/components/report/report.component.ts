@@ -38,8 +38,7 @@ export class ReportComponent {
     }
 
     // Clear any previous data
-    this.images = [];
-    this.previewUrls = [];
+    
     this.imageError = null;
 
     // Process each file to generate its preview
