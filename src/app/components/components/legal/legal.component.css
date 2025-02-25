@@ -131,5 +131,12 @@ body {
     .legal-box {
         width: 100%;
         max-width: 400px;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 1rem; 
     }
 }
