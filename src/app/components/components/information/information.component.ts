@@ -23,6 +23,8 @@ fbEmbedUrl: SafeResourceUrl | null = null;
 averagePostCount: string | null = null;
 threatLevel: string | null = null; //this is needed to be a string to display the threat level decimal in the UI
 peakReport: number | null = null;
+chart: any;
+
 
 authService = inject(AuthService);
 http = inject(HttpClient);
@@ -139,6 +141,36 @@ sanitizer = inject(DomSanitizer);
     this.isLightboxOpen = false;
   }
   
+//GRAPH PART
+generateGraph(): void{
+  const data = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    datasets: [
+      {
+        label: 'Dataset 1',
+        barPercentage: 0.5,
+        barThickness: 6,
+        maxBarThickness: 8,
+        minBarLength: 2,
+        data: [10, 20, 30, 40, 50, 60, 70],
+      },
+    ],
+  };
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
 
+  const ctx = (document.getElementById('myChart') as HTMLCanvasElement).getContext('2d');
+  new this.chart(ctx, config);
+
+}
   
 }
