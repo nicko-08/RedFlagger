@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { SharedService } from '../../../shared.service';
+
 
 @Component({
   selector: 'app-home',
@@ -10,10 +12,12 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  userInputUrl: string | null = null;
+  userInputUrl: string | null = "";
   accReportCount: number | null = 0;
   postReportCount: number | null = 0;
   userReportCount: number | null = 0;
+  sharedServe = inject(SharedService);
+
   apiUrl: string = "https://redflagger-api-10796636392.asia-southeast1.run.app/stats";
   http = inject(HttpClient);
 
@@ -26,6 +30,9 @@ export class HomeComponent {
       }
     })
   }
-  
+
+  searchAction(): void{
+    this.sharedServe.determinePostType(this.userInputUrl!);
+  }
 }
 

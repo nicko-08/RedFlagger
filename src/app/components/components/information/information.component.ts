@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -6,8 +6,7 @@ import { PageInformationComponent } from "../page-information/page-information.c
 import { SharedService } from '../../../shared.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '../../../auth.service';
-import { Chart } from 'chart.js';
-
+import { Chart, ChartConfiguration, registerables  } from 'chart.js';
 @Component({
   selector: 'app-information',
   standalone: true, 
@@ -25,7 +24,14 @@ averagePostCount: string | null = null;
 threatLevel: string | null = null; //this is needed to be a string to display the threat level decimal in the UI
 peakReport: number | null = null;
 
-
+//chart
+@ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
+  chart!: Chart;
+constructor() {
+  // Register all required components for Chart.js
+  Chart.register(...registerables);
+}
+lastUpdateDate: string | null = null; // Track the most recent date
 
 authService = inject(AuthService);
 http = inject(HttpClient);
@@ -36,12 +42,12 @@ sanitizer = inject(DomSanitizer);
   ngOnInit(): void {
       const session =  this.authService.getSession();
       this.isLoggedIn = !!session;
-      console.log('Is logged in:', this.isLoggedIn);
       this.route.queryParams.subscribe((params) => {
         this.userInputUrl = params['input'];
         if(this.userInputUrl){
           this.callApi(this.userInputUrl);
           this.getPostContent(this.userInputUrl);
+          this.fetchData(this.userInputUrl);
         }
       });
       this.route.queryParams.subscribe((params)=>{
@@ -53,13 +59,14 @@ sanitizer = inject(DomSanitizer);
         }
       })
   }
-
   callApi(input: string): void {
     console.log('Calling API with input:', input);
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post?post_url=${encodeURIComponent(input)}`;
     this.http.get(apiUrl).subscribe((response) => {
       console.log('API response:', response);
     })
+
+    this.initializeChart();
   }
 
   
@@ -131,48 +138,98 @@ sanitizer = inject(DomSanitizer);
   
   isLightboxOpen = false;
   
-  
   images = ["image1.jpg", "image2.jpg", "image3.jpg"]; 
 
   toggleGraph() {
     this.isLightboxOpen = true;
+    this.initializeChart();
   }
 
   closeLightbox() {
     this.isLightboxOpen = false;
   }
 
-chart: any;
-//GRAPH PART
-generateGraph(): void{
-  const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-    datasets: [
-      {
-        label: 'Dataset 1',
-        barPercentage: 0.5,
-        barThickness: 6,
-        maxBarThickness: 8,
-        minBarLength: 2,
-        data: [10, 20, 30, 40, 50, 60, 70],
+  //Graph part
+  initializeChart() {
+    const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+
+    this.chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: [], // Start with empty labels
+        datasets: [
+          {
+            label: 'Total Reports',
+            data: [], // Start with empty data
+            backgroundColor: '#eb3636',
+          },
+        ],
       },
-    ],
-  };
-  const config = {
-    type: 'bar',
-    data: data,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: 'Reports Over Time' },
+        },
+      },
+    });
+  }
+
+  // Fetch data from the API and update the chart
+  fetchData(input: string) {
+    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/stats?post_url=${encodeURIComponent(input)}`;
+      this.http.get<{ frequency_over_time: { date: string; count: number }[] }>(apiUrl).subscribe(
+        (response) => {
+          const newData = response.frequency_over_time;
+        if (newData.length > 0) {
+          const latestDate = newData[newData.length - 1].date;
+
+          // Only update if there's new data
+          if (this.lastUpdateDate !== latestDate) {
+            this.lastUpdateDate = latestDate;
+            this.updateChart(newData);
+          }
+        }
+      },
+      (error) => {
+        console.error('API error:', error);
+      }
+    );
+  }
+
+  scheduleUpdates() {
+    setInterval(() => {
+      if(!this.userInputUrl){
+        alert('Please enter a valid URL');
+        return;
+      }
+      this.fetchData(this.userInputUrl);
+    }, 10000); // Fetch data every 5 seconds
+  }
+  
+
+  // Update chart with new data while maintaining a max of 10 bars
+  updateChart(dataArray: { date: string; count: number }[]) {
+    const labels = this.chart.data.labels as string[];
+    const data = this.chart.data.datasets[0].data as number[];
+  
+    dataArray.forEach((item) => {
+      // Check if the date already exists in the labels
+      if (!labels.includes(item.date)) {
+        labels.push(item.date);
+        data.push(item.count);
+  
+        // Remove the oldest data point if the length exceeds 10
+        if (labels.length > 10) {
+          labels.shift();
+          data.shift();
         }
       }
-    },
-  };
+    });
+  
+    // Update the chart only if there were changes
+    this.chart.update();
+  }
 
-  
-  
-
-}
-  
 }

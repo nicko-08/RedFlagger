@@ -2,11 +2,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     
     <div class="w-full bg-white p-8 shadow-md flex flex-col items-center mb-12">
-      <h1 class="text-5xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-center text-red-600 mb-4" style="font-family: 'Jua', sans-serif;">Crowdsourced Facebook</h1>
-      <h2 class="p-2 text-5xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold text-center text-red-600 mb-6" style="font-family: 'Jua', sans-serif;">Scam Detector</h2>
+      <h1 class="text-7xl font-bold text-center text-red-600 mb-4" style="font-family: 'Jua', sans-serif;">Crowdsourced Facebook</h1>
+      <h2 class="p-2 text-7xl font-semibold text-center text-red-600 mb-6" style="font-family: 'Jua', sans-serif;">Scam Detector</h2>
       <input 
-      type="text" 
-      [(ngModel)]="userInputUrl" placeholder=" "  
+      type="text"
+      (keyup.enter)="searchAction()"
+      [(ngModel)]="userInputUrl"
       placeholder="Paste link here"
       id="linkInput" 
       class="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 p-4 border-3 border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 mb-6"/>
