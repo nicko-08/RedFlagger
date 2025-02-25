@@ -5,13 +5,13 @@ body {
     color: #333;
 }
 
-/* Main Container */
 .about-us-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; 
     width: 100%;
     padding: 2rem;
+    box-sizing: border-box; 
 }
 
 /* Section Styling */
@@ -24,6 +24,7 @@ body {
     max-width: 900px;
     width: 100%;
     transition: transform 0.3s ease-in-out;
+    margin-bottom: 2rem;
 }
 
 .about-section:hover {
@@ -48,17 +49,27 @@ body {
     line-height: 1.8;
     text-align: justify;
     color: #555;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
-/* Responsive Grid */
-@media (min-width: 768px) {
+@media (max-width: 768px) {
+    .about-us-container {
+        padding: 1rem; 
+    }
+
     .about-section {
-        padding: 2.5rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem; 
+    }
+
+    .section-header h3 {
+        font-size: 1.8rem;
+    }
+
+    .section-content p {
+        font-size: 1rem;
     }
 }
-
-/* Mobile-Friendly Adjustments */
 @media (max-width: 768px) {
     .about-section {
         padding: 1.5rem;
