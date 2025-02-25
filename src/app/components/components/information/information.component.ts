@@ -6,6 +6,7 @@ import { PageInformationComponent } from "../page-information/page-information.c
 import { SharedService } from '../../../shared.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '../../../auth.service';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-information',
@@ -23,7 +24,7 @@ fbEmbedUrl: SafeResourceUrl | null = null;
 averagePostCount: string | null = null;
 threatLevel: string | null = null; //this is needed to be a string to display the threat level decimal in the UI
 peakReport: number | null = null;
-chart: any;
+
 
 
 authService = inject(AuthService);
@@ -140,7 +141,8 @@ sanitizer = inject(DomSanitizer);
   closeLightbox() {
     this.isLightboxOpen = false;
   }
-  
+
+chart: any;
 //GRAPH PART
 generateGraph(): void{
   const data = {
@@ -168,8 +170,8 @@ generateGraph(): void{
     },
   };
 
-  const ctx = (document.getElementById('myChart') as HTMLCanvasElement).getContext('2d');
-  new this.chart(ctx, config);
+  
+  
 
 }
   
