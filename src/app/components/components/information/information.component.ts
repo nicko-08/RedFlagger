@@ -142,7 +142,12 @@ sanitizer = inject(DomSanitizer);
 
   toggleGraph() {
     this.isLightboxOpen = true;
+      if(!this.userInputUrl){
+        alert('Please enter a valid URL');
+        return;
+      }
     this.initializeChart();
+    this.fetchData(this.userInputUrl);
   }
 
   closeLightbox() {
@@ -196,16 +201,6 @@ sanitizer = inject(DomSanitizer);
         console.error('API error:', error);
       }
     );
-  }
-
-  scheduleUpdates() {
-    setInterval(() => {
-      if(!this.userInputUrl){
-        alert('Please enter a valid URL');
-        return;
-      }
-      this.fetchData(this.userInputUrl);
-    }, 10000); // Fetch data every 5 seconds
   }
   
 
