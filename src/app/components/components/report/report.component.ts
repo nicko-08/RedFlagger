@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../auth.service';
-import { Router} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-report',
@@ -16,6 +16,9 @@ export class ReportComponent {
   images: File[] = [];
   previewUrls: string[] = [];
   imageError: string | null = null;
+  userLink: string | null = null;
+
+  route = inject(ActivatedRoute);
   authService = inject(AuthService);
   session = this.authService.getSession();
   router = inject(Router);
@@ -23,6 +26,17 @@ export class ReportComponent {
     this.reportForm = this.fb.group({
       pageLink: ['', [Validators.required, Validators.pattern(/https?:\/\/.+/)]],
       content: ['', Validators.required],
+    });
+  }
+
+  ngOnInit(): void{
+    this.route.queryParams.subscribe(params => {
+      this.userLink = params['link'] || null;
+
+      if (this.userLink) {
+        this.reportForm.patchValue({ pageLink: this.userLink });
+        this.reportForm.get('pageLink')?.disable();
+      }
     });
   }
 
@@ -57,7 +71,7 @@ export class ReportComponent {
     //required urls for http POST
     if (this.reportForm.valid && this.images.length <= 3) {
       const baseUrl = 'https://redflagger-api-10796636392.asia-southeast1.run.app/report/new';
-      const postUrl = encodeURIComponent(this.reportForm.value.pageLink);
+      const postUrl = encodeURIComponent(this.reportForm.get('pageLink')?.value);
       const content = encodeURIComponent(this.reportForm.value.content);
       const apiUrl = `${baseUrl}?post_url=${postUrl}&content=${content}`;
 

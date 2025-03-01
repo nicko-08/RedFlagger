@@ -6,10 +6,14 @@
             <div class="flex flex-wrap ">
                 <!-- Page Link and Description -->
                 <div class="w-1/2 pr-4">
-                    <label for="pageLink" class="block text-3xl font-bold text-center mb-2" style="font-family: 'Jua', sans-serif;">Page Link</label>
-                    <input formControlName="pageLink" type="url" id="pageLink" placeholder="Enter page link..." required 
-                        class="w-full text-left p-4 mb-4 rounded-lg border-2 border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600 text-black bg-white">
-                    <div *ngIf="reportForm.get('pageLink')?.invalid && reportForm.get('pageLink')?.touched" class="text-red-200 text-sm">Please enter a valid URL.</div>
+                  <label for="pageLink" class="block text-3xl font-bold text-center mb-2"style="font-family: 'Jua', sans-serif;">
+                  Page Link
+                </label>
+                <input formControlName="pageLink" type="url" id="pageLink" placeholder="Enter page link..." required class="w-full text-left p-4 mb-4 rounded-lg border-2 border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600 text-black bg-white"/>
+                <div *ngIf="reportForm.get('pageLink')?.invalid && reportForm.get('pageLink')?.touched" class="text-red-200 text-sm">
+                  Please enter a valid URL.
+                </div>
+                
                     
                     <label for="description" class="block text-3xl font-bold text-center mb-2" style="font-family: 'Jua', sans-serif;">Page Description</label>
                     <textarea formControlName="content" id="description" placeholder="Describe your experience..." required 

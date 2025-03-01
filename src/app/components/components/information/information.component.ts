@@ -1,6 +1,6 @@
 import { Component, ElementRef, inject, input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { PageInformationComponent } from "../page-information/page-information.component";
 import { SharedService } from '../../../shared.service';
@@ -38,6 +38,7 @@ http = inject(HttpClient);
 route = inject(ActivatedRoute);
 sharedService = inject(SharedService);
 sanitizer = inject(DomSanitizer);
+router = inject(Router);
 
   ngOnInit(): void {
       const session =  this.authService.getSession();
@@ -59,6 +60,7 @@ sanitizer = inject(DomSanitizer);
         }
       })
   }
+
   callApi(input: string): void {
     console.log('Calling API with input:', input);
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post?post_url=${encodeURIComponent(input)}`;
@@ -70,8 +72,11 @@ sanitizer = inject(DomSanitizer);
   }
 
   
-    
+    getLinkAndRouteReport():void{
+    this.router.navigate(['/report'], { queryParams: { link: this.userInputUrl } });
+    }
   
+
   getPostContent(input: string): void {
 
     if(!this.userInputUrl){
