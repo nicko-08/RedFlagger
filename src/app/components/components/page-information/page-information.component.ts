@@ -56,7 +56,7 @@ route = inject(ActivatedRoute);
     }
 
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/page?page_url=${encodeURIComponent(this.userInputUrl)}`;
-    const apiPostStatsUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/page/stats?page_url=${encodeURIComponent(this.userInputUrl)}`;
+    const apiPageStatsUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/page/stats?page_url=${encodeURIComponent(this.userInputUrl)}`;
     this.http.get<{ PAGE_NAME: string }>(apiUrl).subscribe({
       next: (response) => {
         this.pageName = response.PAGE_NAME || 'No content available for this post'; // Extract post_content from API response
@@ -67,7 +67,7 @@ route = inject(ActivatedRoute);
       }
     });
 
-    this.http.get<{ total_reports: number }>(apiPostStatsUrl).subscribe({
+    this.http.get<{ total_reports: number }>(apiPageStatsUrl).subscribe({
       next: (response) => {
         console.log('Total reports:', response.total_reports);
         this.reportTotal = response.total_reports || 0;// Extract total reports from API response
@@ -79,7 +79,7 @@ route = inject(ActivatedRoute);
     
     });
 
-    this.http.get<{ average_daily_reports: number }>(apiPostStatsUrl).subscribe({
+    this.http.get<{ average_daily_reports: number }>(apiPageStatsUrl).subscribe({
       next: (response) => {
         this.averagePostCount = (response.average_daily_reports ?? 0).toFixed(1) // Extract total reports from API response
       },
@@ -89,7 +89,7 @@ route = inject(ActivatedRoute);
       }
     });
 
-    this.http.get<{ peak_reports: number }>(apiPostStatsUrl).subscribe({
+    this.http.get<{ peak_reports: number }>(apiPageStatsUrl).subscribe({
       next: (response) => {
         this.peakReport = response.peak_reports || 0// Extract total reports from API response
       },
@@ -99,7 +99,7 @@ route = inject(ActivatedRoute);
       }
     });
 
-    this.http.get<{threat: {threat_level: number} }>(apiPostStatsUrl).subscribe({
+    this.http.get<{threat: {threat_level: number} }>(apiPageStatsUrl).subscribe({
       next: (response) => {
         this.threatLevel = (response.threat?.threat_level ?? 0).toFixed(1)// Extract total reports from API response
       },
