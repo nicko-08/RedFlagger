@@ -111,43 +111,24 @@
     REPORT REVIEWS
   </h2>
 
-  <div class="mb-4 px-5 py-3">
+  <div *ngFor="let report of reports" class="mb-4 px-5 py-3">
     <h3 class="text-3xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">
-      MattPogi30_6
+      {{ report.USERNAME }}
     </h3>
     <p class="text-red-600 text-1xl text-justify" style="font-family: 'Jua', sans-serif;">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      {{ report.REPORT_CONTENT }}
     </p>
-
-    <div class="flex flex-wrap  justify-center md:justify-center gap-4 md:gap-20 mt-4">
-      <img *ngFor="let img of images; let i = index"
-      [src]="img"
-      alt="Reported Image"
-      class="w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px] lg:max-w-[250px] 
-       aspect-square object-cover rounded-lg shadow-md cursor-pointer 
-       transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-red-500/50"
-      [ngClass]="{'hidden sm:block': i >= 1}">
-      </div>
-  </div>      
-
-  <div class="mb-4 px-5 py-3">
-    <h3 class="text-3xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">
-      Ghaztly
-    </h3>
-    <p class="text-red-600 text-1xl text-justify" style="font-family: 'Jua', sans-serif;">
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </p>
-
+  
     <div class="flex flex-wrap justify-center md:justify-center gap-4 md:gap-20 mt-4">
-      <img *ngFor="let img of images; let i = index"
-      [src]="img"
-      alt="Reported Image"
-      class="w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px] lg:max-w-[250px] 
-       aspect-square object-cover rounded-lg shadow-md cursor-pointer 
-       transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-red-500/50"
-      [ngClass]="{'hidden sm:block': i >= 1}">
+      <img *ngFor="let img of report.IMAGES; let i = index"
+           [src]="img"
+           alt="Reported Image"
+           class="w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px] lg:max-w-[250px] 
+                  aspect-square object-cover rounded-lg shadow-md cursor-pointer 
+                  transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-red-500/50"
+           [ngClass]="{'hidden sm:block': i >= 1}">
     </div>
-    </div>      
+  </div> 
   </div>
   
 </main>

@@ -25,6 +25,14 @@ threatLevel: string | null = null; //this is needed to be a string to display th
 peakReport: number | null = null;
 threatColor: string | null = null;
 threatHex: string | null = null;
+
+//reports of the post part
+reports: any[] = [];
+reportImages: string[] | null = null;
+reportContent: string | null = null;
+reportTime: string | null = null;
+username: string | null = null;
+
 //chart
 @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
   chart!: Chart;
@@ -50,16 +58,12 @@ router = inject(Router);
           this.callApi(this.userInputUrl);
           this.getPostContent(this.userInputUrl);
           this.fetchData(this.userInputUrl);
-        }
-      });
-      this.route.queryParams.subscribe((params)=>{
-        const input = params['input'];
-        if(input){
+          this.getReports(this.userInputUrl);
           const fbPageUrl = 'https://www.facebook.com/plugins/post.php?href=';
-          this.fbEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${fbPageUrl}${encodeURIComponent(input)}&width=100%`);
+          this.fbEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${fbPageUrl}${encodeURIComponent(this.userInputUrl)}&width=100%`);
           console.log('FB embed URL:', this.fbEmbedUrl);
         }
-      })
+      });
   }
 
   callApi(input: string): void {
@@ -73,7 +77,7 @@ router = inject(Router);
   }
 
   
-    getLinkAndRouteReport():void{
+  getLinkAndRouteReport():void{
     this.router.navigate(['/report'], { queryParams: { link: this.userInputUrl } });
     }
   
@@ -167,6 +171,7 @@ router = inject(Router);
   //Graph part
   initializeChart() {
     const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+    const ctx2 = document.getElementById('myChart') as HTMLCanvasElement;
 
     this.chart = new Chart(ctx, {
       type: 'bar',
@@ -189,6 +194,7 @@ router = inject(Router);
         },
       },
     });
+    
   }
 
   // Fetch data from the API and update the chart
@@ -236,5 +242,21 @@ router = inject(Router);
     // Update the chart only if there were changes
     this.chart.update();
   }
+getReports(input: string): void {
+  const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/reports?post_url=${encodeURIComponent(input)}`;
+  this.http.get<any[]>(apiUrl).subscribe({
+    next: (response: any[]) => {
+      this.reports = response;
+      // If you want to extract details from the first report, for example:
+        if (this.reports.length) {
+          const { IMAGES, REPORT_CONTENT, REPORT_TIME, USERNAME } = this.reports[0];
+          this.reportImages = IMAGES && IMAGES.length ? IMAGES : ['No images available'];
+          this.reportContent = REPORT_CONTENT || 'No content available';
+          this.reportTime = REPORT_TIME || 'No time available';
+          this.username = USERNAME || 'No username available';
+        }
+      }
 
+    });
+  } 
 }
