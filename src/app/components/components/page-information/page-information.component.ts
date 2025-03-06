@@ -19,6 +19,8 @@ reportTotal: number | null = null;
 peakReport: number | null = null;
 averagePostCount: string | null = null;
 threatLevel: string | null = null;
+threatColor: string | null = null;
+threatHex: string | null = null;
 
 sanitizer = inject(DomSanitizer);
 http = inject(HttpClient);
@@ -99,13 +101,17 @@ route = inject(ActivatedRoute);
       }
     });
 
-    this.http.get<{threat: {threat_level: number} }>(apiPageStatsUrl).subscribe({
+    this.http.get<{threat: {color: string; hex: string; threat_level: number} }>(apiPageStatsUrl).subscribe({
       next: (response) => {
+        this.threatColor = response.threat?.color ?? 'Unknown';
+        this.threatHex = response.threat?.hex ?? '#000000';
         this.threatLevel = (response.threat?.threat_level ?? 0).toFixed(1)// Extract total reports from API response
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
         this.threatLevel = null;
+        this.threatColor = null;
+        this.threatHex = null;
       }
     });
 

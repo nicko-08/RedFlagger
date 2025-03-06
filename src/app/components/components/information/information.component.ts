@@ -23,7 +23,8 @@ fbEmbedUrl: SafeResourceUrl | null = null;
 averagePostCount: string | null = null;
 threatLevel: string | null = null; //this is needed to be a string to display the threat level decimal in the UI
 peakReport: number | null = null;
-
+threatColor: string | null = null;
+threatHex: string | null = null;
 //chart
 @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
   chart!: Chart;
@@ -128,13 +129,17 @@ router = inject(Router);
       }
     });
 
-    this.http.get<{threat: {threat_level: number} }>(apiPostStatsUrl).subscribe({
+    this.http.get<{threat: {color: string; hex: string; threat_level: number} }>(apiPostStatsUrl).subscribe({
       next: (response) => {
+        this.threatColor = response.threat?.color ?? 'Unknown';
+        this.threatHex = response.threat?.hex ?? '#000000';
         this.threatLevel = (response.threat?.threat_level ?? 0).toFixed(1)// Extract total reports from API response
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
         this.threatLevel = null;
+        this.threatColor = null;
+        this.threatHex = null;
       }
     });
 
