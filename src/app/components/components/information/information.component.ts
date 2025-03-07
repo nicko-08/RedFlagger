@@ -171,7 +171,7 @@ router = inject(Router);
   //Graph part
   initializeChart() {
     const ctx = document.getElementById('myChart') as HTMLCanvasElement;
-    const ctx2 = document.getElementById('myChart') as HTMLCanvasElement;
+    
 
     this.chart = new Chart(ctx, {
       type: 'bar',
@@ -200,17 +200,13 @@ router = inject(Router);
   // Fetch data from the API and update the chart
   fetchData(input: string) {
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/stats?post_url=${encodeURIComponent(input)}`;
-      this.http.get<{ frequency_over_time: { date: string; count: number }[] }>(apiUrl).subscribe(
-        (response) => {
-          const newData = response.frequency_over_time;
-        if (newData.length > 0) {
-          const latestDate = newData[newData.length - 1].date;
-
-          // Only update if there's new data
-          if (this.lastUpdateDate !== latestDate) {
-            this.lastUpdateDate = latestDate;
-            this.updateChart(newData);
-          }
+    this.http.get<{ frequency_over_time: { date: string; count: number }[] }>(apiUrl).subscribe(
+      (response) => {
+        const allData = response.frequency_over_time;
+  
+        if (allData.length > 0) {
+          // Update the chart with all-time data
+          this.updateChart(allData);
         }
       },
       (error) => {
@@ -222,25 +218,13 @@ router = inject(Router);
 
   // Update chart with new data while maintaining a max of 10 bars
   updateChart(dataArray: { date: string; count: number }[]) {
-    const labels = this.chart.data.labels as string[];
-    const data = this.chart.data.datasets[0].data as number[];
+    const labels = dataArray.map((item) => item.date);
+    const data = dataArray.map((item) => item.count);
   
-    dataArray.forEach((item) => {
-      // Check if the date already exists in the labels
-      if (!labels.includes(item.date)) {
-        labels.push(item.date);
-        data.push(item.count);
+    this.chart.data.labels = labels;
+    this.chart.data.datasets[0].data = data;
   
-        // Remove the oldest data point if the length exceeds 10
-        if (labels.length > 10) {
-          labels.shift();
-          data.shift();
-        }
-      }
-    });
-  
-    // Update the chart only if there were changes
-    this.chart.update();
+    this.chart.update(); // Refresh the chart
   }
 getReports(input: string): void {
   const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/reports?post_url=${encodeURIComponent(input)}`;
