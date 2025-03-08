@@ -51,8 +51,8 @@ sharedService = inject(SharedService);
 sanitizer = inject(DomSanitizer);
 router = inject(Router);
 
-  ngOnInit(): void {
-      const session =  this.authService.getSession();
+async ngOnInit(): Promise<void> {
+      const session =  await this.authService.getSession();
       this.isLoggedIn = !!session;
       this.checkRole();
       this.route.queryParams.subscribe((params) => {
@@ -241,6 +241,11 @@ getReports(input: string): void {
           this.reportContent = REPORT_CONTENT || 'No content available';
           this.reportTime = REPORT_TIME || 'No time available';
           this.username = USERNAME || 'No username available';
+          console.log("cock");
+          this.reports.forEach(report => {
+            console.log("torture");
+            this.getVote(report.REPORT_ID); 
+          });
         }
       }
 
@@ -312,8 +317,104 @@ async deleteReport(report_id: number): Promise<void>{
       }
     });
   }
-  private async getAccessToken(): Promise<string | null> {
+  async getAccessToken(): Promise<string | null> {
     const session = await this.authService.getSession();
     return session?.access_token || null;
+  }
+  getVote(report_id: number): void{
+    if (!this.isLoggedIn) {
+        return;
+    }
+
+    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/check_vote?report_id=${encodeURIComponent(report_id)}`;
+
+    this.getAccessToken().then((accessToken) => {
+        if (!accessToken) {
+            return;
+        }
+
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${accessToken}`,
+        });
+        console.log("balls")
+        return new Promise((resolve) => {
+            this.http.get<{ type: string, vote_count:number }>(apiUrl, { headers }).subscribe(
+                (response) => {
+                  const report = this.reports.find(r => r.REPORT_ID === report_id);
+                  console.log("gagoy")
+                  if(report){
+                    report.vote_type = response.type;
+                    console.log("vote_type:", response.type);
+                    report.vote_count = response.vote_count;
+                  }
+                },
+                (error) => {
+                
+                }
+            );
+        });
+    });
+  
+  }
+async putVote(report_id:number, vote_type:string){
+  if(this.userInputUrl == null){ 
+    return;
+  }
+  let trunc_vote = '';
+  if(vote_type === 'upvote'){
+    trunc_vote = 'up';
+  }else if(vote_type === 'downvote'){
+    trunc_vote = 'down';
+  }
+  const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/report/vote?report_id=${encodeURIComponent(report_id)}&vote_type=${encodeURIComponent(trunc_vote)}`;
+
+    const accessToken = await this.getAccessToken();
+    if (!accessToken) {
+      alert('Failed to retrieve access token. Please log in again.');
+      this.router.navigate(['/home'])
+      return;
+    }
+
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+    console.log(apiUrl);
+    this.http.put(apiUrl,{}, {headers}).subscribe({
+      next: (response: any) => {
+        console.log("Vote Sent");
+        const report = this.reports.find(r => r.REPORT_ID === report_id);
+        if(report){
+          console.log("hello");
+        }
+        else{
+          console.log("no");
+        }
+        if(report.vote_type === vote_type){
+          report.vote_type = "none";
+          if(vote_type === "upvote"){
+            report.vote_count -=1;
+          } else if (vote_type === "downvote"){
+            report.vote_count += 1;
+          }
+        }else{
+          if(report.vote_type === "upvote"){
+            report.vote_count -= 1;
+          }else if(report.vote_type === "downvote"){
+            report.vote_count += 1;
+          }
+
+          report.vote_type = vote_type;
+          if(vote_type === "upvote"){
+            report.vote_count += 1;
+          }else if (vote_type === "downvote"){
+            report.vote_count -= 1;
+          }
+        }
+      },
+      error: (error: any) => {
+        console.error('Error Sending Vote');
+      }
+    });
   }
 }

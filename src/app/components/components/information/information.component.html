@@ -112,18 +112,40 @@
   </h2>
 
   <div *ngFor="let report of reports" class="mb-4 px-5 py-3">
-    <div class="flex flex-wrap gap-4 md:flex-nowrap justify-between items-center">
-      <div>
-        <h3 class="text-3xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">
-          {{ report.USERNAME }}
-        </h3>
-        <p class="text-red-600 text-1xl text-justify" style="font-family: 'Jua', sans-serif;">
-          {{ report.REPORT_CONTENT }}
-        </p>
+    <!--Vote Buttons-->
+    <div class="flex items-start gap-4 w-full">
+      <div *ngIf="isLoggedIn" class="flex flex-col items-center space-y-1 w-12 flex-shrink-0">
+        <button 
+        (click)="putVote(report.REPORT_ID, 'upvote')"
+        [class.text-green-500]="report.vote_type === 'upvote'"
+        class="text-gray-500 hover:text-green-500 transition p-1 w-6 h-6 flex justify-center items-center">
+          <svg class="w-6 h-6" fill = "currentColor" viewBox="0 0 18 18"><path d="M1 12h16L9 4z"></path></svg>
+        </button>
+        <p class="text-sm font-semibold text-center w-full">{{report.vote_count}}</p>
+        <button 
+        (click)="putVote(report.REPORT_ID, 'downvote')"
+        [class.text-green-500]="report.vote_type === 'downvote'"
+        class="text-gray-500 hover:text-green-500 transition p-1 w-6 h-6 flex justify-center items-center">
+          <svg class="w-6 h-6" fill = "currentColor" viewBox="0 0 18 18"><path d="M1 6h16l-8 8z"></path></svg>
+        </button>
       </div>
-      <button *ngIf="isModerator" (click)="deleteReport(report.REPORT_ID)" class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center">
-        Delete Report
-      </button>
+
+      <!--Content and Delete Button-->
+      <div class="flex flex-col md:flex-row justify-between items-start w-full gap-2">
+
+        <div class="flex-1">
+          <h3 class="text-3xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">
+            {{ report.USERNAME }}
+          </h3>
+          <p class="text-red-600 text-1xl text-justify" style="font-family: 'Jua', sans-serif;">
+            {{ report.REPORT_CONTENT }}
+          </p>
+        </div>
+
+        <button *ngIf="isModerator" (click)="deleteReport(report.REPORT_ID)" class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center">
+          Delete Report
+        </button>
+      </div>
     </div>
   
     <div class="flex flex-wrap justify-center md:justify-center gap-4 md:gap-20 mt-4">
