@@ -1,7 +1,7 @@
 import { Component, ElementRef, inject, input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PageInformationComponent } from "../page-information/page-information.component";
 import { SharedService } from '../../../shared.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -34,6 +34,7 @@ reportContent: string | null = null;
 reportTime: string | null = null;
 username: string | null = null;
 
+
 //chart
 @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
   chart!: Chart;
@@ -53,6 +54,7 @@ router = inject(Router);
   ngOnInit(): void {
       const session =  this.authService.getSession();
       this.isLoggedIn = !!session;
+      this.checkRole();
       this.route.queryParams.subscribe((params) => {
         this.userInputUrl = params['input'];
         if(this.userInputUrl){
@@ -244,4 +246,42 @@ getReports(input: string): void {
 
     });
   } 
+  
+  private checkRole(): void {
+    if (!this.isLoggedIn) {
+        this.isModerator = false;
+        return;
+    }
+
+    const apiUrl = 'https://redflagger-api-10796636392.asia-southeast1.run.app/check_role';
+
+    this.getAccessToken().then((accessToken) => {
+        if (!accessToken) {
+            this.isModerator = false;
+            return;
+        }
+
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${accessToken}`,
+        });
+
+        this.http.get<{ role: string }>(apiUrl, { headers }).subscribe(
+            (response) => {
+                this.isModerator = response.role === 'moderator';
+                console.log('User is moderator:', this.isModerator);
+            },
+            (error) => {
+                console.error('Error checking role:', error);
+                this.isModerator = false;
+            }
+        );
+    });
+  }
+  private deleteReport(report_id: number):void{
+
+  }
+  private async getAccessToken(): Promise<string | null> {
+    const session = await this.authService.getSession();
+    return session?.access_token || null;
+  }
 }
