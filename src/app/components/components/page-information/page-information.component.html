@@ -1,102 +1,124 @@
-<div class="w-4/5 mx-auto bg-white rounded-lg p-6">
-    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<main class="flex flex-col items-center justify-start w-full min-h-screen bg-gray-100 p-6">
 
-    <div class="flex flex-col bg-white sm:flex-row items-center rounded-lg p-4 shadow-md w-full border-4 border-red-500">
-
-        <div class=" border-4 border-red-500 w-full h-[280px] sm:w-[520px] sm:h-[310px] lg:w-[520px] lg:h-[310px] xl:w-[520px] xl:h-[310px] 2xl:w-[520px] 2xl:h-[310px] 
-        bg-gray-300 rounded-full flex items-center justify-center">
-            <img src="" class="text-gray-500 text-sm" alt="PFP">
-        </div>
-
-        <div class="hidden sm:block sm:ml-4 w-full text-center sm:text-center">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-red-600 "
-                style="font-family: 'Jua', sans-serif;">
-                {{pageName}}
-            </h2>
-        <div class="text-gray-600 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl py-4 sm:py-6">
-            <span class="text-red-600 font-bold" 
-                style="font-family: 'Jua', sans-serif;">{{threatLevel}}/10 🚩</span> 
-        </div>  
-    </div>
-</div>
-
-<div class="mt-6 bg-white rounded-lg p-4 shadow-md border-4 border-red-500">
-    <h3 class="text-6xl text-center font-bold text-red-600 px-3 mb-4 mt-3 hidden sm:block" style="font-family: 'Jua', sans-serif;">OVERVIEW</h3>
-    
-
-    <div class="flex flex-col sm:flex-row items-center sm:items-start">
-      
-      <div class="border-4 border-red-500 h-[280px] sm:w-[520px] sm:h-[310px] lg:w-[520px] lg:h-[310px] xl:w-[520px] xl:h-[310px] 2xl:w-[520px] 2xl:h-[310px] bg-gray-300 rounded-full flex items-center justify-center mx-auto">
-            <svg width="200" height="200" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-                <rect x="75" width="69" height="500" rx="34.5" [attr.fill]="threatColor"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M219.75 305.535L204.315 311.941L131 342.367L131 262.989L131 107.378L131 28L204.3 58.42C204.305 58.4221 204.31 58.4242 204.315 58.4263L219.75 64.8318L391.796 136.232C435.375 154.318 435.375 216.05 391.795 234.136L219.75 305.535Z" [attr.fill]="threatColor"/>
-                </svg>                
-      </div>
-      
-      <div class="border-4 border-red-500 w-full sm:ml-4 h-80 bg-white p-4 rounded-lg shadow-md mt-6 sm:mt-0
-      transition-all duration-300 ease-in-out 
-      hover:scale-101 hover:shadow-lg hover:shadow-red-500">
-        <span class="text-gray-700" style="font-family: 'Jua', sans-serif;">Report Frequency, Graph Placeholder</span>
-      </div>
-    </div>
-
-    
+    <div class="w-4/5 mx-auto bg-gray-100 rounded-lg p-6">
+      <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
   
-    <div class="grid grid-cols-3 gap-4 mt-4 text-center">
-      <div class="border-4 border-red-500 p-4 bg-white shadow-md hidden sm:block hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
-        <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Total Reports</p>
-        <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{reportTotal}}</span>
-      </div>
-      <div class="border-4 border-red-500 p-4 bg-white shadow-md hidden sm:block hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
-        <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Peak Daily Reports</p>
-        <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{peakReport}}</span>
-      </div>
-      <div class="border-4 border-red-500 p-4 bg-white shadow-md hidden sm:block hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
-        <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Average Daily Reports</p>
-        <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{averagePostCount}}</span>
-      </div>
-    </div>
-  </div>
+      <div class="flex flex-col sm:flex-row gap-6">
+        <!-- Left Card -->
+        <div class="flex flex-col bg-white rounded-lg p-4 shadow-md w-full sm:w-1/2">
+          <div class="flex items-center justify-center h-full w-full">
+            <iframe
+              [src]="fbEmbedUrl"
+              class="w-full max-w-[500px] h-[150px]"
+              style="border: none;"
+              scrolling="no"
+              frameborder="0"
+              allowfullscreen="true"
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+            </iframe>
+          </div>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-red-600 text-center mt-4"
+            style="font-family: 'Jua', sans-serif;">
+            {{pageName}}
+          </h2>
+          <div class="text-gray-600 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl py-4 sm:py-6 text-center">
+            <span class="text-red-600 font-bold"
+              style="font-family: 'Jua', sans-serif;">{{threatLevel}}/10 🚩</span>
+          </div>
+        </div>
   
-
-  <div class="mt-6 bg-white rounded-lg p-4 shadow-md border-4 border-red-500">
-    <h3 class="text-6xl font-bold text-red-600 text-center mb-4" style="font-family: 'Jua', sans-serif;">
-        Reported Posts
-    </h3>
-    <div class="flex flex-wrap justify-center gap-4">
-        <div class="w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
-            <img src="#" alt="Reported Image" 
-                class="w-full h-[150px] object-cover rounded-md">
-    
-            <div class="mt-4 text-3xl text-red-600 text-center">
-                <p style="font-family: 'Jua', sans-serif;">10 Reports</p>
-                <p style="font-family: 'Jua', sans-serif;">
-                    <span class="text-red-600 font-bold">2.3/5</span> 🚩🚩
-                </p>
+        <!-- Right Card -->
+        <div class="flex flex-col bg-white rounded-lg p-6 shadow-md w-full sm:w-1/2">
+          <!-- Flag Design -->
+          <div class="flex items-center justify-center">
+            <div class="h-[200px] w-[200px] rounded-full shadow-lg flex items-center justify-center">
+              <svg width="100" height="100" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                <rect x="75" width="69" height="500" rx="34.5" [attr.fill]="threatColor" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M219.75 305.535L204.315 311.941L131 342.367L131 262.989L131 107.378L131 28L204.3 58.42C204.305 58.4221 204.31 58.4242 204.315 58.4263L219.75 64.8318L391.796 136.232C435.375 154.318 435.375 216.05 391.795 234.136L219.75 305.535Z"
+                  [attr.fill]="threatColor" />
+              </svg>
+            </div>
+          </div>
+  
+          <!-- Stats -->
+          <div class="grid grid-cols-3 gap-4 mt-6">
+            <div class="p-4 bg-white shadow-md hover:bg-red-100 hover:shadow-lg hover:scale-105 transition-all duration-300 rounded-lg text-center">
+                <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Total Reports</p>
+                <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{reportTotal}}</span>
+            </div>
+            <div class="p-4 bg-white shadow-md hover:bg-red-100 hover:shadow-lg hover:scale-105 transition-all duration-300 rounded-lg text-center">
+                <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Peak Daily Reports</p>
+                <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{peakReport}}</span>
+            </div>
+            <div class="p-4 bg-white shadow-md hover:bg-red-100 hover:shadow-lg hover:scale-105 transition-all duration-300 rounded-lg text-center">
+                <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Average Daily Reports</p>
+                <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{averagePostCount}}</span>
             </div>
         </div>
-        <div class="hidden sm:block w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
-            <img src="#" alt="Reported Image" 
-                class="w-full h-[150px] object-cover rounded-md">
-    
-            <div class="mt-4 text-3xl text-red-600 text-center">
-                <p style="font-family: 'Jua', sans-serif;">63 Reports</p>
-                <p style="font-family: 'Jua', sans-serif;">
-                    <span class="text-red-600 font-bold">4.4/5</span> 🚩🚩🚩🚩
-                </p>
-            </div>
         </div>
-        <div class="hidden sm:block w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
-            <img src="#" alt="Reported Image" 
-                class="w-full h-[150px] object-cover rounded-md">
-    
-            <div class="mt-4 text-3xl text-red-600 text-center">
-                <p style="font-family: 'Jua', sans-serif;">24 Reports</p>
-                <p style="font-family: 'Jua', sans-serif;">
-                    <span class="text-red-600 font-bold">1/5</span> 🚩
-                </p>
+      </div>
+  
+      <!-- Overview Section -->
+      <div class="mt-6 bg-white rounded-lg p-4 shadow-2xl">
+        <h3 class="text-6xl text-center font-bold text-red-600 px-3 mb-4 mt-3 hidden sm:block" 
+            style="font-family: 'Jua', sans-serif;">OVERVIEW</h3>
+  
+        <!-- Circular Design and Charts -->
+        <div class="flex flex-col sm:flex-row items-center sm:items-start">
+          
+          
+  
+          <!-- Charts Section -->
+          <div class="w-full sm:ml-4 bg-white p-4 rounded-lg shadow-md mt-6 sm:mt-0 flex flex-col space-y-4">
+            <div class="p-9 rounded-lg">
+              <canvas id="myChart"></canvas>
             </div>
+            <div class="p-9 rounded-lg">
+              <canvas id="myChart2"></canvas>
             </div>
+          </div>
         </div>
+      </div>
+  
+      <!-- Reported Posts Section -->
+      <div class="mt-6 bg-white rounded-lg p-4 shadow-md">
+        <h3 class="text-6xl font-bold text-red-600 text-center mb-4" style="font-family: 'Jua', sans-serif;">
+            Reported Posts
+        </h3>
+        <div class="flex flex-wrap justify-center gap-4">
+          <div class="w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
+            <img src="#" alt="Reported Image" 
+                 class="w-full h-[150px] object-cover rounded-md">
+            <div class="mt-4 text-3xl text-red-600 text-center">
+              <p style="font-family: 'Jua', sans-serif;">10 Reports</p>
+              <p style="font-family: 'Jua', sans-serif;">
+                <span class="text-red-600 font-bold">2.3/5</span> 🚩🚩
+              </p>
+            </div>
+          </div>
+          <div class="hidden sm:block w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
+            <img src="#" alt="Reported Image" 
+                 class="w-full h-[150px] object-cover rounded-md">
+            <div class="mt-4 text-3xl text-red-600 text-center">
+              <p style="font-family: 'Jua', sans-serif;">63 Reports</p>
+              <p style="font-family: 'Jua', sans-serif;">
+                <span class="text-red-600 font-bold">4.4/5</span> 🚩🚩🚩🚩
+              </p>
+            </div>
+          </div>
+          <div class="hidden sm:block w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
+            <img src="#" alt="Reported Image" 
+                 class="w-full h-[150px] object-cover rounded-md">
+            <div class="mt-4 text-3xl text-red-600 text-center">
+              <p style="font-family: 'Jua', sans-serif;">24 Reports</p>
+              <p style="font-family: 'Jua', sans-serif;">
+                <span class="text-red-600 font-bold">1/5</span> 🚩
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </main>
+  

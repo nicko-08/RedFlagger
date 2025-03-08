@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Chart, registerables } from 'chart.js';
 
 @Component({
   selector: 'app-page-information',
@@ -22,6 +23,18 @@ threatLevel: string | null = null;
 threatColor: string | null = null;
 threatHex: string | null = null;
 
+//chart
+@ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
+@ViewChild('chartCanvas2') chartCanvas2!: ElementRef<HTMLCanvasElement>;
+
+  chart!: Chart;
+  chart2!: Chart;
+  
+constructor() {
+  // Register all required components for Chart.js
+  Chart.register(...registerables);
+}
+
 sanitizer = inject(DomSanitizer);
 http = inject(HttpClient);
 route = inject(ActivatedRoute);
@@ -32,22 +45,141 @@ route = inject(ActivatedRoute);
         if(this.userInputUrl){
           this.callApi(this.userInputUrl);
           this.getPageContent(this.userInputUrl);
-          
+          this.fetchData(this.userInputUrl);
         }
       });
       this.route.queryParams.subscribe((params)=>{
         const input = params['input'];
         if(input){
-          const fbPageUrl = 'https://www.facebook.com/plugins/page.php?href=';
-          this.fbEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${fbPageUrl}${encodeURIComponent(input)}&width=100%`);
+          const fbPageUrl = 'https://www.facebook.com/plugins/page.php';
+          const queryParams = `?href=${encodeURIComponent(input)}&tabs=timeline&width=500&height=100&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=608367321950607`
+          this.fbEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${fbPageUrl}${queryParams}`);
           console.log('FB embed URL:', this.fbEmbedUrl);
         }
-      })
+      });
+      this.initializeChart();
   }
 
   callApi(input: string): void{
     console.log('Calling API with input:', input);
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/page?page_url=${encodeURIComponent(input)}`;
+  }
+
+  //Graph part
+  initializeChart() {
+    const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+    const ctx2 = document.getElementById('myChart2') as HTMLCanvasElement;
+
+    this.chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [], // Start with empty labels
+        datasets: [
+          {
+            label: 'Count',
+            data: [], // Start with empty data
+            backgroundColor: '#eb3636',
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true, // Always start from zero
+          },
+        },
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: 'Frequent Reports' },
+        },
+      },
+    });
+    
+    //second graph
+    this.chart2 = new Chart(ctx2, {
+      type: 'line', // Line chart for variety
+      data: {
+        labels: [], // Start with empty labels
+        datasets: [
+          {
+            label: 'Total Reports',
+            data: [], // Start with empty data
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: '#36a2eb',
+            borderWidth: 1,
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true, // Always start from zero
+          },
+        },
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: 'Reports Over Time' },
+        },
+      },
+    });
+  }
+
+  // Fetch data from the API and update the chart
+  fetchData(input: string) {
+    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/page/stats?page_url=${encodeURIComponent(input)}`;
+    this.http.get<{ frequency_over_time: { date: string; count: number }[] 
+    total_reports_over_time: { date: string; total_reports: number }[]}>(apiUrl).subscribe(
+      (response) => {
+        const frequencyData = response.frequency_over_time;
+        const totalReportsData = response.total_reports_over_time;
+  
+        if (frequencyData.length > 0) {
+          // Update the first chart with frequency data
+          this.updateChart(
+            this.chart, 
+            frequencyData.map((item) => ({ date: item.date, value: item.count }))
+          );
+        }
+  
+        if (totalReportsData.length > 0) {
+          // Update the second chart with total reports data
+          this.updateChart(
+            this.chart2, 
+            totalReportsData.map((item) => ({ date: item.date, value: item.total_reports }))
+          );
+        }
+      },
+      (error) => {
+        console.error('API error:', error);
+      }
+    );
+  }
+  
+
+  // Update chart with new data 
+  updateChart(chart: Chart, dataArray: { date: string; value: number }[]) {
+    const labels = dataArray.map((item) => item.date);
+    const data = dataArray.map((item) => item.value);
+  
+    const maxDataValue = Math.max(...data); // Get the max value from data
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = data;
+  
+    // Dynamically set the max value for the y-axis
+    chart.options.scales = {
+      y: {
+        beginAtZero: true, // Set min to 0
+        max: maxDataValue + 1, // Set max to maxDataValue + 1
+      },
+    };
+  
+    chart.update(); // Refresh the chart
   }
 
   getPageContent(input: string): void {

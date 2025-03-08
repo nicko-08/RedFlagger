@@ -37,12 +37,16 @@ username: string | null = null;
 
 //chart
 @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
+@ViewChild('chartCanvas2') chartCanvas2!: ElementRef<HTMLCanvasElement>;
+
   chart!: Chart;
+  chart2!: Chart;
+  
 constructor() {
   // Register all required components for Chart.js
   Chart.register(...registerables);
 }
-lastUpdateDate: string | null = null; // Track the most recent date
+
 
 authService = inject(AuthService);
 http = inject(HttpClient);
@@ -163,10 +167,10 @@ router = inject(Router);
   //Graph part
   initializeChart() {
     const ctx = document.getElementById('myChart') as HTMLCanvasElement;
-    const ctx2 = document.getElementById('myChart') as HTMLCanvasElement;
+    const ctx2 = document.getElementById('myChart2') as HTMLCanvasElement;
 
     this.chart = new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: [], // Start with empty labels
         datasets: [
@@ -174,12 +178,18 @@ router = inject(Router);
             label: 'Count',
             data: [], // Start with empty data
             backgroundColor: '#eb3636',
+            fill: true,
           },
         ],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true, // Always start from zero
+          },
+        },
         plugins: {
           legend: { position: 'top' },
           title: { display: true, text: 'Reports Over Time' },
@@ -187,18 +197,61 @@ router = inject(Router);
       },
     });
     
+    //second graph
+    this.chart2 = new Chart(ctx2, {
+      type: 'line', // Line chart for variety
+      data: {
+        labels: [], // Start with empty labels
+        datasets: [
+          {
+            label: 'Total Reports',
+            data: [], // Start with empty data
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: '#36a2eb',
+            borderWidth: 1,
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true, // Always start from zero
+          },
+        },
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: 'Reports Over Time' },
+        },
+      },
+    });
   }
 
   // Fetch data from the API and update the chart
   fetchData(input: string) {
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/stats?post_url=${encodeURIComponent(input)}`;
-    this.http.get<{ frequency_over_time: { date: string; count: number }[] }>(apiUrl).subscribe(
+    this.http.get<{ frequency_over_time: { date: string; count: number }[] 
+    total_reports_over_time: { date: string; total_reports: number }[]}>(apiUrl).subscribe(
       (response) => {
-        const allData = response.frequency_over_time;
+        const frequencyData = response.frequency_over_time;
+        const totalReportsData = response.total_reports_over_time;
   
-        if (allData.length > 0) {
-          // Update the chart with all-time data
-          this.updateChart(allData);
+        if (frequencyData.length > 0) {
+          // Update the first chart with frequency data
+          this.updateChart(
+            this.chart, 
+            frequencyData.map((item) => ({ date: item.date, value: item.count }))
+          );
+        }
+  
+        if (totalReportsData.length > 0) {
+          // Update the second chart with total reports data
+          this.updateChart(
+            this.chart2, 
+            totalReportsData.map((item) => ({ date: item.date, value: item.total_reports }))
+          );
         }
       },
       (error) => {
@@ -208,27 +261,27 @@ router = inject(Router);
   }
   
 
-  // Update chart with new data while maintaining a max of 10 bars
-  updateChart(dataArray: { date: string; count: number }[]) {
+  // Update chart with new data 
+  updateChart(chart: Chart, dataArray: { date: string; value: number }[]) {
     const labels = dataArray.map((item) => item.date);
-    const data = dataArray.map((item) => item.count);
+    const data = dataArray.map((item) => item.value);
   
-    this.chart.data.labels = labels;
-    this.chart.data.datasets[0].data = data;
+    const maxDataValue = Math.max(...data); // Get the max value from data
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = data;
   
-    this.chart.update(); // Refresh the chart
+    // Dynamically set the max value for the y-axis
+    chart.options.scales = {
+      y: {
+        beginAtZero: true, // Set min to 0
+        max: maxDataValue + 1, // Set max to maxDataValue + 1
+      },
+    };
+  
+    chart.update(); // Refresh the chart
   }
 
-  updateChart2(dataArray: { date: string; count: number }[]) {
-    const labels = dataArray.map((item) => item.date);
-    const data = dataArray.map((item) => item.count);
   
-    this.chart.data.labels = labels;
-    this.chart.data.datasets[0].data = data;
-  
-    this.chart.update(); // Refresh the chart
-  }
-
 
 getReports(input: string): void {
   const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/reports?post_url=${encodeURIComponent(input)}`;
