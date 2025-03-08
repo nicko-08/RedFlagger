@@ -16,6 +16,7 @@ import { Chart, ChartConfiguration, registerables  } from 'chart.js';
 })
 export class InformationComponent implements OnInit {
 isLoggedIn = false;
+isModerator = true;
 userInputUrl: string | null = null;
 postContent: string | null = null;
 reportTotal: number | null = null;
