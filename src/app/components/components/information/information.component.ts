@@ -49,6 +49,8 @@ sharedService = inject(SharedService);
 sanitizer = inject(DomSanitizer);
 router = inject(Router);
 
+
+
   ngOnInit(): void {
       const session =  this.authService.getSession();
       this.isLoggedIn = !!session;
@@ -64,6 +66,7 @@ router = inject(Router);
           console.log('FB embed URL:', this.fbEmbedUrl);
         }
       });
+      this.initializeChart();
   }
 
   callApi(input: string): void {
@@ -73,7 +76,6 @@ router = inject(Router);
       console.log('API response:', response);
     })
 
-    this.initializeChart();
   }
 
   
@@ -101,37 +103,23 @@ router = inject(Router);
       }
     });
     
-    this.http.get<{ total_reports: number }>(apiPostStatsUrl).subscribe({
+    this.http.get<{ total_reports: number, average_daily_reports: number, peak_reports: number,  }>(apiPostStatsUrl).subscribe({
       next: (response) => {
         console.log('Total reports:', response.total_reports);
         this.reportTotal = response.total_reports || 0;// Extract total reports from API response
+        this.averagePostCount = response.average_daily_reports.toFixed(1) || '0'; // Extract average daily reports from API response
+        this.peakReport = response.peak_reports || 0; // Extract peak reports from API response
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
         this.reportTotal = null;
+        this.averagePostCount = null;
+        this.peakReport = null;
       }
     
     });
 
-    this.http.get<{ average_daily_reports: number }>(apiPostStatsUrl).subscribe({
-      next: (response) => {
-        this.averagePostCount = (response.average_daily_reports ?? 0).toFixed(1) // Extract total reports from API response
-      },
-      error: (err) => {
-        console.error('Error fetching post content:', err);
-        this.averagePostCount = null;
-      }
-    });
-
-    this.http.get<{ peak_reports: number }>(apiPostStatsUrl).subscribe({
-      next: (response) => {
-        this.peakReport = response.peak_reports || 0// Extract total reports from API response
-      },
-      error: (err) => {
-        console.error('Error fetching post content:', err);
-        this.peakReport = null;
-      }
-    });
+    
 
     this.http.get<{threat: {color: string; hex: string; threat_level: number} }>(apiPostStatsUrl).subscribe({
       next: (response) => {
@@ -155,6 +143,7 @@ router = inject(Router);
   images = ["image1.jpg", "image2.jpg", "image3.jpg"]; 
 
   toggleGraph() {
+    
     this.isLightboxOpen = true;
       if(!this.userInputUrl){
         alert('Please enter a valid URL');
@@ -171,7 +160,7 @@ router = inject(Router);
   //Graph part
   initializeChart() {
     const ctx = document.getElementById('myChart') as HTMLCanvasElement;
-    
+    const ctx2 = document.getElementById('myChart') as HTMLCanvasElement;
 
     this.chart = new Chart(ctx, {
       type: 'bar',
@@ -179,7 +168,7 @@ router = inject(Router);
         labels: [], // Start with empty labels
         datasets: [
           {
-            label: 'Total Reports',
+            label: 'Count',
             data: [], // Start with empty data
             backgroundColor: '#eb3636',
           },
@@ -226,6 +215,18 @@ router = inject(Router);
   
     this.chart.update(); // Refresh the chart
   }
+
+  updateChart2(dataArray: { date: string; count: number }[]) {
+    const labels = dataArray.map((item) => item.date);
+    const data = dataArray.map((item) => item.count);
+  
+    this.chart.data.labels = labels;
+    this.chart.data.datasets[0].data = data;
+  
+    this.chart.update(); // Refresh the chart
+  }
+
+
 getReports(input: string): void {
   const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/reports?post_url=${encodeURIComponent(input)}`;
   this.http.get<any[]>(apiUrl).subscribe({
