@@ -277,8 +277,40 @@ getReports(input: string): void {
         );
     });
   }
-  private deleteReport(report_id: number):void{
+async deleteReport(report_id: number): Promise<void>{
 
+  if(this.userInputUrl == null){ 
+    return;
+  }
+  const confirmDelete = confirm('Are you sure you want to delete this report?');
+
+  if (!confirmDelete) {
+    return; // Stop execution if user cancels
+  }
+    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/report/${encodeURIComponent(report_id)}?post_url=${encodeURIComponent(this.userInputUrl)}`;
+
+    const accessToken = await this.getAccessToken();
+    if (!accessToken) {
+      alert('Failed to retrieve access token. Please log in again.');
+      this.router.navigate(['/home'])
+      return;
+    }
+
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    this.http.delete(apiUrl, {headers}).subscribe({
+      next: (response: any) => {
+        console.log("Report Deleted");
+        this.reports = [];
+        window.location.reload();
+      },
+      error: (error: any) => {
+        console.error('Error Deleting Report');
+      }
+    });
   }
   private async getAccessToken(): Promise<string | null> {
     const session = await this.authService.getSession();

@@ -121,7 +121,7 @@
           {{ report.REPORT_CONTENT }}
         </p>
       </div>
-      <button *ngIf="isModerator" class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center">
+      <button *ngIf="isModerator" (click)="deleteReport(report.REPORT_ID)" class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center">
         Delete Report
       </button>
     </div>
