@@ -1,7 +1,7 @@
 import { Component, ElementRef, inject, input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PageInformationComponent } from "../page-information/page-information.component";
 import { SharedService } from '../../../shared.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -16,6 +16,7 @@ import { Chart, ChartConfiguration, registerables  } from 'chart.js';
 })
 export class InformationComponent implements OnInit {
 isLoggedIn = false;
+isModerator = true;
 userInputUrl: string | null = null;
 postContent: string | null = null;
 reportTotal: number | null = null;
@@ -32,6 +33,7 @@ reportImages: string[] | null = null;
 reportContent: string | null = null;
 reportTime: string | null = null;
 username: string | null = null;
+
 
 //chart
 @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
@@ -54,6 +56,7 @@ router = inject(Router);
   ngOnInit(): void {
       const session =  this.authService.getSession();
       this.isLoggedIn = !!session;
+      this.checkRole();
       this.route.queryParams.subscribe((params) => {
         this.userInputUrl = params['input'];
         if(this.userInputUrl){
@@ -244,4 +247,74 @@ getReports(input: string): void {
 
     });
   } 
+  
+  private checkRole(): void {
+    if (!this.isLoggedIn) {
+        this.isModerator = false;
+        return;
+    }
+
+    const apiUrl = 'https://redflagger-api-10796636392.asia-southeast1.run.app/check_role';
+
+    this.getAccessToken().then((accessToken) => {
+        if (!accessToken) {
+            this.isModerator = false;
+            return;
+        }
+
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${accessToken}`,
+        });
+
+        this.http.get<{ role: string }>(apiUrl, { headers }).subscribe(
+            (response) => {
+                this.isModerator = response.role === 'moderator';
+                console.log('User is moderator:', this.isModerator);
+            },
+            (error) => {
+                console.error('Error checking role:', error);
+                this.isModerator = false;
+            }
+        );
+    });
+  }
+async deleteReport(report_id: number): Promise<void>{
+
+  if(this.userInputUrl == null){ 
+    return;
+  }
+  const confirmDelete = confirm('Are you sure you want to delete this report?');
+
+  if (!confirmDelete) {
+    return; // Stop execution if user cancels
+  }
+    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/report/${encodeURIComponent(report_id)}?post_url=${encodeURIComponent(this.userInputUrl)}`;
+
+    const accessToken = await this.getAccessToken();
+    if (!accessToken) {
+      alert('Failed to retrieve access token. Please log in again.');
+      this.router.navigate(['/home'])
+      return;
+    }
+
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    this.http.delete(apiUrl, {headers}).subscribe({
+      next: (response: any) => {
+        console.log("Report Deleted");
+        this.reports = [];
+        window.location.reload();
+      },
+      error: (error: any) => {
+        console.error('Error Deleting Report');
+      }
+    });
+  }
+  private async getAccessToken(): Promise<string | null> {
+    const session = await this.authService.getSession();
+    return session?.access_token || null;
+  }
 }

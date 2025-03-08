@@ -112,12 +112,19 @@
   </h2>
 
   <div *ngFor="let report of reports" class="mb-4 px-5 py-3">
-    <h3 class="text-3xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">
-      {{ report.USERNAME }}
-    </h3>
-    <p class="text-red-600 text-1xl text-justify" style="font-family: 'Jua', sans-serif;">
-      {{ report.REPORT_CONTENT }}
-    </p>
+    <div class="flex flex-wrap gap-4 md:flex-nowrap justify-between items-center">
+      <div>
+        <h3 class="text-3xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">
+          {{ report.USERNAME }}
+        </h3>
+        <p class="text-red-600 text-1xl text-justify" style="font-family: 'Jua', sans-serif;">
+          {{ report.REPORT_CONTENT }}
+        </p>
+      </div>
+      <button *ngIf="isModerator" (click)="deleteReport(report.REPORT_ID)" class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center">
+        Delete Report
+      </button>
+    </div>
   
     <div class="flex flex-wrap justify-center md:justify-center gap-4 md:gap-20 mt-4">
       <img *ngFor="let img of report.IMAGES; let i = index"
