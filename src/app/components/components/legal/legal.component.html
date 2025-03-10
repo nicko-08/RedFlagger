@@ -1,44 +1,60 @@
-<body class="bg-gray-100 text-gray-900 flex items-center justify-center min-h-screen">
-    <link rel="stylesheet" href="legal.component.css">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-900 sm:p-4">
+    <div class="page-container w-full flex flex-col items-center justify-center">
+        <section class="hero-banner relative w-full flex flex-col items-center justify-center text-center text-white 
+            bg-cover bg-center transition-all duration-500 ease-out hover:scale-105 hover:bg-[position:50%_40%]"
+            style="background-image: url('/aboutus_bg.png');">
+            <div class="absolute inset-0 bg-black/30"></div>  
+            <div class="relative z-10 bg-white/10 backdrop-blur-md px-8 py-6 rounded-lg shadow-lg hover:bg-yellow-500">
+                <h1 class="text-5xl font-extrabold">Legal Page</h1>
+                <p class="poppins-extralight-italic mt-4 text-2xl md:text-3xl italic">
+                    Your questions, answered.
+                </p>
+            </div>
+        </section>
+    </div>
     <div class="legal-container">
-        <main class="flex flex-col items-center justify-center min-h-screen p-6 space-y-12 w-full">
-
+        <main class="flex flex-col items-center justify-center p-6 space-y-12 w-full">
             <section class="faq-section">
                 <h2>Frequently Asked Questions</h2>
-                
                 <div class="faq-item">
                     <h3>What is RedFlagger?</h3>
-                    <p>RedFlagger is a community-driven platform designed to detect, report, and prevent online scams. We utilize crowdsourcing to verify scam reports and provide real-time updates on fraudulent activities.</p>
+                    <p>RedFlagger is a community-driven platform designed to detect, report, and prevent 
+                        online scams. We utilize crowdsourcing to verify scam reports and provide real-time 
+                        updates on fraudulent activities.</p>
                 </div>
-
                 <div class="faq-item">
                     <h3>How can I report a scam?</h3>
-                    <p>You can report a scam by submitting details through our platform. Our system reviews reports and validates them with user feedback to ensure accuracy before publishing them.</p>
+                    <p>You can report a scam by submitting details through our platform. Our system reviews 
+                        reports and validates them with user feedback to ensure accuracy before publishing 
+                        them.</p>
                 </div>
-
                 <div class="faq-item">
                     <h3>Is my information secure when using RedFlagger?</h3>
-                    <p>Yes. We prioritize user privacy and do not share personal information with third parties. All reports are anonymized to protect user identities.</p>
+                    <p>Yes. We prioritize user privacy and do not share personal information with third 
+                        parties. All reports are anonymized to protect user identities.</p>
                 </div>
             </section>
-
             <section class="legal-section">
                 <div class="legal-box">
                     <h3>Legal Services</h3>
-                    <p>We offer resources and guidance on scam-related legal concerns, including how to report fraudulent activities to authorities.</p>
+                    <p>We offer resources and guidance on scam-related legal concerns, including how to 
+                        report fraudulent activities to authorities.</p>
                 </div>
-
                 <div class="legal-box">
                     <h3>Privacy Policy</h3>
-                    <p>We respect your privacy and ensure that all user data is handled securely. Read our privacy policy to understand how we manage data.</p>
+                    <p>We respect your privacy and ensure that all user data is handled securely. Read our 
+                        privacy policy to understand how we manage data.</p>
                 </div>
-
                 <div class="legal-box">
                     <h3>Terms & Conditions</h3>
-                    <p>By using RedFlagger, you agree to our terms and conditions, which outline user responsibilities and platform guidelines.</p>
+                    <p>By using RedFlagger, you agree to our terms and conditions, which outline user 
+                        responsibilities and platform guidelines.</p>
                 </div>
             </section>
-
         </main>
     </div>
 </body>

@@ -1,24 +1,37 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<main class="signup-container">
+    <div class="signup-box p-8 sm:p-12 md:p-16 mx-auto min-h-[400px] sm:min-h-[500px] md:min-h-[500px]">
+        <h2 class="signup-title">Create Account</h2>
+            <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+                <input type="email" 
+                placeholder="Enter Email Address..." 
+                formControlName="email" 
+                aria-label="Email Address" 
+                required class="signup-input">
 
-<main class="flex flex-col justify-between items-center p-4 w-full h-full">
-    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-    
-    <div class="h-[500px] bg-red-700 text-white p-16 text-center w-full max-w-xl mx-auto rounded-lg shadow-lg h-500px flex flex-col justify-between">
-        <h2 class="text-4xl font-bold font-jua mb-4" style="font-family: 'Jua', sans-serif;">Create Account</h2>
-        <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-            <input type="email" placeholder="Enter Email Address..." formControlName="email" aria-label="Email Address" required class="w-full text-left p-4 mb-4 rounded-lg border-2 text-red-600 bg-white border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600" style="font-family: 'Jua', sans-serif;">
-            <input type="text" placeholder="Enter Username..." formControlName="username" aria-label="Username" required class="w-full text-left p-4 mb-4 rounded-lg border-2 text-red-600 bg-white border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600" style="font-family: 'Jua', sans-serif;">
-            <input type="password" placeholder="Enter Password..." formControlName="password" aria-label="Password" required class="w-full text-left p-4 mb-4 rounded-lg border-2 text-red-600 bg-white border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-600" style="font-family: 'Jua', sans-serif;">
-            <p class="text-sm mb-4" style="font-family: 'Jua', sans-serif;">*Password must be atleast 6 characters long</p>
-            @if (errorMessage) {
-            <div class="text-yellow-400 mb-4">{{ errorMessage }}</div>
-            }
+                <input type="text" 
+                placeholder="Enter Username..." 
+                formControlName="username" 
+                aria-label="Username" 
+                required class="signup-input">
+                    
+                <input type="password" 
+                placeholder="Enter Password..." 
+                formControlName="password" 
+                aria-label="Password" 
+                required class="signup-input">
+
+                <p class="signup-info">*Password must be atleast 6 characters long</p>
+
+                @if (errorMessage) {
+                    <div class="signup-error mb-4">{{ errorMessage }}</div>
+                }
             <button type="submit" 
-            class="bg-white text-xl sm:text-2xl md:text-3xl w-full max-w-xs sm:max-w-sm md:max-w-md 
-            text-red-600 py-2 sm:py-3 px-4 sm:px-6 rounded-full font-bold 
-            hover:bg-yellow-400 hover:text-red-600 transition-all transform hover:scale-105"
-            style="font-family: 'Jua', sans-serif;">
-            SIGN UP
-        </button>
+                class="signup-button text-xl sm:text-2xl md:text-3xl max-w-xs sm:max-w-sm md:max-w-md py-2 sm:py-3 px-3 sm:px-6">
+                SIGN UP
+            </button>
         </form>
     </div>
 </main>

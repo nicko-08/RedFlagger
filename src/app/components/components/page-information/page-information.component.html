@@ -1,6 +1,6 @@
-<main class="flex flex-col items-center justify-start w-full min-h-screen bg-gray-100 p-6">
+<main class="flex flex-col items-center justify-start w-full min-h-screen bg-gray-200 p-6">
 
-    <div class="w-4/5 mx-auto bg-gray-100 rounded-lg p-6">
+    <div class="flex flex-1 flex-col w-full md:w-4/5 sm:w-5/5 lg:w-4/5 mx-auto bg-red-800 rounded-lg p-6">
       <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
   
       <div class="flex flex-col sm:flex-row gap-6">
@@ -31,7 +31,7 @@
         <div class="flex flex-col bg-white rounded-lg p-6 shadow-md w-full sm:w-1/2">
           <!-- Flag Design -->
           <div class="flex items-center justify-center">
-            <div class="h-[200px] w-[200px] rounded-full shadow-lg flex items-center justify-center">
+            <div class="h-[200px] w-[200px] border-3 border-red-800 rounded-full shadow-lg flex items-center justify-center">
               <svg width="100" height="100" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
                 <rect x="75" width="69" height="500" rx="34.5" [attr.fill]="threatColor" />
                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -42,33 +42,31 @@
           </div>
   
           <!-- Stats -->
-          <div class="grid grid-cols-3 gap-4 mt-6">
-            <div class="p-4 bg-white shadow-md hover:bg-red-100 hover:shadow-lg hover:scale-105 transition-all duration-300 rounded-lg text-center">
-                <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Total Reports</p>
+          <div class="grid grid-cols-1 sm:grid-cols-1 xl:grid-cols-3 lg:grid-cols-1 gap-6 mt-6">
+            <div class="p-4 bg-white shadow-md hover:bg-yellow-500 border-3 border-red-800 hover:shadow-lg hover:scale-105 transition-all duration-300 rounded-lg text-center">
+                <p class="text-red-600 mt-5 text-2xl" style="font-family: 'Jua', sans-serif;">Total Reports</p>
                 <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{reportTotal}}</span>
             </div>
-            <div class="p-4 bg-white shadow-md hover:bg-red-100 hover:shadow-lg hover:scale-105 transition-all duration-300 rounded-lg text-center">
-                <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Peak Daily Reports</p>
+            <div class="p-4 bg-white shadow-md hover:bg-yellow-500 border-3 border-red-800 hover:shadow-lg hover:scale-105 transition-all duration-300 rounded-lg text-center">
+                <p class="text-red-600 mt-5 md:mt-3 text-2xl" style="font-family: 'Jua', sans-serif;">Peak Daily Reports</p>
                 <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{peakReport}}</span>
             </div>
-            <div class="p-4 bg-white shadow-md hover:bg-red-100 hover:shadow-lg hover:scale-105 transition-all duration-300 rounded-lg text-center">
-                <p class="text-red-600 text-2xl" style="font-family: 'Jua', sans-serif;">Average Daily Reports</p>
+            <div class="p-4 bg-white shadow-md hover:bg-yellow-500 border-3 border-red-800 hover:shadow-lg hover:scale-105 transition-all duration-300 rounded-lg text-center">
+                <p class="text-red-600 mt-5 md:mt-1 xl:mt-1 lg:mt-1 text-2xl" style="font-family: 'Jua', sans-serif;">Average Daily Reports</p>
                 <span class="text-4xl font-bold text-red-600" style="font-family: 'Jua', sans-serif;">{{averagePostCount}}</span>
             </div>
         </div>
         </div>
       </div>
-  
-      <!-- Overview Section -->
-      <div class="mt-6 bg-white rounded-lg p-4 shadow-2xl">
-        <h3 class="text-6xl text-center font-bold text-red-600 px-3 mb-4 mt-3 hidden sm:block" 
+      
+      <h3 class="text-5xl text-center font-bold text-yellow-500 px-3 mt-9 mb-5 hidden sm:block" 
             style="font-family: 'Jua', sans-serif;">OVERVIEW</h3>
-  
+      <!-- Overview Section -->
+      <div class="mt-6 bg-yellow-500 rounded-lg p-4 shadow-2xl">
+        
         <!-- Circular Design and Charts -->
-        <div class="flex flex-col sm:flex-row items-center sm:items-start">
-          
-          
-  
+        <div class="mr-1 md:mr-4 lg:mr-4 xl:mr-4 mb-6 md:mb-0 xl:mb-0 lg:mb-0 flex flex-col sm:flex-row items-center sm:items-start">
+
           <!-- Charts Section -->
           <div class="w-full sm:ml-4 bg-white p-4 rounded-lg shadow-md mt-6 sm:mt-0 flex flex-col space-y-4">
             <div class="p-9 rounded-lg">
@@ -82,12 +80,13 @@
       </div>
   
       <!-- Reported Posts Section -->
-      <div class="mt-6 bg-white rounded-lg p-4 shadow-md">
-        <h3 class="text-6xl font-bold text-red-600 text-center mb-4" style="font-family: 'Jua', sans-serif;">
-            Reported Posts
-        </h3>
-        <div class="flex flex-wrap justify-center gap-4">
-          <div class="w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
+      <h3 class="text-5xl font-bold text-yellow-500 text-center mt-9 mb-7" style="font-family: 'Jua', sans-serif;">
+        Reported Posts
+    </h3>
+      <div class="mt-6 bg-yellow-500 rounded-lg p-4 shadow-md">
+        
+        <div class="flex flex-wrap justify-center gap-9">
+          <div class="border-3 border-red-800 w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
             <img src="#" alt="Reported Image" 
                  class="w-full h-[150px] object-cover rounded-md">
             <div class="mt-4 text-3xl text-red-600 text-center">
@@ -97,7 +96,7 @@
               </p>
             </div>
           </div>
-          <div class="hidden sm:block w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
+          <div class="border-3 border-red-800 hidden sm:block w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
             <img src="#" alt="Reported Image" 
                  class="w-full h-[150px] object-cover rounded-md">
             <div class="mt-4 text-3xl text-red-600 text-center">
@@ -107,7 +106,7 @@
               </p>
             </div>
           </div>
-          <div class="hidden sm:block w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
+          <div class="border-3 border-red-800 hidden sm:block w-full sm:w-[48%] lg:w-[30%] bg-white p-4 shadow-md hover:bg-red-100 hover:shadow-md hover:scale-105 transition-all duration-300 rounded-lg">
             <img src="#" alt="Reported Image" 
                  class="w-full h-[150px] object-cover rounded-md">
             <div class="mt-4 text-3xl text-red-600 text-center">

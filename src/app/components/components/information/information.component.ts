@@ -34,7 +34,6 @@ reportContent: string | null = null;
 reportTime: string | null = null;
 username: string | null = null;
 
-
 //chart
 @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
 @ViewChild('chartCanvas2') chartCanvas2!: ElementRef<HTMLCanvasElement>;
@@ -336,6 +335,7 @@ getReports(input: string): void {
         );
     });
   }
+  
 async deleteReport(report_id: number): Promise<void>{
 
   if(this.userInputUrl == null){ 
@@ -471,4 +471,11 @@ async putVote(report_id:number, vote_type:string){
       }
     });
   }
+
 }
+
+
+
+
+
+

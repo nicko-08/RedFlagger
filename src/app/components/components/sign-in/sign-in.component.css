@@ -1,0 +1,84 @@
+.signin-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    width: 100%;
+    height: 100%;
+    background-color: #e5e7eb; 
+}
+
+.signin-box {
+    background-color: #991b1b;
+    color: white;
+    text-align: center;
+    width: 100%;
+    max-width: 36rem; 
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.signin-title {
+    font-size: 2.25rem; 
+    font-weight: bold;
+    font-family: 'Jua', sans-serif;
+}
+
+.email {
+    font-size: 1.5rem; 
+    margin-bottom: 0.75rem; 
+    text-align: left; 
+    font-family: 'Jua', sans-serif;
+}
+
+.password {
+    font-size: 1.5rem; 
+    margin-bottom: 0.75rem; 
+    text-align: left; 
+    font-family: 'Jua', sans-serif;
+}
+
+.signin-input {
+    width: 100%;
+    text-align: left;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    border: 2px solid #d1d5db; 
+    color: black; 
+    background-color: white;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.signin-input:focus, .signin-input:hover {
+    border-color: #dc2626;
+    outline: none;
+    box-shadow: 0 0 5px rgba(220, 38, 38, 0.5);
+}
+
+.signin-error {
+    color:#eab308;
+    font-family: 'Jua', sans-serif;
+}
+
+.signin-button {
+    background-color: white;
+    font-weight: bold;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    color: #b91c1c;
+    transition: all 0.3s ease;
+    font-family: 'Jua', sans-serif;
+}
+
+.signin-button:hover {
+    background-color: #eab308; 
+    color: #b91c1c; 
+    transform: scale(1.05);
+}
