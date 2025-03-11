@@ -7,8 +7,8 @@
       <div class="flex flex-col items-center justify-center bg-gray-200 p-4 w-full md:w-1/4 md:h-[702px] rounded-lg shadow-lg">
         <div class="w-[50%] sm:w-[70%] md:w-[90%] ">
           <svg class="w-full h-full max-w-[400px] max-h-[400px]" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-            <rect x="75" width="69" height="500" rx="34.5" [attr.fill]="threatColor"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M219.75 305.535L204.315 311.941L131 342.367L131 262.989L131 107.378L131 28L204.3 58.42C204.305 58.4221 204.31 58.4242 204.315 58.4263L219.75 64.8318L391.796 136.232C435.375 154.318 435.375 216.05 391.795 234.136L219.75 305.535Z" [attr.fill]="threatColor"/>
+            <rect x="75" width="69" height="500" rx="34.5" [attr.fill]="threatHex"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M219.75 305.535L204.315 311.941L131 342.367L131 262.989L131 107.378L131 28L204.3 58.42C204.305 58.4221 204.31 58.4242 204.315 58.4263L219.75 64.8318L391.796 136.232C435.375 154.318 435.375 216.05 391.795 234.136L219.75 305.535Z" [attr.fill]="threatHex"/>
           </svg>
         </div>
         <h2 class="text-4xl font-bold text-red-600 mb-4 px-5" style="font-family: 'Jua', sans-serif;">
@@ -19,9 +19,27 @@
                   <div class="w-full bg-gray-200 shadow-lg rounded-lg p-4 flex flex-wrap items-center 
                   justify-center sm:justify-between gap-4 text-red-500"
           style="font-family: 'Jua', sans-serif;">
-          <span class="text-5xl font-semibold">{{threatLevel}}/10</span>
+          <span class="text-5xl font-semibold">{{threatLevel?.toFixed(1)}}/10 
+          </span>
+          @if(threatLevel == null){
+            🏴
+          }
+          @else if (threatLevel <= 1) {
+            🚩
+          }
+          @else if (threatLevel <= 3) {
+            🚩🚩
+          }
+          @else if (threatLevel <= 5) {
+            🚩🚩🚩
+          }
+          @else if (threatLevel <= 7) {
+            🚩🚩🚩🚩
+          }
+          @else {
+            🚩🚩🚩🚩🚩
+          }
           <div class="px-5 text-5xl flex space-x-1 text-yellow-500">
-              <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
           </div>
           <button [disabled]="!isLoggedIn || !userInputUrl" (click)="getLinkAndRouteReport()"
               class="bg-yellow-500 text-white w-full sm:w-auto px-6 py-3 text-2xl rounded-lg 

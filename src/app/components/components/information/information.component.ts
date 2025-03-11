@@ -15,6 +15,9 @@ import { Chart, ChartConfiguration, registerables  } from 'chart.js';
   styleUrls: ['./information.component.css']
 })
 export class InformationComponent implements OnInit {
+Number(arg0: string|null) {
+throw new Error('Method not implemented.');
+}
 isLoggedIn = false;
 isModerator = true;
 userInputUrl: string | null = null;
@@ -22,7 +25,7 @@ postContent: string | null = null;
 reportTotal: number | null = null;
 fbEmbedUrl: SafeResourceUrl | null = null;
 averagePostCount: string | null = null;
-threatLevel: string | null = null; //this is needed to be a string to display the threat level decimal in the UI
+threatLevel: number | null = null; //this is needed to be a string to display the threat level decimal in the UI
 peakReport: number | null = null;
 threatColor: string | null = null;
 threatHex: string | null = null;
@@ -131,7 +134,7 @@ async ngOnInit(): Promise<void> {
       next: (response) => {
         this.threatColor = response.threat?.color ?? 'Unknown';
         this.threatHex = response.threat?.hex ?? '#000000';
-        this.threatLevel = (response.threat?.threat_level ?? 0).toFixed(1)// Extract total reports from API response
+        this.threatLevel = (response.threat?.threat_level ?? 0)// Extract total reports from API response
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
