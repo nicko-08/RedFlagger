@@ -4,7 +4,7 @@ import { AuthService } from '../../../auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedService } from '../../../shared.service';
-
+import {HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +17,11 @@ export class HeaderComponent implements OnInit {
   
   isLoggedIn = false;
   userInputUrl: string = "";
-  
+  isMenuOpen: boolean = false; 
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen; 
+  }
 
   authService = inject(AuthService);
   constructor(private router: Router) {}
@@ -65,4 +69,11 @@ determinePostType(){
     this.router.navigate(['/home']); //redirect back to home if invalid url
   }
 }
+
+  @HostListener('window:resize', ['$event'])
+  toggleMenuOnResize(event: Event) {
+    if (window.innerWidth >= 768 && this.isMenuOpen) {
+      this.toggleMenu();
+    }
+  }
 }

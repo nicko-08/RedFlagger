@@ -1,85 +1,118 @@
-/* General Styling */
 body {
-    background-color: #f8f8f8;
-    font-family: 'Arial', sans-serif;
-    color: #333;
+  font-family: 'Poppins', sans-serif;
+  color: black;
+}
+
+.poppins-extralight-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: italic;
 }
 
 .about-us-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; 
-    width: 100%;
-    padding: 2rem;
-    box-sizing: border-box; 
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box; 
 }
 
-/* Section Styling */
 .about-section {
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    border: 3px solid #d32f2f;
-    padding: 2rem;
-    max-width: 900px;
-    width: 100%;
-    transition: transform 0.3s ease-in-out;
-    margin-bottom: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border: 3px solid #d32f2f;
+  padding: 2rem;
+  max-width: 900px;
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+  margin-bottom: 2rem;
 }
 
 .about-section:hover {
-    transform: scale(1.02);
+  transform: scale(1.02);
 }
 
-/* Headings */
 .section-header h3 {
-    font-size: 2rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #d32f2f;
-    text-align: center;
-    border-bottom: 4px solid #d32f2f;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #d32f2f;
+  text-align: center;
+  border-bottom: 4px solid #d32f2f;
+  padding-bottom: 0.3rem;
+  margin-bottom: 1rem;
 }
 
-/* Paragraph Text */
 .section-content p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    text-align: justify;
-    color: #555;
-    margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  text-align: justify;
+  color: black;
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
 }
 
 @media (max-width: 768px) {
-    .about-us-container {
-        padding: 1rem; 
-    }
+  .about-us-container {
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+  }
 
-    .about-section {
-        padding: 1.5rem;
-        margin-bottom: 2rem; 
-    }
+  .about-section {
+      width: 90%;
+      max-width: 100%;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+  }
 
-    .section-header h3 {
-        font-size: 1.8rem;
-    }
+  .section-header h3 {
+      font-size: 1.8rem;
+      padding-bottom: 1rem;
+  }
 
-    .section-content p {
-        font-size: 1rem;
-    }
-}
-@media (max-width: 768px) {
-    .about-section {
-        padding: 1.5rem;
-    }
+  .section-content p {
+      font-size: 1rem;
+      line-height: 1.5;
+  }
 
-    .section-header h3 {
-        font-size: 1.8rem;
-    }
+  img {
+      width: 100%;
+      height: auto;
+  }
+
+  .section-header h3 {
+      text-align: center;
+  }
+
+  .about-us-container {
+      padding: 0.5rem;
+  }
+
+  .section-content p:nth-child(n+2) { 
+      display: none; 
+  }
     
-    .section-content p {
-        font-size: 1rem;
-    }
+  .team-member .info {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+  }
+  
+  .team-member:hover .info {
+      opacity: 1;
+  }
+}
+
+.show-info {
+  opacity: 1 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .info {
+    opacity: 0;
+  }
+  .group:hover .info {
+    opacity: 1;
+  }
 }
