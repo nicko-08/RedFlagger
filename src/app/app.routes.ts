@@ -11,6 +11,8 @@ import { AboutUsComponent } from './components/components/about-us/about-us.comp
 import { PageInformationComponent } from './components/components/page-information/page-information.component';
 import { EmailConfirmedComponent } from './components/components/email-confirmed/email-confirmed.component';
 import { CheckEmailComponent} from './components/components/check-email/check-email.component';
+import { PostReportsComponent } from './components/components/post-reports/post-reports.component';
+import { PostReportsReviewsComponent } from './components/components/post-reports-reviews/post-reports-reviews.component';
 export const routes: Routes = [
   
   { path: 'signup', component: SignUpComponent },
@@ -23,7 +25,9 @@ export const routes: Routes = [
   { path: 'aboutus', component: AboutUsComponent},
   {path: "page-information", component: PageInformationComponent},
   {path: "email-confirmed", component: EmailConfirmedComponent},
-  {path: "check-email", component: CheckEmailComponent}
+  {path: "check-email", component: CheckEmailComponent},
+  {path: "post-reports", component: PostReportsComponent},
+  {path: "post-report-reviews", component: PostReportsReviewsComponent}
 ];
 
 @NgModule({
