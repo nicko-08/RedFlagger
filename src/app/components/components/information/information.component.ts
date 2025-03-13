@@ -93,7 +93,8 @@ async ngOnInit(): Promise<void> {
   }
 
   goToReports():void{
-    this.router.navigate(['/post-reports']);
+    console.log("hello");
+    this.router.navigate(['/post-reports'], {queryParams: {userInputUrl: this.userInputUrl}});
   }
   
 
@@ -305,12 +306,12 @@ getReports(input: string): void {
           this.reports.forEach(report => {
             console.log("torture");
             this.getVote(report.REPORT_ID); 
-          });
-        }
+        });
       }
+    }
 
-    });
-  } 
+  });
+} 
   
   private checkRole(): void {
     if (!this.isLoggedIn) {

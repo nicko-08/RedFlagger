@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -17,9 +17,10 @@ import { AuthService } from '../../../auth.service';
 
 export class PostReportsComponent {
 
-  userInputUrl: string | null = null;
-  isLoggedIn = false;
-  isModerator = true;
+  @Input() userInputUrl!: string ;
+  
+  isLoggedIn!: boolean;
+  isModerator!: boolean;
 
   reports: any[] = [];
   reportImages: string[] | null = null;
@@ -36,6 +37,17 @@ export class PostReportsComponent {
   sanitizer = inject(DomSanitizer);
   router = inject(Router);
 
+  async ngOnInit(): Promise<void>{
+    const session =  await this.authService.getSession();
+    this.isLoggedIn = !!session;
+    this.checkRole();
+
+    if(this.userInputUrl){
+      this.getReports(this.userInputUrl);
+    }
+    console.log(this.isLoggedIn);
+    console.log("cock", this.userInputUrl);
+  }
 
   async getAccessToken(): Promise<string | null> {
     const session = await this.authService.getSession();
@@ -172,5 +184,61 @@ export class PostReportsComponent {
         console.error('Error Deleting Report');
       }
     });
-  }  
+  }
+  
+  getReports(input: string): void {
+    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/reports?post_url=${encodeURIComponent(input)}`;
+    this.http.get<any[]>(apiUrl).subscribe({
+      next: (response: any[]) => {
+        this.reports = response;
+        // If you want to extract details from the first report, for example:
+          if (this.reports.length) {
+            const { IMAGES, REPORT_CONTENT, REPORT_TIME, USERNAME } = this.reports[0];
+            this.reportImages = IMAGES && IMAGES.length ? IMAGES : ['No images available'];
+            this.reportContent = REPORT_CONTENT || 'No content available';
+            this.reportTime = REPORT_TIME || 'No time available';
+            this.username = USERNAME || 'No username available';
+            console.log("cock");
+            this.reports.forEach(report => {
+              console.log("torture");
+              this.getVote(report.REPORT_ID); 
+          });
+        }
+      }
+  
+    });
+  }
+
+  private checkRole(): void {
+    if (!this.isLoggedIn) {
+        this.isModerator = false;
+        return;
+    }
+
+    const apiUrl = 'https://redflagger-api-10796636392.asia-southeast1.run.app/check_role';
+
+    this.getAccessToken().then((accessToken) => {
+        if (!accessToken) {
+            this.isModerator = false;
+            return;
+        }
+
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${accessToken}`,
+        });
+
+        this.http.get<{ role: string }>(apiUrl, { headers }).subscribe(
+            (response) => {
+                this.isModerator = response.role === 'moderator';
+                console.log('User is moderator:', this.isModerator);
+            },
+            (error) => {
+                console.error('Error checking role:', error);
+                this.isModerator = false;
+            }
+        );
+    });
+  }
+
+
 }
