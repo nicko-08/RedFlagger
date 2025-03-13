@@ -90,7 +90,11 @@ async ngOnInit(): Promise<void> {
   
   getLinkAndRouteReport():void{
     this.router.navigate(['/report'], { queryParams: { link: this.userInputUrl } });
-    }
+  }
+
+  goToReports():void{
+    this.router.navigate(['/post-reports']);
+  }
   
 
   getPostContent(input: string): void {

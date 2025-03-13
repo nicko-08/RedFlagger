@@ -1,1 +1,49 @@
-<p>post-reports works!</p>
+<div class="flex flex-1 flex-col w-full md:w-4/5 sm:w-5/5 lg:w-4/5 p-6 shadow-lg rounded-lg flex-grow bg-red-800">
+    <h2 class="px-5 text-5xl font-bold text-yellow-500 mb-4 text-center" style="font-family: 'Jua', sans-serif;">
+      REPORT REVIEWS
+    </h2>
+    <div *ngFor="let report of reports" class="mb-4 px-5 py-3 border-2 border-white bg-white rounded-xl">
+      <!--Vote Buttons-->
+      <div class="flex items-start gap-4 w-full">
+        <div *ngIf="isLoggedIn" class="flex flex-col items-center space-y-1 w-12 flex-shrink-0">
+          <button 
+          (click)="putVote(report.REPORT_ID, 'upvote')"
+          [class.text-green-500]="report.vote_type === 'upvote'"
+          class="text-gray-500 hover:text-green-500 transition p-1 w-6 h-6 flex justify-center items-center">
+            <svg class="w-6 h-6" fill = "currentColor" viewBox="0 0 18 18"><path d="M1 12h16L9 4z"></path></svg>
+          </button>
+          <p class="text-sm font-semibold text-center w-full">{{report.vote_count}}</p>
+          <button 
+          (click)="putVote(report.REPORT_ID, 'downvote')"
+          [class.text-green-500]="report.vote_type === 'downvote'"
+          class="text-gray-500 hover:text-green-500 transition p-1 w-6 h-6 flex justify-center items-center">
+            <svg class="w-6 h-6" fill = "currentColor" viewBox="0 0 18 18"><path d="M1 6h16l-8 8z"></path></svg>
+          </button>
+        </div>
+        <!--Content and Delete Button-->
+        <div class="flex flex-col md:flex-row justify-between items-start w-full gap-2">
+          <div class="flex-1">
+            <h3 class="text-2xl font-bold text-black" style="font-family: 'Poppins', sans-serif;">
+              {{ report.USERNAME }}
+            </h3>
+            <p class="text-red-black text-1xl text-justify" style="font-family: 'Poppins', sans-serif;">
+              {{ report.REPORT_CONTENT }}
+            </p>
+          </div>
+          <button *ngIf="isModerator" (click)="deleteReport(report.REPORT_ID)" 
+          class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center">
+            Delete Report
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 mt-4">
+        <img *ngFor="let img of report.IMAGES; let i = index"
+             [src]="img"
+             alt="Reported Image"
+             class="w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px] lg:max-w-[250px] 
+                    aspect-square object-cover rounded-lg shadow-md cursor-pointer 
+                    transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-red-500/50"
+             [ngClass]="{'hidden sm:block': i >= 1}">
+      </div>
+    </div> 
+    </div>
