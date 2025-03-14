@@ -479,6 +479,12 @@ async putVote(report_id:number, vote_type:string){
     });
   }
 
+  @ViewChild('stats') stats!: ElementRef;
+
+  scrollToStats(){
+    this.stats.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
 }
 
 

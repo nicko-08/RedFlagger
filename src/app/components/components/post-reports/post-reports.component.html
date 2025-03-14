@@ -59,7 +59,7 @@
             (focus)="onAddReviewFocus(report.REPORT_ID)"
             (blur)="onAddReviewBlur(report.REPORT_ID)"
             formControlName = "content">
-        <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-5" *ngIf="report.EDITING">
           <ul class="items-center w-full text-sm font-medium bg-white border border-gray-200 rounded-lg sm:flex dark:bg-red-500 dark:border-gray-600 dark:text-white">
             @for (rating of [4,3,2,1]; track rating) {
               <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
@@ -78,7 +78,6 @@
             </p>
           }
 
-          
           
           <div class="flex flex-row gap-6" *ngIf="report.EDITING">
             <button 

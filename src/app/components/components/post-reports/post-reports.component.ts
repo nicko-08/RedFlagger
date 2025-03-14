@@ -245,7 +245,25 @@ export class PostReportsComponent {
   onAddReviewBlur(report_id:number){
     setTimeout(()=>{
       const report = this.reports.find(r => r.REPORT_ID === report_id);
-      report.EDITING = false;
+      let content = report.REVIEW_DATA.value.content;
+      let rating = report.REVIEW_DATA.value.rating;
+      let content_truth  = content != null;
+      if(content = ''){
+        content_truth = false;
+      }
+      let rating_truth  = rating != null;
+
+      console.log(report_id, " ",content, content_truth, " ", rating_truth);
+
+      if(content_truth){
+        report.EDITING = true;
+      }
+      else if(rating_truth){
+        report.EDITING = true;
+      }
+      else{
+        report.EDITING = false;
+      }
     }, 200);
   }
 
