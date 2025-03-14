@@ -302,17 +302,16 @@ getReports(input: string): void {
           this.reportContent = REPORT_CONTENT || 'No content available';
           this.reportTime = REPORT_TIME || 'No time available';
           this.username = USERNAME || 'No username available';
-          console.log("cock");
           this.reports.forEach(report => {
-            console.log("torture");
-            this.getVote(report.REPORT_ID); 
+            this.getVote(report.REPORT_ID);
+            report.editing = false;
         });
       }
     }
 
   });
 } 
-  
+
   private checkRole(): void {
     if (!this.isLoggedIn) {
         this.isModerator = false;

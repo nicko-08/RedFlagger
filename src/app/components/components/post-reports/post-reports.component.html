@@ -1,53 +1,136 @@
-
 <main class="flex flex-col items-center justify-start w-full min-h-screen bg-gray-100 p-6">
-    <div class="flex flex-1 flex-col w-full md:w-4/5 sm:w-5/5 lg:w-3/5 p-6 shadow-lg rounded-lg flex-grow bg-red-800">
-        <h2 class="px-5 text-5xl font-bold text-yellow-500 mb-4 text-center" style="font-family: 'Jua', sans-serif;">
-          REPORTS
-        </h2>
-        <div *ngFor="let report of reports" class="mb-4 px-5 py-3 border-2 border-white bg-white rounded-xl">
-            <div class="flex items-center gap-4 w-full">
-                <!--Vote Buttons-->
-                <div *ngIf="isLoggedIn">
-                    <button 
-                        (click)="putVote(report.REPORT_ID, 'upvote')"
-                        [class.text-green-500]="report.vote_type === 'upvote'"
-                        class="text-gray-500 hover:text-green-500 transition p-1 w-6 h-6 flex justify-center items-center">
-                          <svg class="w-6 h-6" fill = "currentColor" viewBox="0 0 18 18"><path d="M1 12h16L9 4z"></path></svg>
-                    </button>
-                    <p class="text-sm font-semibold text-center w-full">{{report.vote_count}}</p>
-                    <button 
-                        (click)="putVote(report.REPORT_ID, 'downvote')"
-                        [class.text-green-500]="report.vote_type === 'downvote'"
-                        class="text-gray-500 hover:text-green-500 transition p-1 w-6 h-6 flex justify-center items-center">
-                          <svg class="w-6 h-6" fill = "currentColor" viewBox="0 0 18 18"><path d="M1 6h16l-8 8z"></path></svg>
-                    </button>
-                </div>
-                <!--Content and Delete Button-->
-                <div class="flex flex-col sm:flex-row justify-between items-center w-full gap-2">
-                    <div class="flex-1">
-                        <h3 class="text-2xl font-bold text-black" style="font-family: 'Poppins', sans-serif;">
-                          {{ report.USERNAME }}
-                        </h3>
-                    </div>
-                    <button *ngIf="isModerator" (click)="deleteReport(report.REPORT_ID)" 
-                        class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center">
-                        Delete Report
-                    </button>
-                </div>
-            </div>
-            <p class="text-red-black text-1xl text-justify" style="font-family: 'Poppins', sans-serif;">
-                {{ report.REPORT_CONTENT }}
-            </p>
-            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 mt-4">
-                <img *ngFor="let img of report.IMAGES; let i = index"
-                    [src]="img"
-                    alt="Reported Image"
-                    class="w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px] lg:max-w-[250px] 
+  <div class="flex flex-1 flex-col w-full md:w-4/5 sm:w-5/5 lg:w-3/5 p-6 shadow-lg rounded-lg flex-grow bg-red-800">
+    <h2 class="px-5 text-5xl font-bold text-yellow-500 mb-4 text-center" style="font-family: 'Jua', sans-serif;">
+      REPORTS
+    </h2>
+    <div *ngFor="let report of reports" class="mb-4 px-5 py-3 border-2 border-white bg-white rounded-xl">
+      <div class="flex items-center gap-4 w-full">
+        <!--Vote Buttons-->
+        <div *ngIf="isLoggedIn">
+          <button (click)="putVote(report.REPORT_ID, 'upvote')" [class.text-green-500]="report.vote_type === 'upvote'"
+            class="text-gray-500 hover:text-green-500 transition p-1 w-6 h-6 flex justify-center items-center">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18">
+              <path d="M1 12h16L9 4z"></path>
+            </svg>
+          </button>
+          <p class="text-sm font-semibold text-center w-full">{{report.vote_count}}</p>
+          <button (click)="putVote(report.REPORT_ID, 'downvote')"
+            [class.text-green-500]="report.vote_type === 'downvote'"
+            class="text-gray-500 hover:text-green-500 transition p-1 w-6 h-6 flex justify-center items-center">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18">
+              <path d="M1 6h16l-8 8z"></path>
+            </svg>
+          </button>
+        </div>
+        <!--Content and Delete Button-->
+        <div class="flex flex-col sm:flex-row justify-between items-center w-full gap-2">
+          <div class="flex-1">
+            <h3 class="text-2xl font-bold text-black" style="font-family: 'Poppins', sans-serif;">
+              {{ report.USERNAME }}
+            </h3>
+          </div>
+          <button *ngIf="isModerator" (click)="deleteReport(report.REPORT_ID)"
+            class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center">
+            Delete Report
+          </button>
+        </div>
+      </div>
+      <p class="text-red-black text-1xl text-justify" style="font-family: 'Poppins', sans-serif;">
+        {{ report.REPORT_CONTENT }}
+      </p>
+      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 mt-4">
+        <img *ngFor="let img of report.IMAGES; let i = index" [src]="img" alt="Reported Image" class="w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px] lg:max-w-[250px] 
                         aspect-square object-cover rounded-lg shadow-md cursor-pointer 
                         transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-red-500/50"
-                    [ngClass]="{'hidden sm:block': i >= 1}">
-          </div>
-        </div> 
-    </div>    
-</main>
+          [ngClass]="{'hidden sm:block': i >= 1}">
+      </div>
+      <br>
+      <form [formGroup]="report.REVIEW_DATA" class="flex flex-col gap-3">
+        <input 
+        class="bg-transparent border-b 
+            border-b-amber-950 
+            focus:border-black 
+            focus:border-b-2 
+            outline-none 
+            w-full 
+            text-black 
+            placeholder-gray-400" 
+            type="text" placeholder="Add Review"
+            (focus)="onAddReviewFocus(report.REPORT_ID)"
+            (blur)="onAddReviewBlur(report.REPORT_ID)"
+            formControlName = "content">
+        <div class="flex flex-col gap-5">
+          <ul class="items-center w-full text-sm font-medium bg-white border border-gray-200 rounded-lg sm:flex dark:bg-red-500 dark:border-gray-600 dark:text-white">
+            @for (rating of [4,3,2,1]; track rating) {
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input type="radio" id="rating{{rating}}" name="rating" value={{rating}} formControlName="rating"
+                  class="w-4 h-4 text-red-800 bg-gray-100 border-gray-300 focus:ring-red-950 dark:focus:ring-red-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="age1"
+                  class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{rating}}</label><br>    
+                </div>
+              </li>
+            }  
+          </ul>
+          @if (report.REVIEW_ERROR) {
+            <p>
+              Missing Fields in review, could not submit
+            </p>
+          }
 
+          
+          
+          <div class="flex flex-row gap-6" *ngIf="report.EDITING">
+            <button 
+            class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center"
+            (click)="addReview(report.REPORT_ID)">
+              Add Review
+            </button>
+            <button
+            (click)="cancelReview(report.REPORT_ID)"
+            class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center">
+              Cancel
+            </button>   
+          </div>
+          
+        </div>
+      </form>
+
+      <br>
+      <div>
+        <h2>
+          Reviews
+        </h2>
+        <button (click)="viewReviews(report.REPORT_ID)">
+          @if(report.VIEWING_REVIEW){
+            <!--Pabago nalang to icons-->
+            ^
+          }@else {
+            <!--Pabago nalang to icons-->
+            v
+          }
+        </button>
+        
+        @if(report.VIEWING_REVIEW){
+          <div class="flex flex-col gap-6">
+            @for (review of report.REVIEWS; track $index) {
+              <div>
+                <h1>
+                  {{review.USERNAME}}
+                </h1>
+                <p>
+                  {{review.REVIEW_CONTENT}}
+                </p>
+                <p>
+                  rating: {{review.RATING}}
+                </p>
+              </div>
+            }
+          </div>  
+        }
+
+      </div>
+
+    </div>
+  </div>
+</main>

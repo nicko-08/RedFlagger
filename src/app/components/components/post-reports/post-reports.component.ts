@@ -5,12 +5,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SharedService } from '../../../shared.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '../../../auth.service';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-post-reports',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './post-reports.component.html',
   styleUrl: './post-reports.component.css'
 })
@@ -198,15 +199,122 @@ export class PostReportsComponent {
             this.reportContent = REPORT_CONTENT || 'No content available';
             this.reportTime = REPORT_TIME || 'No time available';
             this.username = USERNAME || 'No username available';
-            console.log("cock");
             this.reports.forEach(report => {
               console.log("torture");
               this.getVote(report.REPORT_ID); 
+              report.EDITING = false;
+              report.REVIEW_ERROR = false;
+              report.VIEWING_REVIEW = false;
+              report.REVIEW_DATA = new FormGroup(
+                {
+                  content: new FormControl(null),
+                  rating: new FormControl(null)
+                }
+              )
           });
         }
       }
   
     });
+  }
+
+  getReviews(input:string, report_id:number){
+    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/report/${encodeURIComponent(report_id)}/reviews?post_url=${encodeURIComponent(input)}`;
+    console.log(apiUrl);
+    this.http.get<any[]>(apiUrl).subscribe({
+      next: (response: any[]) => {
+        const report = this.reports.find(r => r.REPORT_ID === report_id);
+        report.REVIEWS = response;       
+      }
+    });
+  }
+
+  viewReviews(report_id:number){
+    const report = this.reports.find(r => r.REPORT_ID === report_id);
+    report.VIEWING_REVIEW = !report.VIEWING_REVIEW;
+    this.getReviews(this.userInputUrl,report_id);
+    console.log(report.REVIEWS);
+  }
+
+  onAddReviewFocus(report_id:number){
+    const report = this.reports.find(r => r.REPORT_ID === report_id);
+    console.log("Hi", report_id)
+    report.EDITING = true;
+  }
+
+  onAddReviewBlur(report_id:number){
+    setTimeout(()=>{
+      const report = this.reports.find(r => r.REPORT_ID === report_id);
+      report.EDITING = false;
+    }, 200);
+  }
+
+
+  async addReview(report_id:number){
+    const confirmSubmit = confirm('Are you sure you want to submit this review?');
+  
+    if (!confirmSubmit) {
+      return;
+    }
+    const report = this.reports.find(r => r.REPORT_ID === report_id);
+    let content = report.REVIEW_DATA.value.content;
+    let rating = report.REVIEW_DATA.value.rating;
+    const content_truth  = content != null;
+    const rating_truth  = rating != null;
+
+    console.log(report_id, " ", content_truth, " ", rating_truth);
+    if(!content){
+      report.REVIEW_ERROR = true;
+      console.log("hellp");
+      return;
+    }
+    if(!rating){
+      report.REVIEW_ERROR  = true;
+      console.log("hellp");
+      return;
+    }
+
+    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/review/new?&report_id=${encodeURIComponent(report_id)}&content=${encodeURIComponent(content)}&rating=${encodeURIComponent(rating)}`;
+
+    console.log(apiUrl);
+
+    const accessToken = await this.getAccessToken();
+    if (!accessToken) {
+      alert('Failed to retrieve access token. Please log in again.');
+      this.router.navigate(['/home'])
+      return;
+    }
+    //main function of HTTP POST
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+    this.http.post(apiUrl,{}, { headers }).subscribe({
+      next: (response: any) => {
+        console.log('Review submitted successfully', response);
+        alert('Review submitted successfully!');
+      },
+      error: (error: any) => {
+        console.error('Error submitting the report:', error);
+        alert('Failed to submit the report. Please try again.');
+      },
+    });
+
+    report.REVIEW_ERROR  = false;
+    report.REVIEW_DATA.reset()
+  }
+
+  cancelReview(report_id:number){
+    const confirmCancel = confirm('Are you sure you want to cancel?');
+  
+    if (!confirmCancel) {
+      return;
+    }
+    const report = this.reports.find(r => r.REPORT_ID === report_id);
+    let content = report.REVIEW_DATA.value.content;
+    let rating = report.REVIEW_DATA.value.rating;
+    console.log(report_id, " ", content, " ", rating);
+    report.REVIEW_ERROR  = false;
+    report.REVIEW_DATA.reset()
   }
 
   private checkRole(): void {
