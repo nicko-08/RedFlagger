@@ -369,4 +369,11 @@ export class PostReportsComponent {
   goBack(){
     this.router.navigate(['/information'], { queryParams: { input: this.userInputUrl } });
   }
+
+  getLinkAndRouteReport():void{
+    if(!this.isLoggedIn){
+      return;
+    }
+    this.router.navigate(['/report'], { queryParams: { link: this.userInputUrl } });
+  }
 }

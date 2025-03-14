@@ -1,10 +1,23 @@
 <main class="flex flex-col items-center justify-start w-full min-h-screen bg-gray-100 p-6">
   <div class="flex flex-1 flex-col w-full md:w-4/5 sm:w-5/5 lg:w-3/5 p-6 shadow-lg rounded-lg flex-grow bg-red-800">
-    <button 
+    
+    <div class="flex flex-row w-full gap-6 justify-between">
+      <button 
       class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center"
       (click)="goBack()">
         Back To Post
-    </button>
+      </button>
+      <button [disabled]="!isLoggedIn || !userInputUrl" (click)="getLinkAndRouteReport()" class="bg-yellow-500 text-white w-full sm:w-auto px-6 py-3 text-2xl rounded-lg 
+                      hover:bg-yellow-500 hover:scale-102 transition-all duration-300 
+                      font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center disabled:bg-gray-400">
+            @if (isLoggedIn) {
+              Report
+            }@else {
+              Login To Report
+            }
+      </button>
+    </div>
+
     <h2 class="px-5 text-5xl font-bold text-yellow-500 mb-4 text-center" style="font-family: 'Jua', sans-serif;">
       REPORTS
     </h2>

@@ -25,11 +25,20 @@
                   justify-center sm:justify-between gap-4 text-red-500" style="font-family: 'Jua', sans-serif;">
         <span class="text-5xl font-semibold">{{threatLevel?.toFixed(1)}}/10
         </span>
-        @if(threatLevel == null){🏴}
-        @else if (threatLevel <= 1) { 🚩 } @else if (threatLevel <=3) { 🚩🚩 } @else if (threatLevel <=5) { 🚩🚩🚩 }
-          @else if (threatLevel <=7) { 🚩🚩🚩🚩 } @else { 🚩🚩🚩🚩🚩 } <div
-          class="px-5 text-5xl flex space-x-1 text-yellow-500">
-      </div>
+        
+        @if(threatLevel == null || threatLevel == 0){🏴}
+        @else if (threatLevel <= 1) {🚩🏴🏴🏴🏴🏴🏴🏴🏴🏴}
+        @else if (threatLevel <= 2) {🚩🚩🏴🏴🏴🏴🏴🏴🏴🏴}
+        @else if (threatLevel <= 3) {🚩🚩🚩🏴🏴🏴🏴🏴🏴🏴}
+        @else if (threatLevel <= 4) {🚩🚩🚩🚩🏴🏴🏴🏴🏴🏴}
+        @else if (threatLevel <= 5) {🚩🚩🚩🚩🚩🏴🏴🏴🏴🏴}
+        @else if (threatLevel <= 6) {🚩🚩🚩🚩🚩🚩🏴🏴🏴🏴}
+        @else if (threatLevel <= 7) {🚩🚩🚩🚩🚩🚩🚩🏴🏴🏴}
+        @else if (threatLevel <= 8) {🚩🚩🚩🚩🚩🚩🚩🚩🏴🏴} 
+        @else if (threatLevel <= 9) {🚩🚩🚩🚩🚩🚩🚩🚩🚩🏴}
+        @else if (threatLevel <= 10){🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩} 
+        <div class="px-5 text-5xl flex space-x-1 text-yellow-500">
+        </div>
       <button [disabled]="!isLoggedIn || !userInputUrl" (click)="getLinkAndRouteReport()" class="bg-yellow-500 text-white w-full sm:w-auto px-6 py-3 text-2xl rounded-lg 
                     hover:bg-yellow-500 hover:scale-102 transition-all duration-300 
                     font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[150px] text-center disabled:bg-gray-400">
@@ -73,7 +82,7 @@
       </div>
       <div
         class="w-full md:w-1/2 md:h-[600px] flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg overflow-hidden">
-        <iframe [src]="fbEmbedUrl" class="w-full h-full flex-grow md:px-10" style="border: none;" scrolling="no"
+        <iframe [src]="fbEmbedUrl" class="lg:w-full h-full flex-grow md:px-10" style="border: none;" scrolling="no"
           frameborder="0" allowfullscreen="true"
           allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
         </iframe>
