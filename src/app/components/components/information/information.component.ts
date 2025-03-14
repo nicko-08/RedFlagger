@@ -89,6 +89,9 @@ async ngOnInit(): Promise<void> {
 
   
   getLinkAndRouteReport():void{
+    if(!this.isLoggedIn){
+      return;
+    }
     this.router.navigate(['/report'], { queryParams: { link: this.userInputUrl } });
   }
 

@@ -366,5 +366,7 @@ export class PostReportsComponent {
     });
   }
 
-
+  goBack(){
+    this.router.navigate(['/information'], { queryParams: { input: this.userInputUrl } });
+  }
 }
