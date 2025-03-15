@@ -99,13 +99,13 @@
           
           <div class="flex flex-row gap-6" *ngIf="report.EDITING">
             <button 
-            class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center"
+            class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-sm rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center"
             (click)="addReview(report.REPORT_ID)">
               Add Review
             </button>
             <button
             (click)="cancelReview(report.REPORT_ID)"
-            class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center">
+            class="bg-red-500 text-white w-full sm:w-auto px-6 py-3 text-sm rounded-lg hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[100px] text-center">
               Cancel
             </button>   
           </div>
@@ -116,9 +116,9 @@
       <br>
       <div>
         <h2>
-          Reviews
+          View Reviews
         </h2>
-        <button (click)="viewReviews(report.REPORT_ID)">
+        <button class="bg-red-500 text-white w-full sm:w-auto px-5 py-3 text-sm rounded-xl hover:bg-yellow-400 hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center min-w-[500] text-center" (click)="viewReviews(report.REPORT_ID)">
           @if(report.VIEWING_REVIEW){
             <!--Pabago nalang to icons-->
             ^

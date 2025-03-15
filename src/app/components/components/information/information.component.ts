@@ -21,6 +21,7 @@ throw new Error('Method not implemented.');
 isLoggedIn = false;
 isModerator = true;
 userInputUrl: string | null = null;
+pageLink: string | null = null;
 postContent: string | null = null;
 reportTotal: number | null = null;
 fbEmbedUrl: SafeResourceUrl | null = null;
@@ -65,6 +66,8 @@ async ngOnInit(): Promise<void> {
       this.checkRole();
       this.route.queryParams.subscribe((params) => {
         this.userInputUrl = params['input'];
+        
+
         if(this.userInputUrl){
           this.callApi(this.userInputUrl);
           this.getPostContent(this.userInputUrl);
@@ -97,7 +100,7 @@ async ngOnInit(): Promise<void> {
 
   goToReports():void{
     console.log("hello");
-    this.router.navigate(['/post-reports'], {queryParams: {userInputUrl: this.userInputUrl}});
+    this.router.navigate(['/post-reports'], {queryParams: {input: this.userInputUrl}});
   }
   
 

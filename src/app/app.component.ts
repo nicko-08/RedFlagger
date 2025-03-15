@@ -17,6 +17,7 @@ import { CheckEmailComponent } from './components/components/check-email/check-e
 export class AppComponent implements OnInit{
   title = 'Redflagger';
   authService = inject(AuthService)
+  
   ngOnInit(): void{
     this.authService.supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {

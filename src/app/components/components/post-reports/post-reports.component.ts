@@ -42,13 +42,15 @@ export class PostReportsComponent {
     const session =  await this.authService.getSession();
     this.isLoggedIn = !!session;
     this.checkRole();
-
+    this.route.queryParams.subscribe((params) => {
+    this.userInputUrl = params['input'];
     if(this.userInputUrl){
       this.getReports(this.userInputUrl);
     }
     console.log(this.isLoggedIn);
     console.log("cock", this.userInputUrl);
-  }
+  })
+}
 
   async getAccessToken(): Promise<string | null> {
     const session = await this.authService.getSession();

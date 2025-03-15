@@ -98,9 +98,11 @@ export class ReportComponent {
         next: (response: any) => {
           console.log('Report submitted successfully', response);
           alert('Report submitted successfully!');
+          this.userLink = this.reportForm.get('pageLink')?.value;
           this.reportForm.reset();
           this.images = [];
           this.previewUrls = [];
+          this.router.navigate(['information'], { queryParams: { input: this.userLink } });
         },
         error: (error: any) => {
           console.error('Error submitting the report:', error);
@@ -114,5 +116,9 @@ export class ReportComponent {
   private async getAccessToken(): Promise<string | null> {
     const session = await this.authService.getSession();
     return session?.access_token || null;
+  }
+
+  prevPage(): void {
+    this.router.navigate(['post-reports'], { queryParams: { input: this.userLink } });
   }
 }

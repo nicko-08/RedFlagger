@@ -29,14 +29,19 @@ export class HeaderComponent implements OnInit {
 
  async ngOnInit() {
   // Check if the user is logged in when the component initializes
+ 
   const session = await this.authService.getSession();
-
+  
   this.isLoggedIn = !!session; // Set isLoggedIn to true if a session exists
   }
 
   async logoutUser() {
     await this.authService.logout();
+    
     this.isLoggedIn = false; // Update the login status
+    setTimeout(() => {
+      window.location.reload(); 
+  }, 500) // Reload the page to reflect the updated login status
   }
 
   searchAction(): void{
