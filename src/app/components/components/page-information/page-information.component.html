@@ -93,11 +93,11 @@
             <!-- Facebook post embedded using iframe -->
             
       
-            <div class="mt-4 text-3xl text-red-600 text-center">
+            <div (click)="gotoInfo(post.POST_URL)" class="mt-4 text-3xl text-red-600 text-center">
               <p style="font-family: 'Noto Sans', sans-serif;">{{ post.POST_CONTENT }}</p>
               <p style="font-family: 'Noto Sans', sans-serif;">{{ post.TOTAL_REPORTS }} Reports</p>
               <p style="font-family: 'Noto Sans', sans-serif;">
-                <span class="text-red-600 font-bold">{{postLevels[post.POST_ID].toFixed(1)}}/5</span> 🚩
+                <span class="text-red-600 font-bold">{{ postLevels[post.POST_ID]?.toFixed(1) ?? '0.0' }}/5</span> 🚩
               </p>
             </div>
             
