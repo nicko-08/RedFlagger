@@ -1,6 +1,6 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=helvetica&display=swap" rel="stylesheet">
 </head>
 <main class="flex flex-col items-center justify-start w-full min-h-screen bg-gray-100 p-6">
   <div
@@ -16,13 +16,13 @@
             [attr.fill]="threatHex" />
         </svg>
       </div>
-      <h2 class="text-4xl font-bold text-red-600 mb-4 px-5" style="font-family: 'Jua', sans-serif;">
+      <h2 class="text-4xl font-bold text-red-600 mb-4 px-5" style="font-family: 'helvetica', sans-serif;">
         {{threatColor}}
       </h2>
     </div>
     <div class="w-full md:w-3/4 flex flex-col gap-4 flex-grow">
       <div class="w-full bg-gray-200 shadow-lg rounded-lg p-4 flex flex-wrap items-center 
-                  justify-center sm:justify-between gap-4 text-red-500" style="font-family: 'Jua', sans-serif;">
+                  justify-center sm:justify-between gap-4 text-red-500" style="font-family: 'helvetica', sans-serif;">
         <span class="text-5xl font-semibold">{{threatLevel?.toFixed(1)}}/10
         </span>
         
@@ -54,7 +54,7 @@
       <div
         class="w-full md:w-1/2 h-auto md:h-[600px] bg-gray-200 flex flex-col items-center justify-center p-6 mr-4 rounded-lg  mb-3">
         <h2 class="text-4xl md:text-5xl font-bold text-yellow-500 mb-4 text-center"
-          style="font-family: 'Jua', sans-serif;">
+          style="font-family: 'helvetica', sans-serif;">
           Post Content
         </h2>
         <p class="text-black text-lg md:h-[600px] mt-3 md:text-xl text-justify leading-relaxed w-full overflow-auto"
@@ -98,7 +98,7 @@
   <div #stats class="flex lg:flex-row md:flex-col sm:flex-col gap-10 md:w-4/5 sm:w-5/5 lg:w-4/5">
     <!--Dashboad -->
     <div class="flex flex-col basis-1/4 w-full bg-red-800 p-6 shadow-lg rounded-lg mb-6">
-      <h2 class="text-5xl font-bold text-center text-yellow-500 mb-4 px-5" style="font-family: 'Jua', sans-serif;">
+      <h2 class="text-5xl font-bold text-center text-yellow-500 mb-4 px-5" style="font-family: 'helvetica', sans-serif;">
         Statistics</h2>
 
       <div class="flex flex-col flex-grow gap-6 w-full">
@@ -107,32 +107,32 @@
           <!-- Total Reports Card -->
           <div
             class="flex-1 flex flex-col justify-center items-center hover:bg-yellow-500 hover:shadow-md hover:scale-105 transition-all duration-300 p-4 rounded-lg bg-gray-200 w-full">
-            <p class="text-3xl text-red-600 text-center" style="font-family: 'Jua', sans-serif;">Total Reports</p>
+            <p class="text-3xl text-red-600 text-center" style="font-family: 'Noto', sans-serif;">Total Reports</p>
             <span class="text-7xl font-bold text-red-600 mt-2 text-center"
-              style="font-family: 'Jua', sans-serif;">{{reportTotal}}</span>
+              style="font-family: 'helvetica', sans-serif;">{{reportTotal}}</span>
           </div>
 
           <!-- Peak Daily Reports Card -->
           <div
             class="flex-1 flex flex-col justify-center items-center hover:bg-yellow-500 hover:shadow-md hover:scale-105 transition-all duration-300 p-4 rounded-lg bg-gray-200 w-full">
-            <p class="text-3xl text-red-600 text-center" style="font-family: 'Jua', sans-serif;">Peak Daily Reports</p>
+            <p class="text-3xl text-red-600 text-center" style="font-family: 'helvetica', sans-serif;">Peak Daily Reports</p>
             <span class="text-7xl font-bold text-red-600 mt-2 text-center"
-              style="font-family: 'Jua', sans-serif;">{{peakReport}}</span>
+              style="font-family: 'helvetica', sans-serif;">{{peakReport}}</span>
           </div>
 
           <!-- Average Daily Reports Card -->
           <div
             class="flex-1 flex flex-col justify-center items-center hover:bg-yellow-500 hover:shadow-md hover:scale-105 transition-all duration-300 p-4 rounded-lg bg-gray-200 w-full">
-            <p class="text-3xl text-red-600 text-center" style="font-family: 'Jua', sans-serif;">Average Daily Reports
+            <p class="text-3xl text-red-600 text-center" style="font-family: 'helvetica', sans-serif;">Average Daily Reports
             </p>
             <span class="text-7xl font-bold text-red-600 mt-2 text-center"
-              style="font-family: 'Jua', sans-serif;">{{averagePostCount}}</span>
+              style="font-family: 'helvetica', sans-serif;">{{averagePostCount}}</span>
           </div>
         </div>
       </div>
     </div>
     <div class="flex flex-col basis-3/4 w-full bg-red-800 p-6 shadow-lg rounded-lg mb-6">
-      <h2 class="text-5xl font-bold text-center text-yellow-500 mb-4 px-5" style="font-family: 'Jua', sans-serif;">
+      <h2 class="text-5xl font-bold text-center text-yellow-500 mb-4 px-5" style="font-family: 'helvetica', sans-serif;">
         Charts</h2>
 
       <div class="flex flex-col flex-grow gap-6">
