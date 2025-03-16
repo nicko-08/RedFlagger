@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
     this.isLoggedIn = false; // Update the login status
     setTimeout(() => {
       window.location.reload(); 
-  }, 500) // Reload the page to reflect the updated login status
+  }, 1000) // Reload the page to reflect the updated login status
   }
 
   searchAction(): void{

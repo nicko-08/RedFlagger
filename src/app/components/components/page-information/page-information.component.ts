@@ -1,7 +1,7 @@
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Chart, registerables } from 'chart.js';
 import { CommonModule } from '@angular/common';
@@ -25,6 +25,10 @@ threatColor: string | null = null;
 threatHex: string | null = null;
 posts: any[] = [];
 postLevels: { [postId: number]: number } = {};
+safePostUrl: SafeResourceUrl  | null = null;
+
+router = inject(Router);
+sanitizer = inject(DomSanitizer);
 //chart
 @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
 @ViewChild('chartCanvas2') chartCanvas2!: ElementRef<HTMLCanvasElement>;
@@ -39,7 +43,7 @@ postLevels: { [postId: number]: number } = {};
     Chart.register(...registerables);
   }
 
-sanitizer = inject(DomSanitizer);
+
 http = inject(HttpClient);
 route = inject(ActivatedRoute);
 
@@ -288,6 +292,9 @@ route = inject(ActivatedRoute);
           console.error(`Error fetching details for ${postUrl}:`, error);
         }
       );
+  }
+  gotoInfo(postUrl: string): void {
+      this.router.navigate(['/information'], { queryParams: { input: postUrl } });
   }
 
   ///route to post-reports-reviews///
