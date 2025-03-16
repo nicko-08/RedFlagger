@@ -7,6 +7,7 @@ import { SharedService } from '../../../shared.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '../../../auth.service';
 import { Chart, ChartConfiguration, registerables  } from 'chart.js';
+import { flush } from '@angular/core/testing';
 @Component({
   selector: 'app-information',
   standalone: true, 
@@ -20,6 +21,7 @@ throw new Error('Method not implemented.');
 }
 isLoggedIn = false;
 isModerator = true;
+isLoading = true;
 userInputUrl: string | null = null;
 pageLink: string | null = null;
 postContent: string | null = "Loading...";
@@ -66,8 +68,6 @@ async ngOnInit(): Promise<void> {
       this.checkRole();
       this.route.queryParams.subscribe((params) => {
         this.userInputUrl = params['input'];
-        
-
         if(this.userInputUrl){
           this.callApi(this.userInputUrl);
           this.getPostContent(this.userInputUrl);
@@ -116,10 +116,12 @@ async ngOnInit(): Promise<void> {
     this.http.get<{ POST_CONTENT: string }>(apiUrl).subscribe({
       next: (response) => {
         this.postContent = response.POST_CONTENT || 'No content available for this post'; // Extract post_content from API response
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
         this.postContent = 'Failed to fetch post content. Please try again.';
+        this.isLoading = false;
       }
     });
     
