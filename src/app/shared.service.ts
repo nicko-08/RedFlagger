@@ -31,7 +31,7 @@ export class SharedService {
 
     if(this.postPattern.test(userInputUrl)){
       this.router.navigate(['/information'], { queryParams: { input: userInputUrl } });
-    }else if(this.postPattern.test(userInputUrl)){
+    }else if(this.pagePattern.test(userInputUrl)){
       this.router.navigate(['/page-information'], { queryParams: { input: userInputUrl } });
     }else{
       alert('Invalid Facebook URL');

@@ -139,10 +139,8 @@
 
       <br>
       <div>
-        <h2>
-          View Reviews
-        </h2>
-        <button class="bg-red-800 text-white w-full sm:w-auto px-5 py-3 text-sm rounded-xl 
+        
+        <button class="bg-red-800 text-white w-full sm:w-auto px-3 py-2 text-sm rounded-xl 
                      hover:scale-103 transition-all duration-300 font-bold flex-shrink-0 
                      whitespace-nowrap self-center min-w-[500] text-center mt-2" 
                     (click)="viewReviews(report.REPORT_ID)">
@@ -156,21 +154,25 @@
         </button>
         
         @if(report.VIEWING_REVIEW){
-          <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-4">
             @for (review of report.REVIEWS; track $index) {
-              <div>
-                <h1>
-                  {{review.USERNAME}}
-                </h1>
-                <p>
-                  {{review.REVIEW_CONTENT}}
-                </p>
-                <p>
-                  rating: {{review.RATING}}
-                </p>
+              <div class="flex gap-4 p-4 bg-gray-100 light:bg-gray-800 rounded-lg shadow-sm">
+          
+                <!-- Comment Content -->
+                <div>
+                  <h2 class="text-sm font-semibold text-gray-800 light:text-white">
+                    {{review.USERNAME}}
+                  </h2>
+                  <p class="text-sm text-gray-600 light:text-gray-300">
+                    {{review.REVIEW_CONTENT}}
+                  </p>
+                  <p class="text-xs text-gray-500 light:text-gray-400 mt-1">
+                    ⭐ {{review.RATING}}
+                  </p>
+                </div>
               </div>
             }
-          </div>  
+          </div>
         }
 
       </div>
