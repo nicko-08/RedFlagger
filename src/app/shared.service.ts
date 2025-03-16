@@ -30,13 +30,31 @@ export class SharedService {
     }
 
     if(this.postPattern.test(userInputUrl)){
-      this.router.navigate(['/information'], { queryParams: { input: userInputUrl } });
-    }else if(this.pagePattern.test(userInputUrl)){
-      this.router.navigate(['/page-information'], { queryParams: { input: userInputUrl } });
+      console.log(this.getCleanLink(userInputUrl));
+      let clean_link = this.getCleanLink(userInputUrl);
+      this.router.navigate(['/information'], { queryParams: { input: clean_link } });
+    }else if(this.postPattern.test(userInputUrl)){
+      console.log(this.getCleanLink(userInputUrl));
+      let clean_link = this.getCleanLink(userInputUrl);
+      this.router.navigate(['/page-information'], { queryParams: { input: clean_link } });
     }else{
       alert('Invalid Facebook URL');
       this.router.navigate(['/home']); 
     }
+  }
+
+  private getCleanLink(userInputUrl: string){
+    if(this.postPattern.test(userInputUrl)){
+      let post = this.getFacebookPostId(userInputUrl);
+      console.log(post);
+      let clean_link = "https:\/\/facebook.com\/" + post["pageId"] + "\/posts\/" + post["postId"]
+      return clean_link
+    }else if(this.postPattern.test(userInputUrl)){
+      let page = this.getFacebookPageId(userInputUrl);
+      let clean_link = "https:\/\/facebook.com\/" + page
+      return clean_link
+    }
+    return;
   }
 
   private getFacebookPostId(url: string): { postId: string; pageId: string; type: string } {
