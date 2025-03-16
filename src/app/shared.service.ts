@@ -33,7 +33,7 @@ export class SharedService {
       console.log(this.getCleanLink(userInputUrl));
       let clean_link = this.getCleanLink(userInputUrl);
       this.router.navigate(['/information'], { queryParams: { input: clean_link } });
-    }else if(this.postPattern.test(userInputUrl)){
+    }else if(this.pagePattern.test(userInputUrl)){
       console.log(this.getCleanLink(userInputUrl));
       let clean_link = this.getCleanLink(userInputUrl);
       this.router.navigate(['/page-information'], { queryParams: { input: clean_link } });
@@ -49,7 +49,7 @@ export class SharedService {
       console.log(post);
       let clean_link = "https:\/\/facebook.com\/" + post["pageId"] + "\/posts\/" + post["postId"]
       return clean_link
-    }else if(this.postPattern.test(userInputUrl)){
+    }else if(this.pagePattern.test(userInputUrl)){
       let page = this.getFacebookPageId(userInputUrl);
       let clean_link = "https:\/\/facebook.com\/" + page
       return clean_link
