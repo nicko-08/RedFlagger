@@ -1,7 +1,7 @@
 <main class="flex flex-col items-center justify-start w-full min-h-screen bg-gray-200 p-6">
 
     <div class="flex flex-1 flex-col w-full md:w-4/5 sm:w-5/5 lg:w-4/5 mx-auto bg-red-800 rounded-lg p-6">
-      <link href="https://fonts.googleapis.com/css2?family=Noto Sans&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
   
       <div class="flex flex-col sm:flex-row gap-6">
         <!-- Left Card -->
@@ -17,13 +17,16 @@
               allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
             </iframe>
           </div>
-          <h2 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-red-600 text-center mt-4"
-            style="font-family: 'Noto Sans', sans-serif;">
+          <h2 class="text-3xl drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl font-bold xl:text-7xl text-red-600 text-center mt-4"
+            style="font-family: 'Montserrat', sans-serif;">
             {{pageName}}
           </h2>
-          <div class="text-gray-600 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl py-4 sm:py-6 text-center">
-            <span class="text-red-600 font-bold"
-              style="font-family: 'Noto Sans', sans-serif;">{{threatLevel}}/10 🚩</span>
+          <div class="text-gray-600 text-2xl sm:text-md lg:text-md xl:text-md py-4 sm:py-6 text-center">
+            <span class="text-red-600 font-bold flex items-center flex-row justify-center"
+              style="font-family: 'Noto Sans', sans-serif;">
+              {{threatLevel}}/10&nbsp;<svg width="20px" height="20px" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M5 1C4.44772 1 4 1.44772 4 2V22C4 22.5523 4.44772 23 5 23C5.55228 23 6 22.5523 6 22V15.693L18.8542 10.8727C20.5846 10.2238 20.5846 7.77627 18.8542 7.12739L6 2.30705V2C6 1.44772 5.55228 1 5 1ZM6 4.44305V13.557L17.6526 9.18732C17.8256 9.12243 17.8256 8.87767 17.6526 8.81278L6 4.44305Z" fill="#d41225"/>
+                </svg></span>
           </div>
         </div>
   
@@ -60,7 +63,7 @@
       </div>
       
       <h3 class="text-5xl text-center font-bold text-yellow-500 px-3 mt-9 mb-5 hidden sm:block" 
-            style="font-family: 'Noto Sans', sans-serif;">OVERVIEW</h3>
+            style="font-family: 'Kanit', sans-serif;">OVERVIEW</h3>
       <!-- Overview Section -->
       <div class="mt-6 bg-yellow-500 rounded-lg p-4 shadow-2xl">
         
