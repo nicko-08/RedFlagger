@@ -2,13 +2,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-900 sm:p-4">
+<body class="flex flex-col items-center justify-center min-h-screen bg-white text-gray-900 sm:p-4">
     <div class="page-container w-full flex flex-col items-center justify-center">
         <section class="hero-banner relative w-full flex flex-col items-center justify-center text-center text-white 
-            bg-cover bg-center transition-all duration-500 ease-out hover:scale-105 hover:bg-[position:50%_40%]"
+            bg-cover bg-center transition-all duration-500 ease-out hover:scale-101 hover:bg-[position:50%_40%]"
             style="background-image: url('/aboutus_bg.png');">
             <div class="absolute inset-0 bg-black/30"></div>  
-            <div class="relative z-10 bg-white/10 backdrop-blur-md px-8 py-6 rounded-lg shadow-lg hover:bg-yellow-500">
+            <div class="relative z-10 bg-white/10 backdrop-blur-md px-8 py-6 rounded-lg shadow-lg border-1 mb-3 mt-3">
                 <h1 class="text-5xl font-extrabold">Legal Page</h1>
                 <p class="poppins-extralight-italic mt-4 text-2xl md:text-3xl italic">
                     Your questions, answered.
@@ -18,11 +18,13 @@
     </div>
     <div class="legal-container">
         <main class="flex flex-col items-center justify-center p-6 space-y-12 w-full">
-            <section class="faq-section">
+            <section class="faq-section bg-gradient-to-r from-gray-100 to-gray-200 
+            hover:from-gray-200 hover:to-gray-300 transition-all duration-300 
+              ease-in-out rounded-lg border-1">
                 <h2>Frequently Asked Questions</h2>
                 <div class="faq-item">
                     <h3>What is RedFlagger?</h3>
-                    <p>RedFlagger is a community-driven platform designed to detect, report, and prevent 
+                    <p class>RedFlagger is a community-driven platform designed to detect, report, and prevent 
                         online scams. We utilize crowdsourcing to verify scam reports and provide real-time 
                         updates on fraudulent activities.</p>
                 </div>
@@ -38,18 +40,24 @@
                         parties. All reports are anonymized to protect user identities.</p>
                 </div>
             </section>
-            <section class="legal-section">
-                <div class="legal-box">
+            <section class="legal-section ">
+                <div class="legal-box bg-white bg-gradient-to-r from-gray-100 to-gray-200 hover:from-yellow-300 
+                hover:to-yellow-400 border-1 p-6 shadow-md rounded-lg w-full sm:w-1/3 md:w-1/4 lg:w-1/4 
+                text-center hover:shadow-xl transform hover:scale-102 transition-all duration-200 ease-in-out">
                     <h3>Legal Services</h3>
                     <p>We offer resources and guidance on scam-related legal concerns, including how to 
                         report fraudulent activities to authorities.</p>
                 </div>
-                <div class="legal-box">
+                <div class="legal-box bg-white bg-gradient-to-r from-gray-100 to-gray-200 hover:from-yellow-300 
+                hover:to-yellow-400 border-1 p-6 shadow-md rounded-lg w-full sm:w-1/3 md:w-1/4 lg:w-1/4 
+                text-center hover:shadow-xl transform hover:scale-102 transition-all duration-200 ease-in-out">
                     <h3>Privacy Policy</h3>
                     <p>We respect your privacy and ensure that all user data is handled securely. Read our 
                         privacy policy to understand how we manage data.</p>
                 </div>
-                <div class="legal-box">
+                <div class="legal-box bg-white bg-gradient-to-r from-gray-100 to-gray-200 hover:from-yellow-300 
+                hover:to-yellow-400 border-1 p-6 shadow-md rounded-lg w-full sm:w-1/3 md:w-1/4 lg:w-1/4 
+                text-center hover:shadow-xl transform hover:scale-102 transition-all duration-200 ease-in-out">
                     <h3>Terms & Conditions</h3>
                     <p>By using RedFlagger, you agree to our terms and conditions, which outline user 
                         responsibilities and platform guidelines.</p>

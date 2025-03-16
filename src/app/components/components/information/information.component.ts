@@ -205,7 +205,10 @@ async ngOnInit(): Promise<void> {
         },
         plugins: {
           legend: { position: 'top' },
-          title: { display: true, text: 'Reports Over Time' },
+          title: { display: true, text: 'Frequent Reports',
+            font: { size: 25, weight: 'bold'},
+            color: 'black'
+           },
         },
       },
     });
@@ -219,7 +222,7 @@ async ngOnInit(): Promise<void> {
           {
             label: 'Total Reports',
             data: [], // Start with empty data
-            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
             borderColor: '#36a2eb',
             borderWidth: 1,
             fill: true,
@@ -236,7 +239,10 @@ async ngOnInit(): Promise<void> {
         },
         plugins: {
           legend: { position: 'top' },
-          title: { display: true, text: 'Reports Over Time' },
+          title: { display: true, text: 'Reports Over Time',
+            font: { size: 25, weight: 'bold'},
+            color: 'black'
+           },
         },
       },
     });

@@ -2,56 +2,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto Sans&display=swap" rel="stylesheet">
 </head>
-<div class="bg-red-800 flex flex-col md:flex-row justify-between items-center px-6 md:px-12 py-5 md:py-8">
+
+<div class="bg-red-800 w-full flex flex-col md:flex-row lg:flex-row xl:flex-row justify-between 
+            items-center px-3 md:px-3 py-1 md:py-24 lg:py-2 xl:py-1">
     <div class="flex items-center w-full justify-between md:w-auto">
-        <a routerLink="/home" class="flex items-center hover:scale-105 hover:saturate-200 transition-all duration-300 ease-in-out">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-15 text-white">
+        <a routerLink="/home" class="flex items-center hover:scale-102 hover:saturate-200 transition-all duration-300 ease-in-out">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke-width="1.5" 
+            stroke="currentColor" 
+            class="size-15 text-white">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
             </svg>
-            <span class="ml-3 text-white text-3xl sm:text-4xl md:text-5xl font-bold py-5 px-3" 
-            style="font-family: 'Noto Sans', sans-serif;">RedFlagger</span> 
+            <span class="ml-1 mb-2 text-white text-3xl sm:text-4xl md:text-5xl font-bold py-5 px-1 relative
+                        after:block after:h-[3px] after:w-0 after:bg-white after:rounded-lg after:absolute 
+                        after:left-0 after:bottom-1 after:transition-all after:duration-300 hover:after:w-full" 
+                style="font-family: 'Noto Sans', sans-serif;">RedFlagger</span> 
         </a>
-        <button (click)="isMenuOpen = !isMenuOpen" class="md:hidden text-white text-4xl transition-transform duration-300 ease-in-out"
-        [class.rotate-90]="isMenuOpen">
-            ☰
-        </button>
+            <!-- Burger Menu -->
+            <button (click)="isMenuOpen = !isMenuOpen"
+                    class="md:hidden relative w-7 h-5 flex flex-col justify-between items-center group">
+                <!-- Top Line -->
+                <span class="w-full h-[2px] bg-white rounded transition-all duration-400 ease-in-out
+                            group-hover:bg-black"
+                    [ngClass]="{ 'rotate-45 translate-y-[9px] bg-red-500': isMenuOpen }"></span>
+                <!-- Middle Line -->
+                <span class="w-full h-[2px] bg-white rounded transition-all duration-400 ease-in-out
+                            group-hover:bg-black"
+                    [ngClass]="{ 'opacity-0': isMenuOpen }"></span>
+                <!-- Bottom Line -->
+                <span class="w-full h-[2px] bg-white rounded transition-all duration-400 ease-in-out
+                            group-hover:bg-black"
+                    [ngClass]="{ '-rotate-45 -translate-y-[9px] bg-red-500': isMenuOpen }"></span>
+            </button>
     </div>
+
     <div class="relative w-full md:w-[500px] py-3 sm:px-4">
         <input  type="text" (keyup.enter)="searchAction()" [(ngModel)]="userInputUrl" placeholder=" "  
-            class="search-input w-full px-4 py-3 pl-8 bg-red-800 text-white border-4 border-gray-100 rounded-full focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all duration-300">
-                <a routerLink="/information" [queryParams]="{input: userInputUrl}" class="absolute right-1 top-0 bg-white text-white" (click)="searchAction()">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-7 top-5 h-10 w-10 text-white" viewBox="0 0 20 20" fill="currentColor">
+            class="search-input w-full px-4 py-2 pr-10 pl-8 bg-white text-black border-1 border-gray-100 
+            rounded-full focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all duration-300">
+
+            <a routerLink="/information" [queryParams]="{input: userInputUrl}" 
+                class="absolute right-1 top-0 bg-white text-white" 
+                (click)="searchAction()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-3 top-5 h-7 w-10 text-black" viewBox="0 0 20 22" fill="currentColor">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 0 1 2.45 7.15l3.1 3.1a1 1 0 0 1-1.4 1.4l-3.1-3.1A4 4 0 1 1 8 4zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" clip-rule="evenodd"/>
                     </svg>
                 </a>
             </div>
 
             <nav *ngIf="!isMenuOpen && !isLoggedIn" class="hidden md:flex flex-wrap items-center gap-4 w-full md:w-auto"> 
-                <a routerLink="/sign-in" class="ml-5 px-3 md:px-9 py-2 bg-yellow-500 text-lg md:text-2xl text-white hover:bg-yellow-600 rounded-xl transition-transform hover:scale-105 flex items-center" style="font-family: 'Noto Sans', sans-serif;">
+
+                <a routerLink="/sign-in" 
+                    class="ml-5 px-3 md:px-9 py-2 bg-white p-4 bg-gradient-to-r from-gray-200 to-gray-300 
+                          hover:from-yellow-200 hover:to-yellow-400 transition-all duration-300 ease-in-out rounded-lg 
+                          text-lg md:text-1xl text-black hover:bg-yellow-600 hover:scale-102 border-1 border-black 
+                          flex items-center" 
+                style="font-family: 'Noto Sans', sans-serif;">
                     Login
                 </a>
-                <a routerLink="/signup" class="ml-5 px-6 py-2 bg-yellow-500 rounded-xl text-lg md:text-2xl text-white hover:bg-yellow-600 transition-transform hover:scale-105 flex items-center whitespace-nowrap" style="font-family: 'Noto Sans', sans-serif;">
+
+                <a routerLink="/signup" 
+                    class="ml-5 px-3 md:px-6 py-2 bg-white p-4 bg-gradient-to-r from-gray-200 to-gray-300 
+                          hover:from-yellow-200 hover:to-yellow-400 transition-all duration-300 ease-in-out rounded-lg 
+                          text-lg md:text-1xl text-black hover:bg-yellow-600 hover:scale-102 border-1 border-black 
+                          flex items-center" 
+                 style="font-family: 'Noto Sans', sans-serif;">
                     Sign Up
                 </a>
             </nav>
         
             <nav *ngIf="isLoggedIn" class="hidden md:flex flex-wrap items-center gap-4 w-full md:w-auto">
-                <a (click)="logoutUser()" class="px-6 mr-37 md:px-11 py-2 text-lg md:text-2xl text-white bg-yellow-500 rounded-xl hover:bg-yellow-600 transition-transform hover:scale-105 flex items-center cursor-pointer" style="font-family: 'Noto Sans', sans-serif;">
+                <a (click)="logoutUser()" 
+                    class="px-6 mr-37 md:px-11 py-2 text-lg md:text-1xl cursor-pointer ml-5 bg-white p-4 
+                           bg-gradient-to-r from-gray-200 to-gray-300 hover:from-yellow-200 hover:to-yellow-400 
+                           transition-all duration-300 ease-in-out rounded-lg text-black hover:bg-yellow-600  
+                           hover:scale-102 border-1 border-black flex items-center" 
+                style="font-family: 'Noto Sans', sans-serif;">
                     Logout
                 </a>
             </nav>
         
             <nav *ngIf="isMenuOpen" class="md:hidden flex flex-col items-center space-y-2 w-full mt-3"> 
                 <ng-container *ngIf="!isLoggedIn">
-                    <a routerLink="/sign-in" class="px-18 py-2 bg-yellow-500 text-2xl text-white hover:bg-yellow-600 rounded-xl transition-transform hover:scale-105 flex items-center" style="font-family: 'Noto Sans', sans-serif;">
+                    <a routerLink="/sign-in" 
+                    class="px-20 py-2 ml-5 md:px-9 bg-white p-4 bg-gradient-to-r from-gray-200 to-gray-300 
+                          hover:from-yellow-200 hover:to-yellow-400 transition-all duration-300 ease-in-out rounded-lg 
+                           text-lg md:text-1xl text-black hover:scale-102 border-1 border-black 
+                          flex items-center" 
+                    style="font-family: 'Noto Sans', sans-serif;">
                         Login
                     </a>
-                    <a routerLink="/signup" class="px-15 py-2 bg-yellow-500 rounded-xl text-2xl text-white hover:bg-yellow-600 transition-transform hover:scale-105 flex items-center" style="font-family: 'Noto Sans', sans-serif;">
+                    <a routerLink="/signup" 
+                    class="px-18 py-2 ml-5 mb-2 md:px-9  bg-white p-4 bg-gradient-to-r from-gray-200 to-gray-300 
+                          hover:from-yellow-200 hover:to-yellow-400 transition-all duration-300 ease-in-out rounded-lg 
+                          text-lg md:text-1xl text-black hover:scale-102 border-1 border-black 
+                          flex items-center" 
+                     style="font-family: 'Noto Sans', sans-serif;">
                         Sign Up
                     </a>
                 </ng-container>
             
-                <a *ngIf="isLoggedIn" (click)="logoutUser()" class="px-6 py-2 text-xl text-white bg-yellow-500 rounded-xl hover:bg-yellow-600 transition-transform hover:scale-105 flex items-center cursor-pointer" style="font-family: 'Noto Sans', sans-serif;">
+                <a *ngIf="isLoggedIn" (click)="logoutUser()" 
+                    class="px-6 cursor-pointer ml-5 md:px-9 py-2 bg-white p-4 bg-gradient-to-r from-gray-200 to-gray-300 
+                          hover:from-yellow-200 hover:to-yellow-400 transition-all duration-300 ease-in-out rounded-lg 
+                          text-lg md:text-1xl text-black hover:scale-102 border-1 border-black 
+                          flex items-center mb-2" 
+                style="font-family: 'Noto Sans', sans-serif;">
                     Logout
                 </a>
             </nav>

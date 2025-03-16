@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Chart, registerables } from 'chart.js';
 import { CommonModule } from '@angular/common';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-page-information',
   imports: [CommonModule],
@@ -32,10 +32,12 @@ postLevels: { [postId: number]: number } = {};
   chart!: Chart;
   chart2!: Chart;
   
-constructor() {
-  // Register all required components for Chart.js
-  Chart.register(...registerables);
-}
+  constructor(
+    private router: Router, /// For routing to post-report-reviews///
+  ) {
+    // Register all required components for Chart.js
+    Chart.register(...registerables);
+  }
 
 sanitizer = inject(DomSanitizer);
 http = inject(HttpClient);
@@ -95,8 +97,13 @@ route = inject(ActivatedRoute);
           },
         },
         plugins: {
-          legend: { position: 'top' },
-          title: { display: true, text: 'Frequent Reports' },
+          legend: { position: 'top',
+            labels: { color: 'black', font: { size: 15 } }
+           },
+          title: { display: true, text: 'Frequent Reports',
+            font: { size: 25, weight: 'bold'},
+            color: 'black'
+           },
         },
       },
     });
@@ -126,8 +133,14 @@ route = inject(ActivatedRoute);
           },
         },
         plugins: {
-          legend: { position: 'top' },
-          title: { display: true, text: 'Reports Over Time' },
+          legend: { position: 'top',
+          labels: { color: 'black', font: {size: 15} }
+           },
+          title: { display: true, 
+            text: 'Reports Over Time',
+            font: { size: 22, weight: 'bold' },
+            color: 'black'
+          },
         },
       },
     });
@@ -276,4 +289,10 @@ route = inject(ActivatedRoute);
         }
       );
   }
+
+  ///route to post-reports-reviews///
+  navigateToPostReportReviews(): void {
+    this.router.navigate(['/post-report-reviews'], { queryParams: { input: this.userInputUrl } });
+  }
+  
 }
