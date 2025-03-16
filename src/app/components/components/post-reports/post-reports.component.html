@@ -16,7 +16,8 @@
         [disabled]="!isLoggedIn || !userInputUrl" 
         class="bg-red-800 text-white px-6 py-3 rounded-lg 
                hover:scale-102 transition-all duration-300 font-bold 
-               w-full xs:w-auto sm:w-auto text-center disabled:bg-gray-400 mb-4">
+               w-full xs:w-auto sm:w-auto text-center disabled:bg-gray-400 mb-4"
+               (click)="getLinkAndRouteReport()">
           @if (isLoggedIn) { Report } @else { Login To Report }
       </button>
     </div>
