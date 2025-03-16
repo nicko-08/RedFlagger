@@ -21,7 +21,7 @@ export class SharedService {
       return;
     }
 
-    if (userInputUrl.includes('/posts') || userInputUrl.includes('/permalink')) {
+    if (userInputUrl.includes('/posts')) {
       this.router.navigate(['/information'], { queryParams: { input: userInputUrl } }); // goes to post info
     } else if (userInputUrl.includes('facebook.com')) {
       this.router.navigate(['/page-information'], { queryParams: { input: userInputUrl } }); // goes to page info
