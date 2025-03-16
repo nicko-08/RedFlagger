@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Chart, registerables } from 'chart.js';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 @Component({
   selector: 'app-page-information',
   imports: [CommonModule],
@@ -37,7 +36,6 @@ sanitizer = inject(DomSanitizer);
   chart2!: Chart;
   
   constructor(
-    private router: Router, /// For routing to post-report-reviews///
   ) {
     // Register all required components for Chart.js
     Chart.register(...registerables);
