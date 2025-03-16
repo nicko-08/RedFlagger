@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-post-reports-reviews',
@@ -10,7 +11,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './post-reports-reviews.component.css'
 })
 export class PostReportsReviewsComponent {
-
+  safePostUrl: SafeResourceUrl | null = null;
+  sanitizer = inject(DomSanitizer);
   posts: any[] = [];
   postLevels: { [postId: number]: number } = {};
 
@@ -55,5 +57,9 @@ export class PostReportsReviewsComponent {
         }
       );
   }
+
+  gotoInfo(postUrl: string): void {
+    this.router.navigate(['/information'], { queryParams: { input: postUrl } });
+}
 }
 
