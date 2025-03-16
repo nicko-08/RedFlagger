@@ -36,14 +36,18 @@ export class HeaderComponent implements OnInit {
   }
 
   async logoutUser() {
-    await this.authService.logout();
-    
-    this.isLoggedIn = false; // Update the login status
+    this.logout().then(() => {
+      this.isLoggedIn = false; // Update the login status
     setTimeout(() => {
       window.location.reload(); 
   }, 500) // Reload the page to reflect the updated login status
+    });
+    
   }
 
+  async logout(): Promise<void>{
+    await this.authService.supabase.auth.signOut();
+  }
   searchAction(): void{
   console.log('searching...');
   console.log('Search action triggered with input:', this.userInputUrl);
