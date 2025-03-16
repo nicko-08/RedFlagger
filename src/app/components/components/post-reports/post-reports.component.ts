@@ -368,6 +368,8 @@ export class PostReportsComponent {
     });
   }
 
+
+
   goBack(){
     this.router.navigate(['/information'], { queryParams: { input: this.userInputUrl } });
   }
@@ -378,4 +380,6 @@ export class PostReportsComponent {
     }
     this.router.navigate(['/report'], { queryParams: { link: this.userInputUrl } });
   }
+
+  
 }

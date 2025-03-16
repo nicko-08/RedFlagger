@@ -9,11 +9,14 @@
         <source src="/redflag.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
-      <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/50 to-transparent bg-white/20"></div>
-      <h1 class="relative text-5xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-center text-white mb-4" style="font-family: 'Poppins', sans-serif;">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/80 via-transparent to-black/50">
+        </div>
+      <h1 class="relative text-5xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-center text-white tracking-wide"
+          style="font-family: 'Noto Sans', sans-serif;">
         Crowdsourced Facebook
       </h1>
-      <h2 class="relative p-2 text-5xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold text-center text-white mb-6" style="font-family: 'Poppins', sans-serif;">
+      <h2 class="relative text-5xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-center text-white tracking-wide mb-5" 
+          style="font-family: 'Noto Sans', sans-serif;">
         Scam Detector
       </h2>
       <input 
@@ -22,20 +25,27 @@
         [(ngModel)]="userInputUrl"
         placeholder="Paste link here"
         id="linkInput" 
-        class="relative bg-white w-full sm:w-3/4 md:w-2/3 lg:w-1/2 p-4 border-3 border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 mb-6"style="font-family: Lato"/>
+        class="relative bg-white w-full sm:w-3/4 md:w-2/3 lg:w-1/2 p-4 border-3 border-gray-500 
+              rounded-lg focus:outline-none"/>
     </div>
-    <div class="w-full p-3 px-4 sm:px-5 md:px-8 flex flex-wrap justify-center gap-8 mb-16">
-      <div class="bg-yellow-500 p-6 shadow-md rounded-lg w-full sm:w-1/3 md:w-1/4 lg:w-1/4 text-center hover:shadow-xl transform hover:scale-105 transition-all duration-200 ease-in-out">
-        <h3 class="text-8xl font-semibold text-gray-800 mb-2 w-full" style="font-family: Lato">{{postReportCount}}</h3>
-        <p class="text-2xl text-red-600 font-bold" style="font-family: Lato">Posts Reported</p>
+    <div class="w-full p-3 px-4 sm:px-5 md:px-8 flex flex-wrap justify-center gap-8 mb-10 ">
+      <div class="bg-white bg-gradient-to-r from-gray-100 to-gray-200 hover:from-yellow-300 
+                  hover:to-yellow-400 border-1 p-6 shadow-md rounded-lg w-full sm:w-1/3 md:w-1/4 lg:w-1/4 
+                  text-center hover:shadow-xl transform hover:scale-102 transition-all duration-200 ease-in-out">
+        <h3 class="text-8xl font-semibold text-gray-800 mb-2 w-full">{{postReportCount}}</h3>
+        <p class="text-2xl text-red-600 font-bold">Posts Reported</p>
       </div>
-      <div class="bg-yellow-500 p-6 shadow-md rounded-lg w-full sm:w-1/3 md:w-1/4 lg:w-1/4 text-center hover:shadow-xl transform hover:scale-105 transition-all duration-200 ease-in-out">
-        <h3 class="text-8xl font-semibold text-gray-800 mb-2" style="font-family: Lato">{{userReportCount}}</h3>
-        <p class="text-2xl text-red-600 font-bold" style="font-family: Lato">User Reports</p>
+      <div class="bg-white bg-gradient-to-r from-gray-100 to-gray-200 hover:from-yellow-300 
+                  hover:to-yellow-400 border-1 p-6 shadow-md rounded-lg w-full sm:w-1/3 md:w-1/4 lg:w-1/4 
+                  text-center hover:shadow-xl transform hover:scale-102 transition-all duration-200 ease-in-out">
+        <h3 class="text-8xl font-semibold text-gray-800 mb-2">{{userReportCount}}</h3>
+        <p class="text-2xl text-red-600 font-bold">User Reports</p>
       </div>
-      <div class="bg-yellow-500 p-6 shadow-md rounded-lg w-full sm:w-1/3 md:w-1/4 lg:w-1/4 text-center min-h-50 hover:shadow-xl transform hover:scale-105 transition-all duration-200 ease-in-out">
-        <h3 class="text-8xl font-semibold text-gray-800 mb-2" style="font-family: Lato">{{accReportCount}}</h3>
-        <p class="text-2xl text-red-600 font-bold" style="font-family: Lato">Accounts Reported</p>
+      <div class="bg-white bg-gradient-to-r from-gray-100 to-gray-200 hover:from-yellow-300 
+                  hover:to-yellow-400 border-1 p-6 shadow-md rounded-lg w-full sm:w-1/3 md:w-1/4 lg:w-1/4 
+                  text-center hover:shadow-xl transform hover:scale-102 transition-all duration-200 ease-in-out">
+        <h3 class="text-8xl font-semibold text-gray-800 mb-2">{{accReportCount}}</h3>
+        <p class="text-2xl text-red-600 font-bold">Accounts Reported</p>
       </div>
     </div>
   </main>

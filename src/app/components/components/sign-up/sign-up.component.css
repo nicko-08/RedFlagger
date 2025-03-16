@@ -70,11 +70,9 @@
     border-radius: 9999px;
     color: #b91c1c;
     transition: all 0.3s ease;
-    font-family: 'Jua', sans-serif;
 }
 
 .signup-button:hover {
-    background-color: #eab308; 
     color: #b91c1c; 
-    transform: scale(1.05);
+    transform: scale(1.02);
 }

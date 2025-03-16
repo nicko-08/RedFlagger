@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Chart, registerables } from 'chart.js';
 import { CommonModule } from '@angular/common';
-
 @Component({
   selector: 'app-page-information',
   imports: [CommonModule],
@@ -25,6 +24,10 @@ threatColor: string | null = null;
 threatHex: string | null = null;
 posts: any[] = [];
 postLevels: { [postId: number]: number } = {};
+safePostUrl: SafeResourceUrl  | null = null;
+
+router = inject(Router);
+sanitizer = inject(DomSanitizer);
 //chart
 @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
 @ViewChild('chartCanvas2') chartCanvas2!: ElementRef<HTMLCanvasElement>;
@@ -32,15 +35,16 @@ postLevels: { [postId: number]: number } = {};
   chart!: Chart;
   chart2!: Chart;
   
-constructor() {
-  // Register all required components for Chart.js
-  Chart.register(...registerables);
-}
+  constructor(/// For routing to post-report-reviews///
+  ) {
+    // Register all required components for Chart.js
+    Chart.register(...registerables);
+  }
 
-sanitizer = inject(DomSanitizer);
+
 http = inject(HttpClient);
 route = inject(ActivatedRoute);
-router = inject(Router);
+
 
   ngOnInit(): void {
       this.route.queryParams.subscribe((params) => {
@@ -96,8 +100,13 @@ router = inject(Router);
           },
         },
         plugins: {
-          legend: { position: 'top' },
-          title: { display: true, text: 'Frequent Reports' },
+          legend: { position: 'top',
+            labels: { color: 'black', font: { size: 15 } }
+           },
+          title: { display: true, text: 'Frequent Reports',
+            font: { size: 25, weight: 'bold'},
+            color: 'black'
+           },
         },
       },
     });
@@ -127,8 +136,14 @@ router = inject(Router);
           },
         },
         plugins: {
-          legend: { position: 'top' },
-          title: { display: true, text: 'Reports Over Time' },
+          legend: { position: 'top',
+          labels: { color: 'black', font: {size: 15} }
+           },
+          title: { display: true, 
+            text: 'Reports Over Time',
+            font: { size: 22, weight: 'bold' },
+            color: 'black'
+          },
         },
       },
     });
@@ -282,8 +297,14 @@ router = inject(Router);
         }
       );
   }
-
   gotoInfo(postUrl: string): void {
-    this.router.navigate(['/information'], {queryParams: {input: postUrl}});
+      this.router.navigate(['/information'], { queryParams: { input: postUrl } });
   }
+
+  ///route to post-reports-reviews///
+  navigateToPostReportReviews(): void {
+    
+    this.router.navigate(['/post-report-reviews'], { queryParams: { input: this.userInputUrl } });
+  }
+  
 }

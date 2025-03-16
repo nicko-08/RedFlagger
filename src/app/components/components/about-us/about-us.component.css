@@ -1,6 +1,7 @@
 body {
   font-family: 'Poppins', sans-serif;
   color: black;
+  background-color: white;
 }
 
 .poppins-extralight-italic {
@@ -9,37 +10,30 @@ body {
   font-style: italic;
 }
 
-.about-us-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; 
-  width: 100%;
-  padding: 2rem;
-  box-sizing: border-box; 
-}
-
 .about-section {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  border: 3px solid #d32f2f;
+  border: 1px solid black;
   padding: 2rem;
   max-width: 900px;
   width: 100%;
   transition: transform 0.3s ease-in-out;
   margin-bottom: 2rem;
+  background: linear-gradient(to right, #f3f4f6, #e5e7eb);
 }
 
 .about-section:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
+  background: linear-gradient(to right, #e5e7eb, #d1d5db);
 }
 
 .section-header h3 {
   font-size: 2rem;
   font-weight: bold;
   text-transform: uppercase;
-  color: #d32f2f;
+  color: black;
   text-align: center;
-  border-bottom: 4px solid #d32f2f;
+  border-bottom: 2px solid #d32f2f;
   padding-bottom: 0.3rem;
   margin-bottom: 1rem;
 }

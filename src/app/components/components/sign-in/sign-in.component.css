@@ -6,7 +6,7 @@
     padding: 12px;
     width: 100%;
     height: 100%;
-    background-color: #e5e7eb; 
+    background-color: white; 
 }
 
 .signin-box {
@@ -74,11 +74,9 @@
     border-radius: 9999px;
     color: #b91c1c;
     transition: all 0.3s ease;
-    font-family: 'Jua', sans-serif;
 }
 
 .signin-button:hover {
-    background-color: #eab308; 
     color: #b91c1c; 
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
