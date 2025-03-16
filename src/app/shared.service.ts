@@ -14,6 +14,14 @@ export class SharedService {
     this.inputSource.next(input);
   }
 
+  private postPattern = new RegExp(
+    /^https?:\/\/(www\.)?facebook\.com\/([^/]+)\/(posts)\/([a-zA-Z0-9]+)/i
+  );
+
+  private pagePattern = new RegExp(
+    /^https?:\/\/(www\.)?facebook\.com\/([^/?&]+)(\/)?$/i
+  );
+
   determinePostType(userInputUrl: string): void {
     if (!userInputUrl) {
       alert('Please enter a valid URL');
@@ -21,13 +29,34 @@ export class SharedService {
       return;
     }
 
-    if (userInputUrl.includes('/posts') || userInputUrl.includes('/permalink')) {
-      this.router.navigate(['/information'], { queryParams: { input: userInputUrl } }); // goes to post info
-    } else if (userInputUrl.includes('facebook.com')) {
-      this.router.navigate(['/page-information'], { queryParams: { input: userInputUrl } }); // goes to page info
-    } else {
+    if(this.postPattern.test(userInputUrl)){
+      this.router.navigate(['/information'], { queryParams: { input: userInputUrl } });
+    }else if(this.postPattern.test(userInputUrl)){
+      this.router.navigate(['/page-information'], { queryParams: { input: userInputUrl } });
+    }else{
       alert('Invalid Facebook URL');
-      this.router.navigate(['/home']); // redirect back to home if invalid URL
+      this.router.navigate(['/home']); 
     }
   }
+
+  private getFacebookPostId(url: string): { postId: string; pageId: string; type: string } {
+    const match = this.postPattern.exec(url);
+    if (match) {
+      return {
+        postId: match[4],
+        pageId: match[2],
+        type: match[3]
+      };
+    }
+    throw new Error('Invalid post URL');
+  }
+
+  private getFacebookPageId(url: string): string {
+    const match = this.pagePattern.exec(url);
+    if (match) {
+      return match[2];
+    }
+    throw new Error('Invalid page URL');
+  }
+
 }

@@ -35,7 +35,7 @@ sanitizer = inject(DomSanitizer);
   chart!: Chart;
   chart2!: Chart;
   
-  constructor(/// For routing to post-report-reviews///
+  constructor(
   ) {
     // Register all required components for Chart.js
     Chart.register(...registerables);
