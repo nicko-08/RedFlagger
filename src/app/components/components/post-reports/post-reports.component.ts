@@ -207,6 +207,11 @@ export class PostReportsComponent {
               report.EDITING = false;
               report.REVIEW_ERROR = false;
               report.VIEWING_REVIEW = false;
+              this.checkIfOwnPost(report.USER_ID).then(result => {
+                report.OWNERSHIP = result;
+                console.log(report.OWNERSHIP); // Prints: true or false
+              });
+              console.log(report.OWNERSHIP)
               report.REVIEW_DATA = new FormGroup(
                 {
                   content: new FormControl(null),
@@ -381,5 +386,32 @@ export class PostReportsComponent {
     this.router.navigate(['/report'], { queryParams: { link: this.userInputUrl } });
   }
 
+  async checkIfOwnPost(report_user_id:string){
+    let session =  null;
+    let attempts = 0;
+    const maxAttempts = 10;
+    while (!session && attempts < maxAttempts) {
+      session = await this.authService.getSession();
+      
+      if (!session) {
+        await new Promise(resolve => setTimeout(resolve, 500)); 
+        attempts++;
+      }
+    }
+    console.log("hello", session);
+    if(!session){
+      console.log("hello 1", session);
+      return false;
+    }
+    console.log("Session ID", session.user.id);
+    console.log("Report User Id", report_user_id);
+    if(session.user.id === report_user_id){
+      console.log("hello")
+      return true;
+    }else{
+      console.log("bye")
+      return false;
+    }
+  }
   
 }
