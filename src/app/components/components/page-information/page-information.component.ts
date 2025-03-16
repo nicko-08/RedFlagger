@@ -282,4 +282,8 @@ router = inject(Router);
         }
       );
   }
+
+  gotoInfo(postUrl: string): void {
+    this.router.navigate(['/information'], {queryParams: {input: postUrl}});
+  }
 }
