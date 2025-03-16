@@ -22,13 +22,13 @@ isLoggedIn = false;
 isModerator = true;
 userInputUrl: string | null = null;
 pageLink: string | null = null;
-postContent: string | null = null;
-reportTotal: number | null = null;
+postContent: string | null = "Loading...";
+reportTotal: number | null = 0;
 fbEmbedUrl: SafeResourceUrl | null = null;
-averagePostCount: string | null = null;
-threatLevel: number | null = null; //this is needed to be a string to display the threat level decimal in the UI
-peakReport: number | null = null;
-threatColor: string | null = null;
+averagePostCount: string | null = "0";
+threatLevel: number | null = 0; //this is needed to be a string to display the threat level decimal in the UI
+peakReport: number | null = 0;
+threatColor: string | null = "Loading...";
 threatHex: string | null = null;
 
 //reports of the post part

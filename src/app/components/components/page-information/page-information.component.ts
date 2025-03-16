@@ -1,7 +1,7 @@
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Chart, registerables } from 'chart.js';
 import { CommonModule } from '@angular/common';
@@ -40,6 +40,7 @@ constructor() {
 sanitizer = inject(DomSanitizer);
 http = inject(HttpClient);
 route = inject(ActivatedRoute);
+router = inject(Router);
 
   ngOnInit(): void {
       this.route.queryParams.subscribe((params) => {
@@ -197,11 +198,16 @@ route = inject(ActivatedRoute);
     this.http.get<{ PAGE_NAME: string }>(apiUrl).subscribe({
       next: (response) => {
         this.pageName = response.PAGE_NAME || 'No content available for this post'; // Extract post_content from API response
+        if (this.pageName === 'No content available for this post') {
+          alert('No content available for this post');
+          this.router.navigate(['/home']);
+        }
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
         this.pageName = 'Failed to fetch post content. Please try again.';
       }
+      
     });
 
     this.http.get<{ total_reports: number }>(apiPageStatsUrl).subscribe({
