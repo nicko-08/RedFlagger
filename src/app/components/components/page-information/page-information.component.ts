@@ -62,14 +62,14 @@ route = inject(ActivatedRoute);
           const fbPageUrl = 'https://www.facebook.com/plugins/page.php';
           const queryParams = `?href=${encodeURIComponent(input)}&tabs=timeline&width=500&height=100&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=608367321950607`
           this.fbEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${fbPageUrl}${queryParams}`);
-          console.log('FB embed URL:', this.fbEmbedUrl);
+
         }
       });
       this.initializeChart();
   }
 
   callApi(input: string): void{
-    console.log('Calling API with input:', input);
+
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/page?page_url=${encodeURIComponent(input)}`;
   }
 
@@ -227,7 +227,7 @@ route = inject(ActivatedRoute);
 
     this.http.get<{ total_reports: number }>(apiPageStatsUrl).subscribe({
       next: (response) => {
-        console.log('Total reports:', response.total_reports);
+
         this.reportTotal = response.total_reports || 0;// Extract total reports from API response
       },
       error: (err) => {
@@ -290,7 +290,7 @@ route = inject(ActivatedRoute);
       .subscribe(
         (response) => {
           this.postLevels[postId] = response.threat?.threat_level ?? 0;
-          console.log(`Details for ${postUrl}:`, response);
+
         },
         (error) => {
           console.error(`Error fetching details for ${postUrl}:`, error);

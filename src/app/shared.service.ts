@@ -31,12 +31,10 @@ export class SharedService {
     }
 
     if(this.postPattern.test(userInputUrl)){
-      console.log(this.getCleanLink(userInputUrl));
       let clean_link = this.getCleanLink(userInputUrl);
-      console.log(clean_link);
+
       this.router.navigate(['/information'], { queryParams: { input: clean_link } });
     }else if(this.pagePattern.test(userInputUrl)){
-      console.log(this.getCleanLink(userInputUrl));
       let clean_link = this.getCleanLink(userInputUrl);
       this.router.navigate(['/page-information'], { queryParams: { input: clean_link } });
     }else{
@@ -48,7 +46,7 @@ export class SharedService {
   private getCleanLink(userInputUrl: string): string | null {
     if (this.postPattern.test(userInputUrl)) {
         let post = this.getFacebookPostId(userInputUrl);
-        console.log("Extracted Post Data:", post); 
+
         if (!post.pageId || !post.postId) {
             console.error("Missing postId or pageId");
             return null;
@@ -67,7 +65,7 @@ export class SharedService {
 
 private getFacebookPostId(url: string): { postId: string; pageId: string; type: string } {
   const match = this.postPattern.exec(url);
-  console.log("Regex Match Result:", match); 
+
 
   if (match) {
     if (match[5]) {
@@ -91,9 +89,8 @@ private getFacebookPostId(url: string): { postId: string; pageId: string; type: 
 }
 
 private getFacebookPageId(url: string): string {
-  console.log("Input URL:", url);
+
   const pageMatch = this.pagePattern.exec(url);
-  console.log("Regex Match Result (Page):", pageMatch);
 
   if (pageMatch) {
     if (pageMatch[3]) {

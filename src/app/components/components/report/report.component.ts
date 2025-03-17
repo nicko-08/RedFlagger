@@ -100,7 +100,7 @@ export class ReportComponent {
 
       this.http.post(apiUrl, formData, { headers }).subscribe({
         next: (response: any) => {
-          console.log('Report submitted successfully', response);
+
           alert('Report submitted successfully!');
           this.userLink = this.reportForm.get('pageLink')?.value;
           this.reportForm.reset();

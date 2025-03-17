@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
 
   if(this.isLoggedIn){
     this.username = session?.user.user_metadata['username'];
-    console.log('User is logged in');
+
   }
   
  }
@@ -59,8 +59,8 @@ export class HeaderComponent implements OnInit {
     await this.authService.supabase.auth.signOut();
   }
   searchAction(): void{
-  console.log('searching...');
-  console.log('Search action triggered with input:', this.userInputUrl);
+
+
   this.sharedService.determinePostType(this.userInputUrl);
   this.sharedService.updateInput(this.userInputUrl);
   }

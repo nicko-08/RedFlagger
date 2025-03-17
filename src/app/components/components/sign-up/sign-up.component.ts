@@ -29,7 +29,7 @@ export class SignUpComponent {
 
   onSubmit() {
     this.signingUp = true;
-    console.log(this.signingUp);
+
     const rawFormValue = this.signUpForm.getRawValue();
     this.authService.register(rawFormValue.email, rawFormValue.username, rawFormValue.password).subscribe((result) =>{
       if (result.error) {

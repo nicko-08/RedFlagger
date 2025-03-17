@@ -65,12 +65,12 @@ router = inject(Router);
 
 async ngOnInit(): Promise<void> {
       this.isLoading = true;
-      console.log("hello");
+
       let session; await this.authService.getSession().then(
         (new_session)=>{
           this.userId = new_session?.user.id;
           session = new_session;
-          console.log(this.userId);
+
         }
       );
       this.isLoggedIn = !!session;
@@ -84,17 +84,17 @@ async ngOnInit(): Promise<void> {
           this.getReports(this.userInputUrl);
           const fbPageUrl = 'https://www.facebook.com/plugins/post.php?href=';
           this.fbEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${fbPageUrl}${encodeURIComponent(this.userInputUrl)}&width=100%`);
-          console.log('FB embed URL:', this.fbEmbedUrl);
+
         }
       });
       this.initializeChart();
   }
 
   callApi(input: string): void {
-    console.log('Calling API with input:', input);
+
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post?post_url=${encodeURIComponent(input)}`;
     this.http.get(apiUrl).subscribe((response) => {
-      console.log('API response:', response);
+
     })
 
   }
@@ -104,19 +104,19 @@ async ngOnInit(): Promise<void> {
     const key = "age";
 
     let alreadyreported:boolean = false;
-    console.log(this.reports);
+
 
     if(this.userId){
       this.reports.forEach(element => {
-        console.log(element);    
-        console.log(element.USER_ID);
+
+
         if(this.userId === element.USER_ID){
           alreadyreported = true;
         }
       });
     }
 
-    console.log(alreadyreported)
+
 
     if(alreadyreported){
       alert("You've already reported this Post, to prevent spam we only allow one report per post per account");
@@ -132,7 +132,7 @@ async ngOnInit(): Promise<void> {
   }
 
   goToReports():void{
-    console.log("hello");
+
     this.router.navigate(['/post-reports'], {queryParams: {input: this.userInputUrl}});
   }
   
@@ -160,7 +160,7 @@ async ngOnInit(): Promise<void> {
     
     this.http.get<{ total_reports: number, average_daily_reports: number, peak_reports: number,  }>(apiPostStatsUrl).subscribe({
       next: (response) => {
-        console.log('Total reports:', response.total_reports);
+
         this.reportTotal = response.total_reports || 0;// Extract total reports from API response
         this.averagePostCount = response.average_daily_reports.toFixed(1) || '0'; // Extract average daily reports from API response
         this.peakReport = response.peak_reports || 0; // Extract peak reports from API response
@@ -380,7 +380,7 @@ getReports(input: string): void {
         this.http.get<{ role: string }>(apiUrl, { headers }).subscribe(
             (response) => {
                 this.isModerator = response.role === 'moderator';
-                console.log('User is moderator:', this.isModerator);
+
             },
             (error) => {
                 console.error('Error checking role:', error);
@@ -416,7 +416,7 @@ async deleteReport(report_id: number): Promise<void>{
 
     this.http.delete(apiUrl, {headers}).subscribe({
       next: (response: any) => {
-        console.log("Report Deleted");
+
         this.reports = [];
         window.location.reload();
       },
@@ -444,15 +444,15 @@ async deleteReport(report_id: number): Promise<void>{
         const headers = new HttpHeaders({
             Authorization: `Bearer ${accessToken}`,
         });
-        console.log("balls")
+
         return new Promise((resolve) => {
             this.http.get<{ type: string, vote_count:number }>(apiUrl, { headers }).subscribe(
                 (response) => {
                   const report = this.reports.find(r => r.REPORT_ID === report_id);
-                  console.log("gagoy")
+
                   if(report){
                     report.vote_type = response.type;
-                    console.log("vote_type:", response.type);
+
                     report.vote_count = response.vote_count;
                   }
                 },
@@ -487,16 +487,16 @@ async putVote(report_id:number, vote_type:string){
     const headers = new HttpHeaders({
       Authorization: `Bearer ${accessToken}`,
     });
-    console.log(apiUrl);
+
     this.http.put(apiUrl,{}, {headers}).subscribe({
       next: (response: any) => {
-        console.log("Vote Sent");
+
         const report = this.reports.find(r => r.REPORT_ID === report_id);
         if(report){
-          console.log("hello");
+
         }
         else{
-          console.log("no");
+
         }
         if(report.vote_type === vote_type){
           report.vote_type = "none";

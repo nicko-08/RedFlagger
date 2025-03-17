@@ -28,7 +28,7 @@ export class AppComponent implements OnInit{
       }else if (event === 'SIGNED_OUT') {
         this.authService.currentUser.set(null);
       }
-      console.log('!!', event, session);
+
     });
   }
 

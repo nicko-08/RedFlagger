@@ -52,7 +52,7 @@ export class PostReportsReviewsComponent {
       .subscribe(
         (response) => {
           this.postLevels[postId] = response.threat?.threat_level ?? 0;
-          console.log(`Details for ${postUrl}:`, response);
+
         },
         (error) => {
           console.error(`Error fetching details for ${postUrl}:`, error);

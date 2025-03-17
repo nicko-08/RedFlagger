@@ -28,9 +28,9 @@ export class SignInComponent {
       if (result.error) {
         this.errorMessage = result.error.message;
       } else {
-        console.log(result);
+
         this.authService.supabase.auth.onAuthStateChange((event) => {
-          console.log(event);
+
         })
         window.location.replace('/home');
       }

@@ -44,7 +44,7 @@ export class PostReportsComponent {
       (new_session)=>{
         this.userId = new_session?.user.id;
         session = new_session;
-        console.log(this.userId);
+
       }
     );
     this.isLoggedIn = !!session;
@@ -54,8 +54,8 @@ export class PostReportsComponent {
     if(this.userInputUrl){
       this.getReports(this.userInputUrl);
     }
-    console.log(this.isLoggedIn);
-    console.log("cock", this.userInputUrl);
+
+
   })
 }
 
@@ -78,15 +78,15 @@ export class PostReportsComponent {
         const headers = new HttpHeaders({
             Authorization: `Bearer ${accessToken}`,
         });
-        console.log("balls")
+
         return new Promise((resolve) => {
             this.http.get<{ type: string, vote_count:number }>(apiUrl, { headers }).subscribe(
                 (response) => {
                   const report = this.reports.find(r => r.REPORT_ID === report_id);
-                  console.log("gagoy")
+
                   if(report){
                     report.vote_type = response.type;
-                    console.log("vote_type:", response.type);
+
                     report.vote_count = response.vote_count;
                   }
                 },
@@ -122,16 +122,16 @@ export class PostReportsComponent {
       const headers = new HttpHeaders({
         Authorization: `Bearer ${accessToken}`,
       });
-      console.log(apiUrl);
+
       this.http.put(apiUrl,{}, {headers}).subscribe({
         next: (response: any) => {
-          console.log("Vote Sent");
+
           const report = this.reports.find(r => r.REPORT_ID === report_id);
           if(report){
-            console.log("hello");
+
           }
           else{
-            console.log("no");
+
           }
           if(report.vote_type === vote_type){
             report.vote_type = "none";
@@ -186,7 +186,7 @@ export class PostReportsComponent {
 
     this.http.delete(apiUrl, {headers}).subscribe({
       next: (response: any) => {
-        console.log("Report Deleted");
+
         this.reports = [];
         window.location.reload();
       },
@@ -221,7 +221,7 @@ export class PostReportsComponent {
 
     this.http.delete(apiUrl, {headers}).subscribe({
       next: (response: any) => {
-        console.log("Review Deleted");
+
         this.reports = [];
         window.location.reload();
       },
@@ -244,16 +244,15 @@ export class PostReportsComponent {
             this.reportTime = REPORT_TIME || 'No time available';
             this.username = USERNAME || 'No username available';
             this.reports.forEach(report => {
-              console.log("torture");
+
               this.getVote(report.REPORT_ID); 
               report.EDITING = false;
               report.REVIEW_ERROR = false;
               report.VIEWING_REVIEW = false;
               this.checkIfOwnPost(report.USER_ID).then(result => {
                 report.OWNERSHIP = result;
-                console.log(report.OWNERSHIP); // Prints: true or false
               });
-              console.log(report.OWNERSHIP)
+
               report.REVIEW_DATA = new FormGroup(
                 {
                   content: new FormControl(null),
@@ -269,7 +268,7 @@ export class PostReportsComponent {
 
   getReviews(input:string, report_id:number){
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/report/${encodeURIComponent(report_id)}/reviews?post_url=${encodeURIComponent(input)}`;
-    console.log(apiUrl);
+
     this.http.get<any[]>(apiUrl).subscribe({
       next: (response: any[]) => {
         const report = this.reports.find(r => r.REPORT_ID === report_id);
@@ -282,12 +281,12 @@ export class PostReportsComponent {
     const report = this.reports.find(r => r.REPORT_ID === report_id);
     report.VIEWING_REVIEW = !report.VIEWING_REVIEW;
     this.getReviews(this.userInputUrl,report_id);
-    console.log(report.REVIEWS);
+
   }
 
   onAddReviewFocus(report_id:number){
     const report = this.reports.find(r => r.REPORT_ID === report_id);
-    console.log("Hi", report_id)
+
     report.EDITING = true;
   }
 
@@ -302,7 +301,7 @@ export class PostReportsComponent {
       }
       let rating_truth  = rating != null;
 
-      console.log(report_id, " ",content, content_truth, " ", rating_truth);
+
 
       if(content_truth){
         report.EDITING = true;
@@ -329,7 +328,7 @@ export class PostReportsComponent {
     const content_truth  = content != null;
     const rating_truth  = rating != null;
 
-    console.log(report_id, " ", content_truth, " ", rating_truth);
+
     if(!content){
       report.REVIEW_ERROR = true;
       return;
@@ -341,7 +340,7 @@ export class PostReportsComponent {
 
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/review/new?&report_id=${encodeURIComponent(report_id)}&content=${encodeURIComponent(content)}&rating=${encodeURIComponent(rating)}`;
 
-    console.log(apiUrl);
+
 
     const accessToken = await this.getAccessToken();
     if (!accessToken) {
@@ -355,7 +354,7 @@ export class PostReportsComponent {
     });
     this.http.post(apiUrl,{}, { headers }).subscribe({
       next: (response: any) => {
-        console.log('Review submitted successfully', response);
+
         alert('Review submitted successfully!');
         const report = this.reports.find(r => r.REPORT_ID === report_id);
         report.VIEWING_REVIEW = false;
@@ -379,7 +378,7 @@ export class PostReportsComponent {
     const report = this.reports.find(r => r.REPORT_ID === report_id);
     let content = report.REVIEW_DATA.value.content;
     let rating = report.REVIEW_DATA.value.rating;
-    console.log(report_id, " ", content, " ", rating);
+
     report.REVIEW_ERROR  = false;
     report.REVIEW_DATA.reset()
   }
@@ -405,7 +404,7 @@ export class PostReportsComponent {
         this.http.get<{ role: string }>(apiUrl, { headers }).subscribe(
             (response) => {
                 this.isModerator = response.role === 'moderator';
-                console.log('User is moderator:', this.isModerator);
+
             },
             (error) => {
                 console.error('Error checking role:', error);
@@ -425,19 +424,19 @@ export class PostReportsComponent {
     const key = "age";
 
     let alreadyreported:boolean = false;
-    console.log(this.reports);
+
 
     if(this.userId){
       this.reports.forEach(element => {
-        console.log(element);    
-        console.log(element.USER_ID);
+
+
         if(this.userId === element.USER_ID){
           alreadyreported = true;
         }
       });
     }
 
-    console.log(alreadyreported)
+
 
     if(alreadyreported){
       alert("You've already reported this Post, to prevent spam we only allow one report per post per account");
@@ -462,18 +461,18 @@ export class PostReportsComponent {
         attempts++;
       }
     }
-    console.log("hello", session);
+
     if(!session){
-      console.log("hello 1", session);
+
       return false;
     }
-    console.log("Session ID", session.user.id);
-    console.log("Report User Id", report_user_id);
+
+
     if(session.user.id === report_user_id){
-      console.log("hello")
+
       return true;
     }else{
-      console.log("bye")
+
       return false;
     }
   }
