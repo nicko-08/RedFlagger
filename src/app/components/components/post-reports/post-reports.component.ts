@@ -28,6 +28,7 @@ export class PostReportsComponent {
   reportContent: string | null = null;
   reportTime: string | null = null;
   username: string | null = null;
+  userId: string|undefined = '';
 
 
 
@@ -39,7 +40,13 @@ export class PostReportsComponent {
   router = inject(Router);
 
   async ngOnInit(): Promise<void>{
-    const session =  await this.authService.getSession();
+    let session; await this.authService.getSession().then(
+      (new_session)=>{
+        this.userId = new_session?.user.id;
+        session = new_session;
+        console.log(this.userId);
+      }
+    );
     this.isLoggedIn = !!session;
     this.checkRole();
     this.route.queryParams.subscribe((params) => {
@@ -380,6 +387,27 @@ export class PostReportsComponent {
   }
 
   getLinkAndRouteReport():void{
+    const key = "age";
+
+    let alreadyreported:boolean = false;
+    console.log(this.reports);
+
+    if(this.userId){
+      this.reports.forEach(element => {
+        console.log(element);    
+        console.log(element.USER_ID);
+        if(this.userId === element.USER_ID){
+          alreadyreported = true;
+        }
+      });
+    }
+
+    console.log(alreadyreported)
+
+    if(alreadyreported){
+      alert("You've already reported this Post, to prevent spam we only allow one report per post per account");
+      return;
+    }
     if(!this.isLoggedIn){
       this.router.navigate(['/sign-in']);  
       return;
