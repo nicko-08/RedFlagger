@@ -381,6 +381,7 @@ export class PostReportsComponent {
 
   getLinkAndRouteReport():void{
     if(!this.isLoggedIn){
+      this.router.navigate(['/sign-in']);  
       return;
     }
     this.router.navigate(['/report'], { queryParams: { link: this.userInputUrl } });

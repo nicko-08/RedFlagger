@@ -57,16 +57,23 @@
           @else if (threatLevel > 9.5)  {🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩} 
           <div class="px-5 text-5xl flex space-x-1 text-black">
           </div>
-        <button [disabled]="!isLoggedIn || !userInputUrl" (click)="getLinkAndRouteReport()" 
-                class="bg-red-800 text-white w-full sm:w-auto px-6 py-3 text-2xl rounded-lg
-                      hover:scale-102 transition-all duration-300 font-bold flex-shrink-0 
-                      whitespace-nowrap self-center min-w-[150px] text-center disabled:bg-gray-400">
-            @if (isLoggedIn) {
-              Report
-            }@else {
-              Login To Report
-            }
-        </button>
+
+          @if(isLoggedIn){
+            <button (click)="getLinkAndRouteReport()" 
+            class="bg-red-800 text-white w-full sm:w-auto px-6 py-3 text-2xl rounded-lg
+                  hover:scale-102 transition-all duration-300 font-bold flex-shrink-0 
+                  whitespace-nowrap self-center min-w-[150px] text-center disabled:bg-gray-400">
+                  Report
+            </button>
+          }@else {
+            <button (click)="getLinkAndRouteReport()" 
+            class="bg-gray-400 text-white w-full sm:w-auto px-6 py-3 text-2xl rounded-lg
+                  hover:scale-102 transition-all duration-300 font-bold flex-shrink-0 
+                  whitespace-nowrap self-center min-w-[150px] text-center">
+                  Login To Report
+            </button>
+          }
+
       </div>
       <div class="w-full flex flex-col md:flex-row bg-white">
         <div
