@@ -87,4 +87,10 @@
                     </a>
                 </ng-container>
                 
+                <span *ngIf="isLoggedIn" class="text-lg md:text-2xl text-white" style="font-family: 'Poppins', sans-serif;">
+                    Welcome, {{ username }}!
+                </span>
+                <a *ngIf="isLoggedIn" (click)="logoutUser()" class="px-6 py-2 text-xl text-white bg-yellow-500 rounded-xl hover:bg-yellow-600 transition-transform hover:scale-105 flex items-center cursor-pointer" style="font-family: 'Poppins', sans-serif;">
+                    Logout
+                </a>
             </nav>
