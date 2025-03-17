@@ -64,6 +64,7 @@ router = inject(Router);
 
 
 async ngOnInit(): Promise<void> {
+      this.isLoading = true;
       console.log("hello");
       let session; await this.authService.getSession().then(
         (new_session)=>{
@@ -137,7 +138,7 @@ async ngOnInit(): Promise<void> {
   
 
   getPostContent(input: string): void {
-
+    this.isLoading = true;
     if(!this.userInputUrl){
       alert('Please enter a valid URL');
       return;
@@ -148,12 +149,10 @@ async ngOnInit(): Promise<void> {
     this.http.get<{ POST_CONTENT: string }>(apiUrl).subscribe({
       next: (response) => {
         this.postContent = response.POST_CONTENT || 'No content available for this post'; // Extract post_content from API response
-        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
         this.postContent = 'Failed to fetch post content. Please try again.';
-        this.isLoading = false;
       }
     });
     
@@ -163,12 +162,14 @@ async ngOnInit(): Promise<void> {
         this.reportTotal = response.total_reports || 0;// Extract total reports from API response
         this.averagePostCount = response.average_daily_reports.toFixed(1) || '0'; // Extract average daily reports from API response
         this.peakReport = response.peak_reports || 0; // Extract peak reports from API response
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
         this.reportTotal = null;
         this.averagePostCount = null;
         this.peakReport = null;
+        this.isLoading = false;
       }
     
     });

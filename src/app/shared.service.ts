@@ -20,10 +20,9 @@ export class SharedService {
   
 
   private pagePattern = new RegExp(
-    /^https?:\/\/(web\.|m\.|mbasic\.)?(www\.)?facebook\.com\/([^/?&]+)(\/)?$/i
+    /^https?:\/\/(web\.|m\.|mbasic\.)?(www\.)?facebook\.com\/([^/?&]+)\/?$|^https?:\/\/(web\.|m\.|mbasic\.)?(www\.)?facebook\.com\/profile\.php\?id=([0-9]+)/i
   );
   
-
   determinePostType(userInputUrl: string): void {
     if (!userInputUrl) {
       alert('Please enter a valid URL');
@@ -49,7 +48,7 @@ export class SharedService {
   private getCleanLink(userInputUrl: string): string | null {
     if (this.postPattern.test(userInputUrl)) {
         let post = this.getFacebookPostId(userInputUrl);
-        console.log("Extracted Post Data:", post); // Debugging
+        console.log("Extracted Post Data:", post); 
         if (!post.pageId || !post.postId) {
             console.error("Missing postId or pageId");
             return null;
@@ -68,23 +67,21 @@ export class SharedService {
 
 private getFacebookPostId(url: string): { postId: string; pageId: string; type: string } {
   const match = this.postPattern.exec(url);
-  console.log("Regex Match Result:", match); // Debugging
+  console.log("Regex Match Result:", match); 
 
   if (match) {
-    // Case 1: Normal post URL (facebook.com/username/posts/postid)
     if (match[5]) {
       return {
-        postId: match[5],  // Extract from normal post URL
-        pageId: match[3],  // Extract username/page ID
+        postId: match[5],  
+        pageId: match[3],  
         type: 'post'
       };
     }
 
-    // Case 2: Permalink URL (facebook.com/permalink.php?story_fbid=xxx&id=yyy)
     if (match[8] && match[9]) {
       return {
-        postId: match[8],  // Extract from permalink `story_fbid`
-        pageId: match[9],  // Extract from permalink `id`
+        postId: match[8],  
+        pageId: match[9],  
         type: 'post'
       };
     }
@@ -93,23 +90,23 @@ private getFacebookPostId(url: string): { postId: string; pageId: string; type: 
   throw new Error('Invalid post URL');
 }
 
+private getFacebookPageId(url: string): string {
+  console.log("Input URL:", url);
+  const pageMatch = this.pagePattern.exec(url);
+  console.log("Regex Match Result (Page):", pageMatch);
 
-  
-  
-  
+  if (pageMatch) {
+    if (pageMatch[3]) {
+      return pageMatch[3]; 
+    }
 
-  private getFacebookPageId(url: string): string {
-    const pageMatch = this.pagePattern.exec(url);
-    if (pageMatch) {
-      return pageMatch[3]; // Extracts page username or ID from standard page URLs
+    if (pageMatch[6]) {
+      return pageMatch[6]; 
     }
-  
-    // Handle permalinks with `id=PAGE_ID`
-    const permalinkMatch = url.match(/[?&]id=([0-9]+)/);
-    if (permalinkMatch) {
-      return permalinkMatch[1]; // Extracts the page ID from permalink.php
-    }
-  
-    throw new Error('Invalid page URL');
   }
+
+  throw new Error('Invalid page URL');
 }
+
+}
+
