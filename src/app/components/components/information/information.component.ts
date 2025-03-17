@@ -7,6 +7,7 @@ import { SharedService } from '../../../shared.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '../../../auth.service';
 import { Chart, ChartConfiguration, registerables  } from 'chart.js';
+import { flush } from '@angular/core/testing';
 @Component({
   selector: 'app-information',
   standalone: true, 
@@ -20,6 +21,7 @@ throw new Error('Method not implemented.');
 }
 isLoggedIn = false;
 isModerator = true;
+isLoading = true;
 userInputUrl: string | null = null;
 pageLink: string | null = null;
 postContent: string | null = "Loading...";
@@ -30,6 +32,7 @@ threatLevel: number | null = 0; //this is needed to be a string to display the t
 peakReport: number | null = 0;
 threatColor: string | null = "Loading...";
 threatHex: string | null = null;
+userId: string|undefined = '';
 
 //reports of the post part
 reports: any[] = [];
@@ -61,13 +64,18 @@ router = inject(Router);
 
 
 async ngOnInit(): Promise<void> {
-      const session =  await this.authService.getSession();
+      console.log("hello");
+      let session; await this.authService.getSession().then(
+        (new_session)=>{
+          this.userId = new_session?.user.id;
+          session = new_session;
+          console.log(this.userId);
+        }
+      );
       this.isLoggedIn = !!session;
       this.checkRole();
       this.route.queryParams.subscribe((params) => {
         this.userInputUrl = params['input'];
-        
-
         if(this.userInputUrl){
           this.callApi(this.userInputUrl);
           this.getPostContent(this.userInputUrl);
@@ -92,7 +100,31 @@ async ngOnInit(): Promise<void> {
 
   
   getLinkAndRouteReport():void{
+    const key = "age";
+
+    let alreadyreported:boolean = false;
+    console.log(this.reports);
+
+    if(this.userId){
+      this.reports.forEach(element => {
+        console.log(element);    
+        console.log(element.USER_ID);
+        if(this.userId === element.USER_ID){
+          alreadyreported = true;
+        }
+      });
+    }
+
+    console.log(alreadyreported)
+
+    if(alreadyreported){
+      alert("You've already reported this Post, to prevent spam we only allow one report per post per account");
+      return;
+    }
+
+
     if(!this.isLoggedIn){
+      this.router.navigate(['/sign-in']);  
       return;
     }
     this.router.navigate(['/report'], { queryParams: { link: this.userInputUrl } });
@@ -116,10 +148,12 @@ async ngOnInit(): Promise<void> {
     this.http.get<{ POST_CONTENT: string }>(apiUrl).subscribe({
       next: (response) => {
         this.postContent = response.POST_CONTENT || 'No content available for this post'; // Extract post_content from API response
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
         this.postContent = 'Failed to fetch post content. Please try again.';
+        this.isLoading = false;
       }
     });
     

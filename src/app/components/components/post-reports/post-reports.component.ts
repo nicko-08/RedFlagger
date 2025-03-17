@@ -28,6 +28,7 @@ export class PostReportsComponent {
   reportContent: string | null = null;
   reportTime: string | null = null;
   username: string | null = null;
+  userId: string|undefined = '';
 
 
 
@@ -39,7 +40,13 @@ export class PostReportsComponent {
   router = inject(Router);
 
   async ngOnInit(): Promise<void>{
-    const session =  await this.authService.getSession();
+    let session; await this.authService.getSession().then(
+      (new_session)=>{
+        this.userId = new_session?.user.id;
+        session = new_session;
+        console.log(this.userId);
+      }
+    );
     this.isLoggedIn = !!session;
     this.checkRole();
     this.route.queryParams.subscribe((params) => {
@@ -188,6 +195,41 @@ export class PostReportsComponent {
       }
     });
   }
+
+  async deleteReviews(report_id: number, review_id:number): Promise<void>{
+    if(this.userInputUrl == null){ 
+      return;
+    }
+    const confirmDelete = confirm('Are you sure you want to delete this review?');
+  
+    if (!confirmDelete) {
+      return; // Stop execution if user cancels
+    }
+    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/report/${encodeURIComponent(report_id)}/review/${encodeURIComponent(review_id)}?post_url=${encodeURIComponent(this.userInputUrl)}`;
+
+    const accessToken = await this.getAccessToken();
+    if (!accessToken) {
+      alert('Failed to retrieve access token. Please log in again.');
+      this.router.navigate(['/home'])
+      return;
+    }
+
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    this.http.delete(apiUrl, {headers}).subscribe({
+      next: (response: any) => {
+        console.log("Review Deleted");
+        this.reports = [];
+        window.location.reload();
+      },
+      error: (error: any) => {
+        console.error('Error Deleting Review');
+      }
+    });
+  }
   
   getReports(input: string): void {
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/reports?post_url=${encodeURIComponent(input)}`;
@@ -207,6 +249,11 @@ export class PostReportsComponent {
               report.EDITING = false;
               report.REVIEW_ERROR = false;
               report.VIEWING_REVIEW = false;
+              this.checkIfOwnPost(report.USER_ID).then(result => {
+                report.OWNERSHIP = result;
+                console.log(report.OWNERSHIP); // Prints: true or false
+              });
+              console.log(report.OWNERSHIP)
               report.REVIEW_DATA = new FormGroup(
                 {
                   content: new FormControl(null),
@@ -285,12 +332,10 @@ export class PostReportsComponent {
     console.log(report_id, " ", content_truth, " ", rating_truth);
     if(!content){
       report.REVIEW_ERROR = true;
-      console.log("hellp");
       return;
     }
     if(!rating){
       report.REVIEW_ERROR  = true;
-      console.log("hellp");
       return;
     }
 
@@ -312,6 +357,8 @@ export class PostReportsComponent {
       next: (response: any) => {
         console.log('Review submitted successfully', response);
         alert('Review submitted successfully!');
+        const report = this.reports.find(r => r.REPORT_ID === report_id);
+        report.VIEWING_REVIEW = false;
       },
       error: (error: any) => {
         console.error('Error submitting the report:', error);
@@ -375,11 +422,60 @@ export class PostReportsComponent {
   }
 
   getLinkAndRouteReport():void{
+    const key = "age";
+
+    let alreadyreported:boolean = false;
+    console.log(this.reports);
+
+    if(this.userId){
+      this.reports.forEach(element => {
+        console.log(element);    
+        console.log(element.USER_ID);
+        if(this.userId === element.USER_ID){
+          alreadyreported = true;
+        }
+      });
+    }
+
+    console.log(alreadyreported)
+
+    if(alreadyreported){
+      alert("You've already reported this Post, to prevent spam we only allow one report per post per account");
+      return;
+    }
     if(!this.isLoggedIn){
+      this.router.navigate(['/sign-in']);  
       return;
     }
     this.router.navigate(['/report'], { queryParams: { link: this.userInputUrl } });
   }
 
+  async checkIfOwnPost(report_user_id:string){
+    let session =  null;
+    let attempts = 0;
+    const maxAttempts = 10;
+    while (!session && attempts < maxAttempts) {
+      session = await this.authService.getSession();
+      
+      if (!session) {
+        await new Promise(resolve => setTimeout(resolve, 500)); 
+        attempts++;
+      }
+    }
+    console.log("hello", session);
+    if(!session){
+      console.log("hello 1", session);
+      return false;
+    }
+    console.log("Session ID", session.user.id);
+    console.log("Report User Id", report_user_id);
+    if(session.user.id === report_user_id){
+      console.log("hello")
+      return true;
+    }else{
+      console.log("bye")
+      return false;
+    }
+  }
   
 }

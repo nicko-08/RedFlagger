@@ -3,186 +3,202 @@
   <link href="https://fonts.googleapis.com/css2?family=helvetica&display=swap" rel="stylesheet">
 </head>
 <main class="flex flex-col items-center justify-start w-full min-h-screen bg-white p-4">
-  <div class="w-full md:w-4/5 sm:w-5/5 lg:w-4/5 flex flex-wrap md:flex-nowrap bg-white p-2 gap-4 h-auto">
-    <div
-      class="flex flex-col items-center justify-center w-full md:w-1/4 md:h-[702px] border-1 bg-white p-4 
-            bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 transition-all 
-            duration-300 ease-in-out rounded-lg">
-
-      <div class="w-[50%] h-[65%] sm:w-[70%] md:w-[90%]">
-
-
-
-        <svg class="w-full h-full max-w-[400px] max-h-[400px]" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid meet">
-          <rect x="75" width="69" height="500" rx="34.5" [attr.fill]="threatHex" />
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M219.75 305.535L204.315 311.941L131 342.367L131 262.989L131 107.378L131 28L204.3 58.42C204.305 58.4221 204.31 58.4242 204.315 58.4263L219.75 64.8318L391.796 136.232C435.375 154.318 435.375 216.05 391.795 234.136L219.75 305.535Z"
-            [attr.fill]="threatHex" />
-        </svg>
-      </div>
-          <h2 class="text-4xl md:text-4xl font-bold text-black relative px-3 mb-1 sm:mb-5 
-                    text-center sm:text-left after:block after:w-35 after:h-0.5 after:bg-red-500 
-                    after:mt-2 after:rounded-lg">
-                    {{threatColor}}
-          </h2>
-    </div>
-
-    <div class="w-full md:w-3/4 flex flex-col gap-4 flex-grow">
-      <div class="w-full border-1 bg-white p-4 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 
-                hover:to-gray-300 transition-all duration-300 ease-in-out rounded-lg flex flex-wrap items-center 
-                  justify-center sm:justify-between gap-4 text-black" style="font-family: 'helvetica', sans-serif;">
-
-        <span class="text-4xl font-semibold">{{threatLevel?.toFixed(1)}}/10</span>
-
-        @if(threatLevel == null || threatLevel <= 0.5)
-                                      {🏴🏴🏴🏴🏴🏴🏴🏴🏴🏴}
-        @else if (threatLevel <= 1.5) {🚩🏴🏴🏴🏴🏴🏴🏴🏴🏴}
-        @else if (threatLevel <= 2.5) {🚩🚩🏴🏴🏴🏴🏴🏴🏴🏴}
-        @else if (threatLevel <= 3.5) {🚩🚩🚩🏴🏴🏴🏴🏴🏴🏴}
-        @else if (threatLevel <= 4.5) {🚩🚩🚩🚩🏴🏴🏴🏴🏴🏴}
-        @else if (threatLevel <= 5.5) {🚩🚩🚩🚩🚩🏴🏴🏴🏴🏴}
-        @else if (threatLevel <= 6.5) {🚩🚩🚩🚩🚩🚩🏴🏴🏴🏴}
-        @else if (threatLevel <= 7.5) {🚩🚩🚩🚩🚩🚩🚩🏴🏴🏴}
-        @else if (threatLevel <= 8.5) {🚩🚩🚩🚩🚩🚩🚩🚩🏴🏴} 
-        @else if (threatLevel <= 9.5) {🚩🚩🚩🚩🚩🚩🚩🚩🚩🏴}
-        @else if (threatLevel > 9.5)  {🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩} 
-        <div class="px-5 text-5xl flex space-x-1 text-black">
+  
+  @if (isLoading) {
+    <div class="w-full h-screen flex items-center justify-center font-bold">
+      <h1 class="text-6xl">
+        Loading data...
+      </h1>
+    </div>  
+  }@else{
+    <div class="w-full md:w-4/5 sm:w-5/5 lg:w-4/5 flex flex-wrap md:flex-nowrap bg-white p-2 gap-4 h-auto">
+      <div
+        class="flex flex-col items-center justify-center w-full md:w-1/4 md:h-[702px] border-1 bg-white p-4 
+              bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 transition-all 
+              duration-300 ease-in-out rounded-lg">
+  
+        <div class="w-[50%] h-[65%] sm:w-[70%] md:w-[90%]">
+  
+  
+  
+          <svg class="w-full h-full max-w-[400px] max-h-[400px]" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid meet">
+            <rect x="75" width="69" height="500" rx="34.5" [attr.fill]="threatHex" />
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M219.75 305.535L204.315 311.941L131 342.367L131 262.989L131 107.378L131 28L204.3 58.42C204.305 58.4221 204.31 58.4242 204.315 58.4263L219.75 64.8318L391.796 136.232C435.375 154.318 435.375 216.05 391.795 234.136L219.75 305.535Z"
+              [attr.fill]="threatHex" />
+          </svg>
         </div>
-      <button [disabled]="!isLoggedIn || !userInputUrl" (click)="getLinkAndRouteReport()" 
-              class="bg-red-800 text-white w-full sm:w-auto px-6 py-3 text-2xl rounded-lg
-                    hover:scale-102 transition-all duration-300 font-bold flex-shrink-0 
-                    whitespace-nowrap self-center min-w-[150px] text-center disabled:bg-gray-400">
-          @if (isLoggedIn) {
-            Report
+            <h2 class="text-4xl md:text-4xl font-bold text-black relative px-3 mb-1 sm:mb-5 
+                      text-center sm:text-left after:block after:w-35 after:h-0.5 after:bg-red-500 
+                      after:mt-2 after:rounded-lg">
+                      {{threatColor}}
+            </h2>
+      </div>
+  
+      <div class="w-full md:w-3/4 flex flex-col gap-4 flex-grow">
+        <div class="w-full border-1 bg-white p-4 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 
+                  hover:to-gray-300 transition-all duration-300 ease-in-out rounded-lg flex flex-wrap items-center 
+                    justify-center sm:justify-between gap-4 text-black" style="font-family: 'helvetica', sans-serif;">
+  
+          <span class="text-4xl font-semibold">{{threatLevel?.toFixed(1)}}/10</span>
+  
+          @if(threatLevel == null || threatLevel <= 0.5)
+                                        {🏴🏴🏴🏴🏴🏴🏴🏴🏴🏴}
+          @else if (threatLevel <= 1.5) {🚩🏴🏴🏴🏴🏴🏴🏴🏴🏴}
+          @else if (threatLevel <= 2.5) {🚩🚩🏴🏴🏴🏴🏴🏴🏴🏴}
+          @else if (threatLevel <= 3.5) {🚩🚩🚩🏴🏴🏴🏴🏴🏴🏴}
+          @else if (threatLevel <= 4.5) {🚩🚩🚩🚩🏴🏴🏴🏴🏴🏴}
+          @else if (threatLevel <= 5.5) {🚩🚩🚩🚩🚩🏴🏴🏴🏴🏴}
+          @else if (threatLevel <= 6.5) {🚩🚩🚩🚩🚩🚩🏴🏴🏴🏴}
+          @else if (threatLevel <= 7.5) {🚩🚩🚩🚩🚩🚩🚩🏴🏴🏴}
+          @else if (threatLevel <= 8.5) {🚩🚩🚩🚩🚩🚩🚩🚩🏴🏴} 
+          @else if (threatLevel <= 9.5) {🚩🚩🚩🚩🚩🚩🚩🚩🚩🏴}
+          @else if (threatLevel > 9.5)  {🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩} 
+          <div class="px-5 text-5xl flex space-x-1 text-black">
+          </div>
+
+          @if(isLoggedIn){
+            <button (click)="getLinkAndRouteReport()" 
+            class="bg-red-800 text-white w-full sm:w-auto px-6 py-3 text-2xl rounded-lg
+                  hover:scale-102 transition-all duration-300 font-bold flex-shrink-0 
+                  whitespace-nowrap self-center min-w-[150px] text-center disabled:bg-gray-400">
+                  Report
+            </button>
           }@else {
-            Login To Report
+            <button (click)="getLinkAndRouteReport()" 
+            class="bg-gray-400 text-white w-full sm:w-auto px-6 py-3 text-2xl rounded-lg
+                  hover:scale-102 transition-all duration-300 font-bold flex-shrink-0 
+                  whitespace-nowrap self-center min-w-[150px] text-center">
+                  Login To Report
+            </button>
           }
-      </button>
-    </div>
-    <div class="w-full flex flex-col md:flex-row bg-white">
-      <div
-        class="w-full md:w-1/2 h-auto md:h-[600px] border-1 bg-white bg-gradient-to-r from-gray-100 to-gray-200 
-              hover:from-gray-200 hover:to-gray-300 transition-all duration-300 ease-in-out flex flex-col items-center 
-              justify-center p-6 mr-4 rounded-lg mb-3">
 
-        <h2 class="text-4xl sm:text-5xl font-bold text-black relative px-3 mb-1 sm:mb-5 
-                  text-center sm:text-left after:block after:w-55 md:after:w-40 lg:after:w-65
-                  sm:after:w-72 after:h-0.5 after:bg-red-500 after:mt-2 after:mx-auto">
-                  Post Content
-        </h2>
-
-        <p class="text-black text-lg md:h-[600px] mt-3 md:text-xl text-justify leading-relaxed w-full overflow-auto"
-          style="font-family: 'Poppins', sans-serif;">
-          {{postContent}}
-        </p>
-
-        <div class="flex flex-col gap-6 w-full">
-          <div>
-            <button (click)="scrollToStats()" class="bg-red-800 text-white w-full px-6 py-3 text-2xl rounded-lg 
-                       hover:scale-102 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap 
-                       self-center min-w-[150px] text-center mt-3 md:mt-0">
-              Statistics
-            </button>
-          </div>
-        
-          <!--Reports Card-->
-          <div>
-            <button (click)="goToReports()" class="bg-red-800 text-white w-full px-6 py-3 text-2xl rounded-lg 
-                       hover:scale-102 transition-all duration-30 font-bold flex-shrink-0 whitespace-nowrap 
-                       self-center min-w-[150px] text-center">
-              Reports
-            </button>
-          </div>  
-        </div>
       </div>
-      <div
-        class="w-full md:w-1/2 md:h-[600px] flex flex-col items-center justify-center border-1 rounded-lg
-            bg-white p-4 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 
-            hover:to-gray-300 transition-all duration-300 ease-in-out overflow-hidden">
-        <iframe [src]="fbEmbedUrl" class="lg:w-full h-full flex-grow md:px-10" style="border: none;" scrolling="no"
-          frameborder="0" allowfullscreen="true"
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-        </iframe>
-      </div>
-    </div>
-  </div>
-  </div>
-
-  <!--Dashboard Card-->
-
-  <div #stats class="flex flex-col lg:flex-row md:flex-row md:gap-10 w-full md:w-4/5 xl:w-4/5 lg:w-4/5">
-    <!--Dashboard -->
-    <div class="flex flex-col basis-1/4 w-full bg-white rounded-lg mb-6">
-      
-      <div class="relative w-fit mx-auto sm:mx-0">
-        <h2 class="text-4xl sm:text-5xl font-bold text-black px-3 mt-8 md:mt-2 mb-1 md:mb-1 text-center sm:text-left inline-block"
-            style="font-family: 'helvetica', sans-serif;">
-            Statistics
-            <span class="block w-full h-0.5 bg-red-500 mt-1 rounded-lg"></span>
-        </h2>
-    </div>
-
-      <div class="flex md:flex-col flex-row gap-6 p-3 w-full">
-        <!-- Statistics Section -->
-        <div class="flex flex-col sm:flex-col justify-between flex-grow gap-6 w-full">
-          <!-- Total Reports Card -->
-          <div class="flex-1 flex flex-col justify-center items-center hover:scale-102 transition-all duration-300 
-                    p-4 rounded-lg bg-white bg-gradient-to-r from-gray-100  to-gray-200 hover:from-yellow-300 
-                  hover:to-yellow-400 ease-in-out w-full border-1">
-            <p class="text-3xl text-black text-center" style="font-family: 'Noto', sans-serif;">Total Reports</p>
-            <span class="text-7xl font-bold text-black mt-2 text-center"
-              style="font-family: 'helvetica', sans-serif;">{{reportTotal}}</span>
-          </div>
-
-          <!-- Peak Daily Reports Card -->
-          <div class="flex-1 flex flex-col justify-center items-center hover:scale-102 transition-all duration-300 
-                      p-4 rounded-lg bg-white bg-gradient-to-r from-gray-100  to-gray-200 hover:from-yellow-300 
-                    hover:to-yellow-400 ease-in-out w-full border-1">
-            <p class="text-3xl text-black text-center" style="font-family: 'helvetica', sans-serif;">Peak Daily Reports</p>
-            <span class="text-7xl font-bold text-black mt-2 text-center"
-              style="font-family: 'helvetica', sans-serif;">{{peakReport}}</span>
-          </div>
-
-          <!-- Average Daily Reports Card -->
-          <div class="flex-1 flex flex-col justify-center items-center hover:scale-102 transition-all duration-300 
-                      p-4 rounded-lg bg-white bg-gradient-to-r from-gray-100  to-gray-200 hover:from-yellow-300 
-                    hover:to-yellow-400 ease-in-out w-full border-1">
-            <p class="text-3xl text-black text-center" style="font-family: 'helvetica', sans-serif;">Average Daily Reports
-            </p>
-            <span class="text-7xl font-bold text-black mt-2 text-center"
-              style="font-family: 'helvetica', sans-serif;">{{averagePostCount}}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="flex flex-col basis-3/4 w-full bg-white rounded-lg">
+      <div class="w-full flex flex-col md:flex-row bg-white">
+        <div
+          class="w-full md:w-1/2 h-auto md:h-[600px] border-1 bg-white bg-gradient-to-r from-gray-100 to-gray-200 
+                hover:from-gray-200 hover:to-gray-300 transition-all duration-300 ease-in-out flex flex-col items-center 
+                justify-center p-6 mr-4 rounded-lg mb-3">
+  
+          <h2 class="text-4xl sm:text-5xl font-bold text-black relative px-3 mb-1 sm:mb-5 
+                    text-center sm:text-left after:block after:w-55 md:after:w-40 lg:after:w-65
+                    sm:after:w-72 after:h-0.5 after:bg-red-500 after:mt-2 after:mx-auto">
+                    Post Content
+          </h2>
+  
+          <p class="text-black text-lg md:h-[600px] mt-3 md:text-xl text-justify leading-relaxed w-full overflow-auto"
+            style="font-family: 'Poppins', sans-serif;">
+            {{postContent}}
+          </p>
+  
+          <div class="flex flex-col gap-6 w-full">
+            <div>
+              <button (click)="scrollToStats()" class="bg-red-800 text-white w-full px-6 py-3 text-2xl rounded-lg 
+                         hover:scale-102 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap 
+                         self-center min-w-[150px] text-center mt-3 md:mt-0">
+                Statistics
+              </button>
+            </div>
           
-      <div class="relative w-fit mx-auto sm:mx-0">
-        <h2 class="text-4xl sm:text-5xl font-bold text-black px-3 mt-2 mb-1 text-center sm:text-left inline-block"
-            style="font-family: 'helvetica', sans-serif;">
-            Charts
-            <span class="block w-full h-0.5 bg-red-500 mt-1 rounded-lg"></span>
-        </h2>
-    </div>
-    
-      <div class="flex flex-col flex-grow gap-6 mt-1 p-3">
-        <!-- Chart 1 Container -->
-        <div class="bg-white p-4 border-1 bg-gradient-to-r from-gray-100 to-gray-200 
-                    hover:from-gray-200 hover:to-gray-300 transition-all duration-300 
-                    ease-in-out w-full h-[300px] flex items-center justify-center rounded-lg 
-                    cursor-pointer hover:scale-102"
-          (click)="toggleGraph()">
-          <canvas id="myChart"></canvas>
+            <!--Reports Card-->
+            <div>
+              <button (click)="goToReports()" class="bg-red-800 text-white w-full px-6 py-3 text-2xl rounded-lg 
+                         hover:scale-102 transition-all duration-30 font-bold flex-shrink-0 whitespace-nowrap 
+                         self-center min-w-[150px] text-center">
+                Reports
+              </button>
+            </div>  
+          </div>
         </div>
-        <!-- Chart 2 Container -->
-        <div class="bg-white p-4 border-1 bg-gradient-to-r from-gray-100 to-gray-200 
-                    hover:from-gray-200 hover:to-gray-300 transition-all duration-300 
-                    ease-in-out w-full h-[300px] flex items-center justify-center rounded-lg 
-                    cursor-pointer hover:scale-102">
-          <canvas id="myChart2"></canvas>
+        <div
+          class="w-full md:w-1/2 md:h-[600px] flex flex-col items-center justify-center border-1 rounded-lg
+              bg-white p-4 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 
+              hover:to-gray-300 transition-all duration-300 ease-in-out overflow-hidden">
+          <iframe [src]="fbEmbedUrl" class="lg:w-full h-full flex-grow md:px-10" style="border: none;" scrolling="no"
+            frameborder="0" allowfullscreen="true"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+          </iframe>
         </div>
       </div>
     </div>
-  </div>
+    </div>
+  
+    <!--Dashboard Card-->
+  
+    <div #stats class="flex flex-col lg:flex-row md:flex-row md:gap-10 w-full md:w-4/5 xl:w-4/5 lg:w-4/5">
+      <!--Dashboard -->
+      <div class="flex flex-col basis-1/4 w-full bg-white rounded-lg mb-6">
+        
+        <div class="relative w-fit mx-auto sm:mx-0">
+          <h2 class="text-4xl sm:text-5xl font-bold text-black px-3 mt-8 md:mt-2 mb-1 md:mb-1 text-center sm:text-left inline-block"
+              style="font-family: 'helvetica', sans-serif;">
+              Statistics
+              <span class="block w-full h-0.5 bg-red-500 mt-1 rounded-lg"></span>
+          </h2>
+      </div>
+  
+        <div class="flex md:flex-col flex-row gap-6 p-3 w-full">
+          <!-- Statistics Section -->
+          <div class="flex flex-col sm:flex-col justify-between flex-grow gap-6 w-full">
+            <!-- Total Reports Card -->
+            <div class="flex-1 flex flex-col justify-center items-center hover:scale-102 transition-all duration-300 
+                      p-4 rounded-lg bg-white bg-gradient-to-r from-gray-100  to-gray-200 hover:from-yellow-300 
+                    hover:to-yellow-400 ease-in-out w-full border-1">
+              <p class="text-3xl text-black text-center" style="font-family: 'Noto', sans-serif;">Total Reports</p>
+              <span class="text-7xl font-bold text-black mt-2 text-center"
+                style="font-family: 'helvetica', sans-serif;">{{reportTotal}}</span>
+            </div>
+  
+            <!-- Peak Daily Reports Card -->
+            <div class="flex-1 flex flex-col justify-center items-center hover:scale-102 transition-all duration-300 
+                        p-4 rounded-lg bg-white bg-gradient-to-r from-gray-100  to-gray-200 hover:from-yellow-300 
+                      hover:to-yellow-400 ease-in-out w-full border-1">
+              <p class="text-3xl text-black text-center" style="font-family: 'helvetica', sans-serif;">Peak Daily Reports</p>
+              <span class="text-7xl font-bold text-black mt-2 text-center"
+                style="font-family: 'helvetica', sans-serif;">{{peakReport}}</span>
+            </div>
+  
+            <!-- Average Daily Reports Card -->
+            <div class="flex-1 flex flex-col justify-center items-center hover:scale-102 transition-all duration-300 
+                        p-4 rounded-lg bg-white bg-gradient-to-r from-gray-100  to-gray-200 hover:from-yellow-300 
+                      hover:to-yellow-400 ease-in-out w-full border-1">
+              <p class="text-3xl text-black text-center" style="font-family: 'helvetica', sans-serif;">Average Daily Reports
+              </p>
+              <span class="text-7xl font-bold text-black mt-2 text-center"
+                style="font-family: 'helvetica', sans-serif;">{{averagePostCount}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col basis-3/4 w-full bg-white rounded-lg">
+            
+        <div class="relative w-fit mx-auto sm:mx-0">
+          <h2 class="text-4xl sm:text-5xl font-bold text-black px-3 mt-2 mb-1 text-center sm:text-left inline-block"
+              style="font-family: 'helvetica', sans-serif;">
+              Charts
+              <span class="block w-full h-0.5 bg-red-500 mt-1 rounded-lg"></span>
+          </h2>
+      </div>
+      
+        <div class="flex flex-col flex-grow gap-6 mt-1 p-3">
+          <!-- Chart 1 Container -->
+          <div class="bg-white p-4 border-1 bg-gradient-to-r from-gray-100 to-gray-200 
+                      hover:from-gray-200 hover:to-gray-300 transition-all duration-300 
+                      ease-in-out w-full h-[300px] flex items-center justify-center rounded-lg 
+                      cursor-pointer hover:scale-102"
+            (click)="toggleGraph()">
+            <canvas id="myChart"></canvas>
+          </div>
+          <!-- Chart 2 Container -->
+          <div class="bg-white p-4 border-1 bg-gradient-to-r from-gray-100 to-gray-200 
+                      hover:from-gray-200 hover:to-gray-300 transition-all duration-300 
+                      ease-in-out w-full h-[300px] flex items-center justify-center rounded-lg 
+                      cursor-pointer hover:scale-102">
+            <canvas id="myChart2"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 </main>

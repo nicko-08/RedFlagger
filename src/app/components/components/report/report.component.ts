@@ -22,6 +22,9 @@ export class ReportComponent {
   authService = inject(AuthService);
   session = this.authService.getSession();
   router = inject(Router);
+
+  submitting = false;
+
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.reportForm = this.fb.group({
       pageLink: ['', [Validators.required, Validators.pattern(/https?:\/\/.+/)]],
@@ -68,6 +71,7 @@ export class ReportComponent {
   }
 
   async onSubmit(): Promise<void> {
+    this.submitting = true;
     //required urls for http POST
     if (this.reportForm.valid && this.images.length <= 3) {
       const baseUrl = 'https://redflagger-api-10796636392.asia-southeast1.run.app/report/new';
@@ -103,10 +107,12 @@ export class ReportComponent {
           this.images = [];
           this.previewUrls = [];
           this.router.navigate(['information'], { queryParams: { input: this.userLink } });
+          this.submitting = false;
         },
         error: (error: any) => {
           console.error('Error submitting the report:', error);
           alert('Failed to submit the report. Please try again.');
+          this.submitting = false;
         },
       });
     }

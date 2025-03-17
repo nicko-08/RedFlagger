@@ -12,13 +12,23 @@
       </button>
     
       <!-- Report Button -->
-      <button 
-        [disabled]="!isLoggedIn || !userInputUrl" 
+      @if (isLoggedIn) {
+        <button 
         class="bg-red-800 text-white px-6 py-3 rounded-lg 
                hover:scale-102 transition-all duration-300 font-bold 
-               w-full xs:w-auto sm:w-auto text-center disabled:bg-gray-400 mb-4">
-          @if (isLoggedIn) { Report } @else { Login To Report }
+               w-full xs:w-auto sm:w-auto text-center  mb-4"
+               (click)="getLinkAndRouteReport()">
+               Report 
       </button>
+      }@else{
+        <button 
+        class="bg-gray-400 text-white px-6 py-3 rounded-lg 
+               hover:scale-102 transition-all duration-300 font-bold 
+               w-full xs:w-auto sm:w-auto text-center  mb-4"
+               (click)="getLinkAndRouteReport()">
+               Login To Report 
+        </button>
+      }
     </div>
     
     <div class="flex flex-col sm:flex-row justify-between items-center w-full">
@@ -31,11 +41,11 @@
         
     <div *ngFor="let report of reports" 
         class="mb-4 px-5 py-3 border-black border-1 bg-white p-4 bg-gradient-to-r 
-            from-gray-100 to-gray-200  hover:from-gray-200 hover:to-gray-300 
-            transition-all duration-300 ease-in-out rounded-lg mt-3">
-
-      <div class="flex items-center gap-4 w-full">
-
+        from-gray-100 to-gray-200  hover:from-gray-200 hover:to-gray-300 
+        transition-all duration-300 ease-in-out rounded-lg mt-3">
+        
+            <div class="flex items-center gap-4 w-full">
+              
           <!-- Avatar / Icon -->
           <div class="w-25 h-20 flex items-center justify-center 
                       rounded-full bg-gray-300 text-white text-2xl font-bold">
@@ -65,7 +75,7 @@
               {{ report.USERNAME }}
             </h3>
           </div>
-          <button *ngIf="isModerator" (click)="deleteReport(report.REPORT_ID)"
+          <button *ngIf="isModerator || report.OWNERSHIP" (click)="deleteReport(report.REPORT_ID)"
             class="bg-red-800 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 
             hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center 
             min-w-[100px] text-center">
@@ -153,11 +163,24 @@
           }
         </button>
         
+
         @if(report.VIEWING_REVIEW){
           <div class="flex flex-col gap-4">
             @for (review of report.REVIEWS; track $index) {
-              <div class="flex gap-4 p-4 bg-gray-100 light:bg-gray-800 rounded-lg shadow-sm">
-          
+              <div class=" relative flex gap-4 p-4 bg-gray-100 light:bg-gray-800 rounded-lg shadow-sm">
+                
+                @if (review.USER_ID === userId || isModerator) {
+                  <button 
+                     class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                     (click)="deleteReviews(report.REPORT_ID, review.REVIEW_ID)"
+                   >
+                    <svg class="stroke-red-500" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 12L14 16M14 12L10 16M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                }
+
+                
                 <!-- Comment Content -->
                 <div>
                   <h2 class="text-sm font-semibold text-gray-800 light:text-white">

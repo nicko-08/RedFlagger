@@ -33,6 +33,7 @@ export class HomeComponent {
 
   searchAction(): void{
     this.sharedServe.determinePostType(this.userInputUrl!);
+    this.sharedServe.updateInput(this.userInputUrl!);
   }
 }
 

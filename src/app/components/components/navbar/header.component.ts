@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit {
   searchAction(): void{
   console.log('searching...');
   console.log('Search action triggered with input:', this.userInputUrl);
-  this.determinePostType();
+  this.sharedService.determinePostType(this.userInputUrl);
   this.sharedService.updateInput(this.userInputUrl);
   }
 
