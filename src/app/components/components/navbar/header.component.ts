@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedService } from '../../../shared.service';
 import {HostListener } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +19,9 @@ export class HeaderComponent implements OnInit {
   isLoggedIn = false;
   userInputUrl: string = "";
   isMenuOpen: boolean = false; 
+  username: string = "";
+  
+  
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen; 
@@ -33,8 +37,14 @@ export class HeaderComponent implements OnInit {
   const session = await this.authService.getSession();
   
   this.isLoggedIn = !!session; // Set isLoggedIn to true if a session exists
-  }
 
+
+  if(this.isLoggedIn){
+    this.username = session?.user.user_metadata['username'];
+    console.log('User is logged in');
+  }
+  
+ }
   async logoutUser() {
     this.logout().then(() => {
       this.isLoggedIn = false; // Update the login status
@@ -85,4 +95,7 @@ determinePostType(){
       this.toggleMenu();
     }
   }
+
+
+
 }
