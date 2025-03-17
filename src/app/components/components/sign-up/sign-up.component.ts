@@ -25,12 +25,18 @@ export class SignUpComponent {
   });
   errorMessage: string | null = null;
 
+  signingUp = false;
+
   onSubmit() {
+    this.signingUp = true;
+    console.log(this.signingUp);
     const rawFormValue = this.signUpForm.getRawValue();
     this.authService.register(rawFormValue.email, rawFormValue.username, rawFormValue.password).subscribe((result) =>{
       if (result.error) {
+        this.signingUp = false;
         this.errorMessage = result.error.message;
       } else {
+        this.signingUp = false;
         window.location.replace('check-email');
       }
     });

@@ -28,9 +28,17 @@
                 @if (errorMessage) {
                     <div class="signup-error mb-4">{{ errorMessage }}</div>
                 }
-            <button type="submit" 
-                class="signup-button text-xl sm:text-2xl md:text-3xl max-w-xs sm:max-w-sm md:max-w-md py-2 sm:py-3 px-3 sm:px-6">
-                SIGN UP
+            <button type="submit" [disabled]="signingUp"
+                class="signup-button disabled:text-gray-500 text-xl sm:text-2xl md:text-3xl max-w-xs sm:max-w-sm md:max-w-md py-2 sm:py-3 px-3 sm:px-6">
+                @if(signingUp){
+                    <h1 class="text-gray-500">
+                        SIGNING UP
+                    </h1>    
+                }@else {
+                    <h1 class="text-red-70">
+                        SIGN UP
+                    </h1>    
+                }
             </button>
         </form>
     </div>
