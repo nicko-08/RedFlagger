@@ -22,7 +22,7 @@ throw new Error('Method not implemented.');
 isLoggedIn = false;
 isModerator = true;
 isLoading = true;
-userInputUrl: string | null = null;
+userInputUrl: string = '';
 pageLink: string | null = null;
 postContent: string | null = "Loading...";
 reportTotal: number | null = 0;
@@ -137,7 +137,6 @@ async ngOnInit(): Promise<void> {
   
 
   getPostContent(input: string): void {
-
     if(!this.userInputUrl){
       alert('Please enter a valid URL');
       return;
@@ -320,6 +319,7 @@ async ngOnInit(): Promise<void> {
     const data = dataArray.map((item) => item.value);
   
     const maxDataValue = Math.max(...data); // Get the max value from data
+    
     chart.data.labels = labels;
     chart.data.datasets[0].data = data;
   
@@ -358,7 +358,7 @@ getReports(input: string): void {
   });
 } 
 
-  private checkRole(): void {
+private checkRole(): void {
     if (!this.isLoggedIn) {
         this.isModerator = false;
         return;
