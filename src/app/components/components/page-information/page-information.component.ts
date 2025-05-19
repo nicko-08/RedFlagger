@@ -101,11 +101,11 @@ route = inject(ActivatedRoute);
         },
         plugins: {
           legend: { position: 'top',
-            labels: { color: 'black', font: { size: 15 } }
+            labels: { color: '#777777', font: { size: 15 } }
            },
           title: { display: true, text: 'Frequent Reports',
             font: { size: 25, weight: 'bold'},
-            color: 'black'
+            color: '#777777'
            },
         },
       },
@@ -137,12 +137,12 @@ route = inject(ActivatedRoute);
         },
         plugins: {
           legend: { position: 'top',
-          labels: { color: 'black', font: {size: 15} }
+          labels: { color: '#777777', font: {size: 15} }
            },
           title: { display: true, 
             text: 'Reports Over Time',
             font: { size: 22, weight: 'bold' },
-            color: 'black'
+            color: '#777777'
           },
         },
       },
@@ -227,8 +227,9 @@ route = inject(ActivatedRoute);
 
     this.http.get<{ total_reports: number }>(apiPageStatsUrl).subscribe({
       next: (response) => {
-
-        this.reportTotal = response.total_reports || 0;// Extract total reports from API response
+        //original code mo//
+        // this.reportTotal = response.total_reports || 0; Extract total reports from API response
+        this.animateCount('reportTotal', response.total_reports || 0);
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
@@ -239,7 +240,9 @@ route = inject(ActivatedRoute);
 
     this.http.get<{ average_daily_reports: number }>(apiPageStatsUrl).subscribe({
       next: (response) => {
-        this.averagePostCount = (response.average_daily_reports ?? 0).toFixed(1) // Extract total reports from API response
+        //original code mo//
+        //this.averagePostCount = (response.average_daily_reports ?? 0).toFixed(1) // Extract total reports from API response
+        this.animateDecimal('averagePostCount', response.average_daily_reports ?? 0);
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
@@ -249,7 +252,9 @@ route = inject(ActivatedRoute);
 
     this.http.get<{ peak_reports: number }>(apiPageStatsUrl).subscribe({
       next: (response) => {
-        this.peakReport = response.peak_reports || 0// Extract total reports from API response
+        //original code mo//
+        //this.peakReport = response.peak_reports || 0 // Extract total reports from API response
+        this.animateCount('peakReport', response.peak_reports || 0);
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
@@ -307,4 +312,38 @@ route = inject(ActivatedRoute);
     this.router.navigate(['/post-report-reviews'], { queryParams: { input: this.userInputUrl } });
   }
   
+
+  //Method pang Animate ng Numbers sa Stats//
+    animateCount(property: keyof PageInformationComponent, target: number, duration = 1500) {
+    const stepTime = Math.abs(Math.floor(duration / target));
+    let current = 0;
+
+    const timer = setInterval(() => {
+      if (current >= target) {
+        (this[property] as number) = target;
+        clearInterval(timer);
+      } else {
+        current += 1;
+        (this[property] as number) = current;
+      }
+    }, stepTime);
+  } 
+
+  animateDecimal(property: keyof PageInformationComponent, target: number, duration = 1500) {
+  const steps = 50;
+  let currentStep = 0;
+  const increment = target / steps;
+
+  const timer = setInterval(() => {
+    currentStep++;
+    if (currentStep >= steps) {
+      (this[property] as string) = target.toFixed(1);
+      clearInterval(timer);
+    } else {
+      const current = increment * currentStep;
+      (this[property] as string) = current.toFixed(1);
+    }
+  }, duration / steps);
+}
+
 }

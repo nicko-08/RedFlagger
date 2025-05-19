@@ -1,12 +1,107 @@
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient 4s ease infinite;
-  }
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
-  
+.custom-dark {
+  @apply dark:bg-gradient-to-r dark:from-[#121212] dark:to-[#1e1e1e];
+}
+
+.dark-hover {
+  @apply dark:hover:from-[#1a1a1a] dark:hover:to-[#2a2a2a];
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 4s ease infinite;
+}
+
+.main-container {
+  @apply flex min-h-screen w-full flex-col items-center justify-start bg-white p-6;
+}
+
+.div1 {
+  @apply mx-auto flex w-full flex-1 flex-col rounded-lg bg-white p-3 sm:w-5/5 md:w-4/5 lg:w-4/5;
+}
+
+.div2 {
+  @apply flex w-full flex-col items-center justify-between gap-4 sm:flex-row;
+}
+
+.overview {
+  @apply relative mb-1 px-3 text-center text-4xl font-bold text-black after:mx-auto after:mt-2 after:block after:h-0.5 after:w-63 after:bg-red-500 sm:mb-5 sm:text-left sm:text-5xl dark:text-white;
+}
+
+.viewreport-btn {
+  @apply mb-5 w-full rounded-lg bg-red-800 px-6 py-3 font-bold text-white transition-all duration-200 ease-in-out hover:cursor-pointer hover:underline sm:w-auto;
+}
+
+.div3-container {
+  @apply flex flex-col gap-6 sm:flex-row;
+}
+
+.div3 {
+  @apply flex w-full flex-col rounded-lg border-1 bg-gradient-to-r from-gray-100 to-gray-200 p-4 shadow-md transition-all duration-300 ease-in-out hover:from-gray-200 hover:to-gray-300 sm:w-1/2 dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a] dark:hover:from-[#2a2a2a] dark:hover:to-[#3a3a3a];
+}
+
+.frame-container {
+  @apply flex h-full w-full items-center justify-center;
+}
+
+.pagename {
+  @apply mt-4 text-center text-3xl font-bold text-black sm:text-4xl md:text-3xl lg:text-4xl xl:text-5xl dark:text-white;
+}
+
+.pagename-div {
+  @apply py-4 text-center text-3xl sm:py-6 sm:text-4xl md:text-3xl lg:text-3xl xl:text-3xl dark:text-white;
+}
+
+.threat-level {
+  @apply ml-3 font-bold text-black dark:text-white;
+}
+
+.right-card {
+  @apply flex w-full flex-col rounded-lg border-1 bg-white bg-gradient-to-r from-gray-100 to-gray-200 p-6 shadow-md transition-all duration-300 ease-in-out hover:from-gray-200 hover:to-gray-300 sm:w-1/2 dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a] dark:hover:from-[#2a2a2a] dark:hover:to-[#3a3a3a];
+}
+
+.right-card-div {
+  @apply flex items-center justify-center;
+}
+
+.right-card-div-container {
+  @apply flex h-[200px] w-[200px] items-center justify-center rounded-full border-1 border-red-800 shadow-lg dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a] dark:hover:from-[#2a2a2a] dark:hover:to-[#3a3a3a];
+}
+
+.stats-container {
+  @apply mt-6 grid grid-cols-1 gap-6 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3;
+}
+
+.reports {
+  @apply cursor-pointer rounded-lg border-1 border-red-800 bg-white bg-gradient-to-r from-gray-100 to-gray-200 p-4 text-center transition-all duration-300 select-none hover:from-gray-300 hover:to-gray-400 hover:shadow-lg dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a] dark:hover:from-[#2a2a2a] dark:hover:to-[#3a3a3a];
+}
+
+.reports-txt {
+  @apply mt-5 text-2xl text-black dark:text-white;
+}
+
+.reports-count {
+  @apply text-4xl font-bold text-black dark:text-white;
+}
+
+.charts-section {
+  @apply w-full bg-white sm:ml-4 dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a] dark:hover:from-[#2a2a2a] dark:hover:to-[#3a3a3a];
+}
+
+.charts {
+  @apply mt-6 flex min-h-[250px] flex-col space-y-4 rounded-lg border-1 bg-gradient-to-r from-gray-100 to-gray-200 px-3 py-3 shadow-md transition-all duration-300 ease-in-out hover:from-gray-200 hover:to-gray-300 sm:mt-0 sm:min-h-[150] dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a] dark:hover:from-[#2a2a2a] dark:hover:to-[#3a3a3a];
+}

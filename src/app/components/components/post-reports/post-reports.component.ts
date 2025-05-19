@@ -436,8 +436,6 @@ export class PostReportsComponent {
       });
     }
 
-
-
     if(alreadyreported){
       alert("You've already reported this Post, to prevent spam we only allow one report per post per account");
       return;
@@ -476,5 +474,4 @@ export class PostReportsComponent {
       return false;
     }
   }
-  
 }

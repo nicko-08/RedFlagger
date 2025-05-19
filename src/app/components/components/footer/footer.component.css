@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+.footer-container {
+  font-family: "Poppins", sans-serif;
+  @apply relative overflow-hidden border-t border-gray-600 bg-[#400000] py-6 shadow-inner;
+}
+
+.outer-div {
+  @apply mx-auto mt-7 max-w-screen-xl px-6 sm:px-10;
+}
+
+.mid-div {
+  @apply grid grid-cols-1 justify-between gap-8 sm:grid-cols-1 md:gap-5 lg:grid-cols-3;
+}
+
+.inner-div1 {
+  @apply flex flex-col items-center gap-4 text-white;
+}
+
+.inner-div2 {
+  @apply flex flex-col items-center gap-1 px-5;
+}
+
+.inner-div3 {
+  @apply flex flex-col items-center gap-1 px-5;
+}
+
+.footer-logo {
+  @apply flex items-center text-center text-4xl font-bold transition-transform duration-300 ease-in-out hover:underline hover:saturate-200;
+}
+
+.footer-desc {
+  @apply text-center text-gray-300 md:text-left lg:text-justify;
+}
+
+.navigation {
+  @apply text-2xl font-bold text-white;
+}
+
+.text {
+  @apply text-gray-300 transition-all duration-200 ease-in-out hover:text-yellow-400 hover:underline;
+}
+
+.legal {
+  @apply whitespace-nowrap text-gray-300 transition-all duration-200 ease-in-out hover:text-yellow-400 hover:underline;
+}
+
+.heading4 {
+  @apply text-2xl font-bold whitespace-nowrap text-white;
+}
+
+.name {
+  @apply whitespace-nowrap text-gray-300;
+}
+
+.number {
+  @apply text-gray-300;
+}
+
+.copyright {
+  @apply px-10 py-3 text-center text-gray-300 md:px-2 md:py-1;
+}
+
+/* if gusto ng marquee sa footer:
+.marquee {
+  position: relative;
+  width: 120%;
+  height: 80px;
+  overflow: hidden;
+  background-color: #f5c71a;
+  display: flex;
+  align-items: center;
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  cursor: pointer;
+}
+
+.marquee-track img {
+  height: 50px;
+  margin-right: 3rem;
+  object-fit: contain;
+}
+*/
+
+/* Pwede alisin pag ayaw umaandar:
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+*/

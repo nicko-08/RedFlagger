@@ -160,10 +160,21 @@ async ngOnInit(): Promise<void> {
     
     this.http.get<{ total_reports: number, average_daily_reports: number, peak_reports: number,  }>(apiPostStatsUrl).subscribe({
       next: (response) => {
+        
 
+        //Ito yung original method mo, nilagyan ko lang ng animate count para dun sa method pang animate ng numbers//
+
+        /* 
         this.reportTotal = response.total_reports || 0;// Extract total reports from API response
         this.averagePostCount = response.average_daily_reports.toFixed(1) || '0'; // Extract average daily reports from API response
         this.peakReport = response.peak_reports || 0; // Extract peak reports from API response
+        */
+       
+        //Ito yung method na pang animate ng numbers//
+        this.animateCount(response.total_reports || 0, 'reportTotal');
+        this.animateCount(Math.floor(response.average_daily_reports || 0), 'averagePostCount');
+        this.animateCount(response.peak_reports || 0, 'peakReport');
+
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
@@ -242,7 +253,7 @@ async ngOnInit(): Promise<void> {
           legend: { position: 'top' },
           title: { display: true, text: 'Frequent Reports',
             font: { size: 25, weight: 'bold'},
-            color: 'black'
+            color: '#777777'
            },
         },
       },
@@ -276,7 +287,7 @@ async ngOnInit(): Promise<void> {
           legend: { position: 'top' },
           title: { display: true, text: 'Reports Over Time',
             font: { size: 25, weight: 'bold'},
-            color: 'black'
+            color: '#777777'
            },
         },
       },
@@ -531,6 +542,28 @@ async putVote(report_id:number, vote_type:string){
   scrollToStats(){
     this.stats.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+  //Method pang animate ng numbers//
+
+  animateCount(target: number, property: keyof InformationComponent, duration: number = 1500) {
+  const start = 0;
+  const startTime = performance.now();
+
+  const step = (currentTime: number) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const currentValue = Math.floor(progress * target);
+    (this as any)[property] = currentValue;
+
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      (this as any)[property] = target; // Ensure final value is exact
+    }
+  };
+
+  requestAnimationFrame(step);
+}
 
 }
 

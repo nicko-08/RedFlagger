@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+.custom-dark {
+  @apply dark:bg-gradient-to-r dark:from-[#121212] dark:to-[#1e1e1e];
+}
+
+.dark-hover {
+  @apply dark:hover:from-[#1a1a1a] dark:hover:to-[#2a2a2a];
+}

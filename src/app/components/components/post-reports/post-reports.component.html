@@ -1,68 +1,50 @@
-<main class="flex flex-col items-center justify-start w-full min-h-screen bg-white p-2">
-  <div class="flex flex-1 flex-col w-full md:w-4/5 sm:w-5/5 lg:w-4/5 p-6 flex-grow bg-white">
-    
-    <div class="flex w-full gap-4 justify-between">
+<main class="main-container custom-dark">
+  <div class="div-1 custom-dark">
+    <div class="back-div">
       <!-- Back Button -->
-      <button 
-        class="bg-red-800 text-white font-bold py-3 px-6 rounded-lg 
-               hover:scale-102 transition-all duration-200 ease-in-out 
-               w-full xs:w-auto sm:w-auto text-center mb-4"
+      <button class="back-btn"
         (click)="goBack()">
-          Back To Post
+        Back To Post
       </button>
-    
       <!-- Report Button -->
       @if (isLoggedIn) {
-        <button 
-        class="bg-red-800 text-white px-6 py-3 rounded-lg 
-               hover:scale-102 transition-all duration-300 font-bold 
-               w-full xs:w-auto sm:w-auto text-center  mb-4"
+        <button class="report-btn"
                (click)="getLinkAndRouteReport()">
                Report 
       </button>
       }@else{
-        <button 
-        class="bg-gray-400 text-white px-6 py-3 rounded-lg 
-               hover:scale-102 transition-all duration-300 font-bold 
-               w-full xs:w-auto sm:w-auto text-center  mb-4"
+        <button class="login2report-btn"
                (click)="getLinkAndRouteReport()">
                Login To Report 
         </button>
       }
     </div>
-    
-    <div class="flex flex-col sm:flex-row justify-between items-center w-full">
-      <h3 class="text-4xl sm:text-5xl font-bold text-black px-3 mb-1 sm:mb-5 
-                  text-center sm:text-left relative after:block after:w-88 md:after:w-115 
-                  sm:after:w-115 after:h-0.5 after:bg-red-500 after:mt-2 after:mx-auto">
+    <!-- Post Report Reviews Heading -->
+    <div class="header-div">
+      <h3 class="header">
           Post Report Reviews 
       </h3>
-        </div>
-        
+    </div>
+    <!-- Box ng Report -->
     <div *ngFor="let report of reports" 
-        class="mb-4 px-5 py-3 border-black border-1 bg-white p-4 bg-gradient-to-r 
-        from-gray-100 to-gray-200  hover:from-gray-200 hover:to-gray-300 
-        transition-all duration-300 ease-in-out rounded-lg mt-3">
-        
-            <div class="flex items-center gap-4 w-full">
-              
-          <!-- Avatar / Icon -->
-          <div class="w-25 h-20 flex items-center justify-center 
-                      rounded-full bg-gray-300 text-white text-2xl font-bold">
+        class="report-div">
+            <div class="avatar-div">
+            <!-- Avatar/Icon -->
+            <div class="reporter-avatar">
                 🚩  <!-- Placeholder ng Avatar / Icon -->
             </div>
         <!--Vote Buttons-->
         <div *ngIf="isLoggedIn">
           <button (click)="putVote(report.REPORT_ID, 'upvote')" [class.text-green-500]="report.vote_type === 'upvote'"
-            class="text-gray-500 hover:text-green-500 transition p-1 w-6 h-6 flex justify-center items-center">
+            class="vote-btn">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18">
               <path d="M1 12h16L9 4z"></path>
             </svg>
           </button>
-          <p class="text-sm font-semibold text-center w-full">{{report.vote_count}}</p>
+          <p class="vote-count">{{report.vote_count}}</p>
           <button (click)="putVote(report.REPORT_ID, 'downvote')"
             [class.text-green-500]="report.vote_type === 'downvote'"
-            class="text-gray-500 hover:text-green-500 transition p-1 w-6 h-6 flex justify-center items-center">
+            class="downvote-btn">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18">
               <path d="M1 6h16l-8 8z"></path>
             </svg>
@@ -71,50 +53,42 @@
         <!--Content and Delete Button-->
         <div class="flex flex-col sm:flex-row w-full">
           <div class="flex-1">
-            <h3 class="text-2xl text-black" style="font-family: 'Poppins', sans-serif;">
+            <h3 class="text-lg text-black dark:text-white">
               {{ report.USERNAME }}
             </h3>
           </div>
           <button *ngIf="isModerator || report.OWNERSHIP" (click)="deleteReport(report.REPORT_ID)"
-            class="bg-red-800 text-white w-full sm:w-auto px-6 py-3 text-xl rounded-lg hover:bg-yellow-400 
-            hover:scale-105 transition-all duration-300 font-bold flex-shrink-0 whitespace-nowrap self-center 
-            min-w-[100px] text-center">
+            class="delete-report-btn">
             Delete Report
           </button>
         </div>
       </div>
-      <p class="text-red-black text-1xl text-justify mt-3" style="font-family: 'Poppins', sans-serif;">
+      <p class="text-black text-1xl mt-1 dark:text-white">
         {{ report.REPORT_CONTENT }}
       </p>
-      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 mt-4">
-        <img *ngFor="let img of report.IMAGES; let i = index" [src]="img" alt="Reported Image" 
-                        class="w-full max-w-[150px] sm:max-w-[180px] md:max-w-[150px] lg:max-w-[150px] 
-                        aspect-square object-cover rounded-lg shadow-md cursor-pointer transition-all 
-                        duration-300 hover:scale-102"
-          [ngClass]="{'hidden sm:block': i >= 1}">
-      </div>
-      <br>
-      <form [formGroup]="report.REVIEW_DATA" class="flex flex-col gap-3">
+<!-- Reported Images -->
+    <div class="flex flex-1 mt-1 gap-2">
+      <img *ngFor="let img of report.IMAGES; let i = index" 
+          [src]="img" 
+          alt="Reported Image" 
+          class="report-img cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-110"
+          [ngClass]="{'': i >= 1}">
+    </div>
+      <!-- Reviews -->
+      <form [formGroup]="report.REVIEW_DATA" class="flex flex-col gap-3 mt-2">
         <input 
-        class="bg-transparent border-b 
-            border-b-amber-950 
-            focus:border-black 
-            focus:border-b-2 
-            outline-none 
-            w-full 
-            text-black 
-            placeholder-gray-400" 
+        class="review" 
             type="text" placeholder="Add Review"
             (focus)="onAddReviewFocus(report.REPORT_ID)"
             (blur)="onAddReviewBlur(report.REPORT_ID)"
             formControlName = "content">
         <div class="flex flex-col gap-5" *ngIf="report.EDITING">
-          <ul class="items-center w-full text-sm font-medium bg-white border border-gray-200 rounded-lg sm:flex dark:bg-red-800 dark:border-gray-600 dark:text-white">
+          <ul class="ul">
             @for (rating of [4,3,2,1]; track rating) {
-              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+              <li class="li">
                 <div class="flex items-center ps-3">
                   <input type="radio" id="rating{{rating}}" name="rating" value={{rating}} formControlName="rating"
-                  class="w-4 h-4 text-red-800 bg-gray-100 border-gray-300 focus:ring-red-950 dark:focus:ring-red-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  class="rating">
                   <label for="age1"
                   class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{rating}}</label><br>    
                 </div>
@@ -126,33 +100,23 @@
               Missing Fields in review, could not submit
             </p>
           }
-
+          <!-- Review Buttons -->
           <div class="flex flex-row gap-6" *ngIf="report.EDITING">
-            <button 
-            class="bg-red-800 text-white w-full sm:w-auto px-6 py-3 text-sm rounded-lg 
-            hover:scale-103 transition-all duration-300 font-bold flex-shrink-0 
-            whitespace-nowrap self-center min-w-[100px] text-center"
-            (click)="addReview(report.REPORT_ID)">
+            <button class="add-review-btn"
+              (click)="addReview(report.REPORT_ID)">
               Add Review
             </button>
             <button
-            (click)="cancelReview(report.REPORT_ID)"
-            class="bg-red-800 text-white w-full sm:w-auto px-6 py-3 text-sm rounded-lg 
-            hover:scale-103 transition-all duration-300 font-bold flex-shrink-0 
-            whitespace-nowrap self-center min-w-[100px] text-center">
+              (click)="cancelReview(report.REPORT_ID)"
+              class="cancel-review-btn">
               Cancel
             </button>   
           </div>
-          
         </div>
       </form>
-
-      <br>
-      <div>
-        
-        <button class="bg-red-800 text-white w-full sm:w-auto px-3 py-2 text-sm rounded-xl 
-                     hover:scale-103 transition-all duration-300 font-bold flex-shrink-0 
-                     whitespace-nowrap self-center min-w-[500] text-center mt-2" 
+    <br>
+    <div>  
+        <button class="view-reviews-btn" 
                     (click)="viewReviews(report.REPORT_ID)">
           @if(report.VIEWING_REVIEW){
             <!--Pabago nalang to icons-->
@@ -162,44 +126,45 @@
             View Reviews
           }
         </button>
-        
-
         @if(report.VIEWING_REVIEW){
-          <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-1">
             @for (review of report.REVIEWS; track $index) {
-              <div class=" relative flex gap-4 p-4 bg-gray-100 light:bg-gray-800 rounded-lg shadow-sm">
-                
+              <div class=" relative flex gap-2 p-1 bg-gray-100 light:bg-gray-800 rounded-lg shadow-sm dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a]">
                 @if (review.USER_ID === userId || isModerator) {
                   <button 
-                     class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-                     (click)="deleteReviews(report.REPORT_ID, review.REVIEW_ID)"
-                   >
+                     class="mod-review-btn"
+                     (click)="deleteReviews(report.REPORT_ID, review.REVIEW_ID)">
                     <svg class="stroke-red-500" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M10 12L14 16M14 12L10 16M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                   </button>
                 }
-
-                
                 <!-- Comment Content -->
-                <div>
-                  <h2 class="text-sm font-semibold text-gray-800 light:text-white">
-                    {{review.USERNAME}}
-                  </h2>
-                  <p class="text-sm text-gray-600 light:text-gray-300">
-                    {{review.REVIEW_CONTENT}}
-                  </p>
-                  <p class="text-xs text-gray-500 light:text-gray-400 mt-1">
-                    ⭐ {{review.RATING}}
-                  </p>
+                <div class="comment-div">
+                  <!-- Avatar -->
+                  <div class="flex-shrink-0">
+                    <div class="comment-avatar">
+                      🚩 <!-- Placeholder ng Avatar ng Commentor -->
+                    </div>
+                  </div>
+                  <!-- Comment Content -->
+                  <div class="flex flex-col">
+                    <h2 class="text-sm font-semibold text-black dark:text-white">
+                      {{review.USERNAME}}
+                    </h2>
+                    <p class="text-sm text-black mt-1 dark:text-white">
+                      {{review.REVIEW_CONTENT}}
+                    </p>
+                    <p class="text-xs text-black mt-1 dark:text-white">
+                      ⭐ {{review.RATING}}
+                    </p>
+                  </div>
                 </div>
               </div>
+              }
+            </div>
             }
-          </div>
-        }
-
+        </div>
       </div>
-
     </div>
-  </div>
 </main>

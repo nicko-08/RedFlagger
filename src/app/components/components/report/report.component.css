@@ -1,0 +1,74 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+.custom-dark {
+  @apply dark:bg-gradient-to-r dark:from-[#121212] dark:to-[#1e1e1e];
+}
+
+.dark-hover {
+  @apply dark:hover:from-[#1a1a1a] dark:hover:to-[#2a2a2a];
+}
+
+main {
+  font-family: "Poppins", sans-serif;
+}
+
+.main-container {
+  @apply flex min-h-screen w-full items-center justify-center bg-white px-4 py-4 sm:px-8 md:min-h-[71vh] md:px-16 lg:min-h-[62vh] lg:px-24;
+}
+
+.report-container {
+  @apply mx-auto w-full max-w-2xl rounded-lg bg-red-800 p-6 text-center text-white shadow-lg sm:p-8;
+}
+
+.div1 {
+  @apply flex w-full flex-row justify-between gap-6;
+}
+
+.back2reports-btn {
+  @apply mb-3 w-2/4 flex-shrink-0 self-center rounded-lg bg-white px-3 py-1 text-center text-lg font-bold whitespace-nowrap text-black transition-all duration-300 hover:cursor-pointer hover:underline sm:w-auto md:w-3/11;
+}
+
+.heading2 {
+  @apply mb-3 text-3xl font-bold text-white sm:text-3xl md:text-3xl;
+}
+
+.div2 {
+  @apply -mx-2 flex flex-wrap;
+}
+
+.page-link {
+  @apply mb-4 w-full px-2 md:mb-0 md:w-1/2;
+}
+
+.page-link2 {
+  @apply mb-2 block text-center text-xl font-bold text-white sm:text-2xl;
+}
+
+.page-link3 {
+  @apply mb-4 w-full rounded-lg border-2 border-gray-300 bg-white p-3 text-left text-black focus:border-red-600 focus:ring-2 focus:ring-red-600 sm:p-4 dark:bg-gray-900 dark:text-white;
+}
+
+.desc1 {
+  @apply mb-2 block text-center text-xl font-bold text-white sm:text-2xl;
+}
+
+.desc2 {
+  @apply mb-1 min-h-48 w-full resize-none rounded-lg border-2 border-gray-300 bg-white p-3 text-black sm:min-h-56 sm:p-4 md:min-h-64 dark:bg-gray-900 dark:text-white;
+}
+
+.images-container {
+  @apply w-full px-2 md:mt-0 md:w-1/2;
+}
+
+.images {
+  @apply mb-2 block text-center text-xl font-bold text-white sm:text-2xl;
+}
+
+.div3 {
+  @apply relative flex min-h-48 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-1 border-gray-300 bg-white transition duration-300 hover:border-red-600 sm:min-h-56 md:min-h-64 dark:bg-gray-900 dark:text-white;
+}
+
+.submit-btn {
+  @apply mt-9 rounded-lg bg-white px-6 py-1 text-lg font-bold text-black hover:cursor-pointer hover:underline disabled:text-gray-400;
+}

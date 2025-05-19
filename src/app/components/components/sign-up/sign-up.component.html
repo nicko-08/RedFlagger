@@ -1,45 +1,102 @@
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<main class="signup-container">
-    <div class="signup-box p-8 sm:p-12 md:p-16 mx-auto min-h-[400px] sm:min-h-[500px] md:min-h-[500px]">
-        <h2 class="signup-title">Create Account</h2>
-            <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-                <input type="email" 
-                placeholder="Enter Email Address..." 
-                formControlName="email" 
-                aria-label="Email Address" 
-                required class="signup-input">
+<main class="flex min-h-screen w-full flex-col bg-white lg:flex-row custom-dark">
+  <!-- Sign-up Form Section (LEFT) -->
+  <div class="flex w-full px-5 items-center justify-center py-12 lg:w-1/2 lg:py-0">
+    <div class="w-full max-w-md rounded-2xl bg-red-800 px-8 py-12 shadow-xl sm:px-10 sm:py-16 md:max-w-lg">
+      <div class="mb-10 text-center">
+        <h2 class="text-3xl font-bold text-white">Create Account</h2>
+        <p class="mt-2 text-white">Sign up to get started</p>
+      </div>
 
-                <input type="text" 
-                placeholder="Enter Username..." 
-                formControlName="username" 
-                aria-label="Username" 
-                required class="signup-input">
-                    
-                <input type="password" 
-                placeholder="Enter Password..." 
-                formControlName="password" 
-                aria-label="Password" 
-                required class="signup-input">
+      <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-white">Email</label>
+          <div class="mt-1">
+            <input 
+              id="email" 
+              type="email" 
+              formControlName="email" 
+              placeholder="Enter Email Address" 
+              class="block w-full text-black rounded-lg border-gray-300 bg-white px-4 py-3 shadow-sm focus:border-red-500 focus:ring-red-500 custom-dark dark:text-white dark-hover"
+              required
+            />
+          </div>
+        </div>
 
-                <p class="signup-info">*Password must be atleast 6 characters long</p>
+        <div>
+          <label for="username" class="block text-sm font-medium text-white">Username</label>
+          <div class="mt-1">
+            <input 
+              id="username" 
+              type="text" 
+              formControlName="username" 
+              placeholder="Enter Username" 
+              class="block w-full text-black rounded-lg border-gray-300 bg-white px-4 py-3 shadow-sm focus:border-red-500 focus:ring-red-500 custom-dark dark:text-white dark-hover"
+              required
+            />
+          </div>
+        </div>
 
-                @if (errorMessage) {
-                    <div class="signup-error mb-4">{{ errorMessage }}</div>
-                }
-            <button type="submit" [disabled]="signingUp"
-                class="signup-button disabled:text-gray-500 text-xl sm:text-2xl md:text-3xl max-w-xs sm:max-w-sm md:max-w-md py-2 sm:py-3 px-3 sm:px-6">
-                @if(signingUp){
-                    <h1 class="text-gray-500">
-                        SIGNING UP
-                    </h1>    
-                }@else {
-                    <h1 class="text-red-70">
-                        SIGN UP
-                    </h1>    
-                }
-            </button>
-        </form>
+        <div>
+          <label for="password" class="block text-sm font-medium text-white">Password</label>
+          <div class="mt-1">
+            <input 
+              id="password" 
+              type="password" 
+              formControlName="password" 
+              placeholder="Enter Password" 
+              class="block text-black w-full rounded-lg border-gray-300 bg-white px-4 py-3 shadow-sm focus:border-red-500 focus:ring-red-500 custom-dark dark:text-white dark-hover"
+              required
+            />
+          </div>
+        </div>
+
+        <p class="text-sm text-white italic">*Password must be at least 6 characters long</p>
+
+        @if (errorMessage) {
+          <div class="rounded-md bg-red-50 p-4">
+            <div class="flex">
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">{{ errorMessage }}</h3>
+              </div>
+            </div>
+          </div>
+        }
+
+        <div>
+          <button 
+            type="submit" 
+            [disabled]="signingUp"
+            class="flex w-full justify-center rounded-lg bg-yellow-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+          >
+            @if(signingUp){
+              <h1 class="text-white">SIGNING UP...</h1>    
+            }@else {
+              <h1 class="text-white">SIGN UP</h1>    
+            }
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
+
+<div
+  class="hidden lg:block absolute top-0 left-1/2 h-full w-6 -translate-x-3 pointer-events-none"
+  style="background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4), transparent);">
+</div>
+
+  <!-- Flag Video Section (RIGHT) -->
+  <div class="relative flex h-[40vh] w-full items-center justify-center overflow-hidden lg:h-auto lg:w-1/2">
+    <video autoplay muted loop playsinline class="absolute h-full w-full object-cover">
+      <source src="/redflag.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="relative z-10 flex flex-col items-center justify-center p-6 text-center text-white drop-shadow-lg">
+      <h1 class="mb-2 text-4xl font-bold md:text-5xl lg:text-6xl xl:text-7xl">Crowdsourced Facebook</h1>
+      <h2 class="text-4xl font-bold md:text-5xl lg:text-6xl xl:text-7xl">Scam Detector</h2>
+      <p class="italic mt-4 text-xl md:text-2xl lg:text-3xl text-gray-200 max-w-xl">
+        Built by users, powered by reports — uncovering scams in real time.
+      </p>
+    </div>
+  </div>
 </main>

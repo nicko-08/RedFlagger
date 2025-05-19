@@ -1,3 +1,23 @@
 <app-header></app-header>
-<router-outlet></router-outlet> 
+  <button
+    (click)="toggleDarkMode()"
+      class="absolute top-40 right-4 z-50 rounded-full bg-gray-500 p-2 shadow-sm flex items-center justify-center md:top-25 md:right-15"
+        aria-label="Toggle Dark Mode">
+        <!-- Moon icon: black in light mode -->
+          <img
+            *ngIf="!isDarkMode"
+            src="dark.svg"
+            alt="Dark Mode"
+            class="w-6 h-6 filter brightness-0 drop-shadow-[0_0_4px_rgba(0,0,0,0.6)]"
+          />
+          <!-- Sun icon: soft yellow in dark mode -->
+          <img
+            *ngIf="isDarkMode"
+            src="light.svg"
+            alt="Light Mode"
+            class="w-6 h-6 filter invert sepia saturate-1000 hue-rotate-40 brightness-180 contrast-90"/>
+  </button>
+  <div #pageContainer>
+    <router-outlet></router-outlet>
+  </div>
 <app-footer></app-footer>
