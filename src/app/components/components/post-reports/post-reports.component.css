@@ -10,6 +10,8 @@
 }
 
 .main-container {
+  font-family: "Poppins", sans-serif;
+  color: black;
   @apply flex min-h-screen w-full flex-col items-center justify-start bg-white p-2;
 }
 
@@ -74,7 +76,7 @@
 }
 
 .review {
-  @apply w-full border-b border-b-amber-950 bg-transparent text-black placeholder-gray-400 outline-none focus:border-b-2 focus:border-black;
+  @apply w-full border-b border-b-amber-950 text-black placeholder-gray-400 outline-none focus:border-b-2 focus:border-black;
 }
 
 .ul {
@@ -106,7 +108,7 @@
 }
 
 .comment-div {
-  @apply flex w-full items-start gap-4 border-gray-200 p-4 transition-all duration-300 ease-in-out hover:bg-white dark:border-gray-700;
+  @apply flex w-full items-start gap-4 rounded-lg border-gray-200 bg-gray-200 p-4 transition-all duration-300 ease-in-out dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a] dark:hover:from-[#4a4a4a] dark:hover:to-[#363636];
 }
 
 .comment-avatar {

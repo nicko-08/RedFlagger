@@ -127,9 +127,9 @@
           }
         </button>
         @if(report.VIEWING_REVIEW){
-          <div class="flex flex-col gap-1">
+          <div class="flex flex-col gap-1 ">
             @for (review of report.REVIEWS; track $index) {
-              <div class=" relative flex gap-2 p-1 bg-gray-100 light:bg-gray-800 rounded-lg shadow-sm dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a]">
+              <div class="relative flex gap-2 p-1 border-1 rounded-lg shadow-sm">
                 @if (review.USER_ID === userId || isModerator) {
                   <button 
                      class="mod-review-btn"
