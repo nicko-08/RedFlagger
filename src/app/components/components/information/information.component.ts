@@ -8,6 +8,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '../../../auth.service';
 import { Chart, ChartConfiguration, registerables  } from 'chart.js';
 import { flush } from '@angular/core/testing';
+import { ChartService } from '../../../chart.service';
 @Component({
   selector: 'app-information',
   standalone: true, 
@@ -42,8 +43,8 @@ reportTime: string | null = null;
 username: string | null = null;
 
 //chart
-@ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
-@ViewChild('chartCanvas2') chartCanvas2!: ElementRef<HTMLCanvasElement>;
+@ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
+@ViewChild('chartCanvas2', { static: false }) chartCanvas2!: ElementRef<HTMLCanvasElement>;
 
   chart!: Chart;
   chart2!: Chart;
@@ -60,17 +61,18 @@ route = inject(ActivatedRoute);
 sharedService = inject(SharedService);
 sanitizer = inject(DomSanitizer);
 router = inject(Router);
+chartServe = inject(ChartService);
 
 
 
-async ngOnInit(): Promise<void> {
+ngOnInit():void{
       this.isLoading = true;
 
-      let session; await this.authService.getSession().then(
+      let session; 
+      this.authService.getSession().then(
         (new_session)=>{
           this.userId = new_session?.user.id;
           session = new_session;
-
         }
       );
       this.isLoggedIn = !!session;
@@ -78,25 +80,15 @@ async ngOnInit(): Promise<void> {
       this.route.queryParams.subscribe((params) => {
         this.userInputUrl = params['input'];
         if(this.userInputUrl){
-          this.callApi(this.userInputUrl);
           this.getPostContent(this.userInputUrl);
-          this.fetchData(this.userInputUrl);
+          
           this.getReports(this.userInputUrl);
           const fbPageUrl = 'https://www.facebook.com/plugins/post.php?href=';
           this.fbEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${fbPageUrl}${encodeURIComponent(this.userInputUrl)}&width=100%`);
 
         }
       });
-      this.initializeChart();
-  }
-
-  callApi(input: string): void {
-
-    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post?post_url=${encodeURIComponent(input)}`;
-    this.http.get(apiUrl).subscribe((response) => {
-
-    })
-
+      
   }
 
   
@@ -174,7 +166,7 @@ async ngOnInit(): Promise<void> {
         this.animateCount(response.total_reports || 0, 'reportTotal');
         this.animateCount(Math.floor(response.average_daily_reports || 0), 'averagePostCount');
         this.animateCount(response.peak_reports || 0, 'peakReport');
-
+        
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
@@ -209,14 +201,13 @@ async ngOnInit(): Promise<void> {
   images = ["image1.jpg", "image2.jpg", "image3.jpg"]; 
 
   toggleGraph() {
-    
-    this.isLightboxOpen = true;
-      if(!this.userInputUrl){
-        alert('Please enter a valid URL');
-        return;
-      }
-    this.initializeChart();
-    this.fetchData(this.userInputUrl);
+    if(this.userInputUrl){
+      this.chartServe.initializeChartsAndFetchData(
+      this.chartCanvas.nativeElement,
+      this.chartCanvas2.nativeElement,
+      this.userInputUrl
+    );
+    } 
   }
 
   closeLightbox() {
@@ -224,128 +215,7 @@ async ngOnInit(): Promise<void> {
   }
 
   //Graph part
-  initializeChart() {
-    const ctx = document.getElementById('myChart') as HTMLCanvasElement;
-    const ctx2 = document.getElementById('myChart2') as HTMLCanvasElement;
-
-    this.chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: [], // Start with empty labels
-        datasets: [
-          {
-            label: 'Count',
-            data: [], // Start with empty data
-            backgroundColor: '#eb3636',
-            fill: true,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true, // Always start from zero
-          },
-        },
-        plugins: {
-          legend: { position: 'top' },
-          title: { display: true, text: 'Frequent Reports',
-            font: { size: 25, weight: 'bold'},
-            color: '#777777'
-           },
-        },
-      },
-    });
-    
-    //second graph
-    this.chart2 = new Chart(ctx2, {
-      type: 'line', // Line chart for variety
-      data: {
-        labels: [], // Start with empty labels
-        datasets: [
-          {
-            label: 'Total Reports',
-            data: [], // Start with empty data
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            borderColor: '#36a2eb',
-            borderWidth: 1,
-            fill: true,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true, // Always start from zero
-          },
-        },
-        plugins: {
-          legend: { position: 'top' },
-          title: { display: true, text: 'Reports Over Time',
-            font: { size: 25, weight: 'bold'},
-            color: '#777777'
-           },
-        },
-      },
-    });
-  }
-
-  // Fetch data from the API and update the chart
-  fetchData(input: string) {
-    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/stats?post_url=${encodeURIComponent(input)}`;
-    this.http.get<{ frequency_over_time: { date: string; count: number }[] 
-    total_reports_over_time: { date: string; total_reports: number }[]}>(apiUrl).subscribe(
-      (response) => {
-        const frequencyData = response.frequency_over_time;
-        const totalReportsData = response.total_reports_over_time;
   
-        if (frequencyData.length > 0) {
-          // Update the first chart with frequency data
-          this.updateChart(
-            this.chart, 
-            frequencyData.map((item) => ({ date: item.date, value: item.count }))
-          );
-        }
-  
-        if (totalReportsData.length > 0) {
-          // Update the second chart with total reports data
-          this.updateChart(
-            this.chart2, 
-            totalReportsData.map((item) => ({ date: item.date, value: item.total_reports }))
-          );
-        }
-      },
-      (error) => {
-        console.error('API error:', error);
-      }
-    );
-  }
-  
-
-  // Update chart with new data 
-  updateChart(chart: Chart, dataArray: { date: string; value: number }[]) {
-    const labels = dataArray.map((item) => item.date);
-    const data = dataArray.map((item) => item.value);
-  
-    const maxDataValue = Math.max(...data); // Get the max value from data
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = data;
-  
-    // Dynamically set the max value for the y-axis
-    chart.options.scales = {
-      y: {
-        beginAtZero: true, // Set min to 0
-        max: maxDataValue + 1, // Set max to maxDataValue + 1
-      },
-    };
-  
-    chart.update(); // Refresh the chart
-  }
-
   
 
 getReports(input: string): void {
@@ -475,67 +345,7 @@ async deleteReport(report_id: number): Promise<void>{
     });
   
   }
-async putVote(report_id:number, vote_type:string){
-  if(this.userInputUrl == null){ 
-    return;
-  }
-  let trunc_vote = '';
-  if(vote_type === 'upvote'){
-    trunc_vote = 'up';
-  }else if(vote_type === 'downvote'){
-    trunc_vote = 'down';
-  }
-  const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/report/vote?report_id=${encodeURIComponent(report_id)}&vote_type=${encodeURIComponent(trunc_vote)}`;
 
-    const accessToken = await this.getAccessToken();
-    if (!accessToken) {
-      alert('Failed to retrieve access token. Please log in again.');
-      this.router.navigate(['/home'])
-      return;
-    }
-
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${accessToken}`,
-    });
-
-    this.http.put(apiUrl,{}, {headers}).subscribe({
-      next: (response: any) => {
-
-        const report = this.reports.find(r => r.REPORT_ID === report_id);
-        if(report){
-
-        }
-        else{
-
-        }
-        if(report.vote_type === vote_type){
-          report.vote_type = "none";
-          if(vote_type === "upvote"){
-            report.vote_count -=1;
-          } else if (vote_type === "downvote"){
-            report.vote_count += 1;
-          }
-        }else{
-          if(report.vote_type === "upvote"){
-            report.vote_count -= 1;
-          }else if(report.vote_type === "downvote"){
-            report.vote_count += 1;
-          }
-
-          report.vote_type = vote_type;
-          if(vote_type === "upvote"){
-            report.vote_count += 1;
-          }else if (vote_type === "downvote"){
-            report.vote_count -= 1;
-          }
-        }
-      },
-      error: (error: any) => {
-        console.error('Error Sending Vote');
-      }
-    });
-  }
 
   @ViewChild('stats') stats!: ElementRef;
 
@@ -566,9 +376,3 @@ async putVote(report_id:number, vote_type:string){
 }
 
 }
-
-
-
-
-
-

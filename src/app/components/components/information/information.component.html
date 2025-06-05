@@ -103,10 +103,10 @@
         <h2 class="overview">Charts</h2>
         <div class="charts-container">
           <div class="hover charts-div" (click)="toggleGraph()">
-            <canvas id="myChart" class="w-full h-64"></canvas>
+            <canvas #chartCanvas id="myChart" class="w-full h-64"></canvas>
           </div>
           <div class="hover charts-div">
-            <canvas id="myChart2" class="w-full h-64"></canvas>
+            <canvas #chartCanvas2 id="myChart2" class="w-full h-64"></canvas>
           </div>
         </div>
       </div>

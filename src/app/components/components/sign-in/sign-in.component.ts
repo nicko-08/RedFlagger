@@ -30,7 +30,6 @@ export class SignInComponent {
       } else {
 
         this.authService.supabase.auth.onAuthStateChange((event) => {
-
         })
         window.location.replace('/home');
       }

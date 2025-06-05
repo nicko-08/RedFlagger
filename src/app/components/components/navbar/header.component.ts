@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedService } from '../../../shared.service';
 import {HostListener } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +27,6 @@ export class HeaderComponent implements OnInit {
   }
 
   authService = inject(AuthService);
-  constructor(private router: Router) {}
   sharedService = inject(SharedService);
 
  async ngOnInit() {
@@ -41,53 +39,22 @@ export class HeaderComponent implements OnInit {
 
   if(this.isLoggedIn){
     this.username = session?.user.user_metadata['username'];
-
   }
   
  }
   async logoutUser() {
-    this.logout().then(() => {
+    this.authService.logout();
       this.isLoggedIn = false; // Update the login status
-    setTimeout(() => {
-      window.location.reload(); 
-  }, 500) // Reload the page to reflect the updated login status
-    });
-    
   }
 
-  async logout(): Promise<void>{
-    await this.authService.supabase.auth.signOut();
-  }
+  
+
   searchAction(): void{
-
-
   this.sharedService.determinePostType(this.userInputUrl);
   this.sharedService.updateInput(this.userInputUrl);
   }
 
-determinePostType(){
-  if(!this.userInputUrl){
-    alert('Please enter a valid URL');
-    this.router.navigate(['/home']);
-    return;
-  }
 
-  if(this.userInputUrl.includes('/posts') || this.userInputUrl.includes('/permalink')){
-    
-    this.router.navigate(['/information'], {queryParams: {input:this.userInputUrl}}); //goes to post info
-    
-  }
-  else if (this.userInputUrl.includes('facebook.com')){
-    
-    this.router.navigate(['/page-information'], {queryParams: {input:this.userInputUrl}}); //goes to page info
-    
-  }
-  else{
-    alert('Invalid Facebook URL');
-
-    this.router.navigate(['/home']); //redirect back to home if invalid url
-  }
-}
 
   @HostListener('window:resize', ['$event'])
   toggleMenuOnResize(event: Event) {

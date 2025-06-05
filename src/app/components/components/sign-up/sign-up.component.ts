@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './sign-up.component.css'
 })
 export class SignUpComponent {
+  
   fb = inject(FormBuilder);
   http = inject(HttpClient);
   router = inject(Router);

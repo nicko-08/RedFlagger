@@ -48,6 +48,10 @@ export class HomeComponent implements AfterViewInit {
     this.sharedServe.updateInput(this.userInputUrl!);
   }
 
+
+
+
+  
   //Method pang animate sa stats tsaka GSAP animation//
   animateCount(property: keyof this, target: number, duration = 3000) {
     const start = 0;

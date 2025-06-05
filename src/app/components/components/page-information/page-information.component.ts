@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Chart, registerables } from 'chart.js';
 import { CommonModule } from '@angular/common';
+import { ChartService } from '../../../chart.service';
 @Component({
   selector: 'app-page-information',
   imports: [CommonModule],
@@ -44,6 +45,7 @@ sanitizer = inject(DomSanitizer);
 
 http = inject(HttpClient);
 route = inject(ActivatedRoute);
+chartServe = inject(ChartService);
 
 
   ngOnInit(): void {
