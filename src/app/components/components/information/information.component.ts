@@ -73,9 +73,9 @@ ngOnInit():void{
         (new_session)=>{
           this.userId = new_session?.user.id;
           session = new_session;
+          this.isLoggedIn = !!session;
         }
       );
-      this.isLoggedIn = !!session;
       this.checkRole();
       this.route.queryParams.subscribe((params) => {
         this.userInputUrl = params['input'];

@@ -1,59 +1,34 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../auth.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { SharedService } from '../../../shared.service';
-import { Subscription } from 'rxjs';
-import { NgIf, NgClass } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
-  imports: [NgIf, NgClass, FormsModule] 
+  imports: [] 
 })
-export class UserProfileComponent implements OnInit, OnDestroy {
-  username: string = '';
-  showUsernameForm = true;
-  currentUsername = ''; 
-  newUsername = '';
-  confirmPassword1 = '';
-  confirmPassword2 = '';
+export class UserProfileComponent {
+  username: string | null = null;
+  userId: string | null = null;
 
-  currentPassword = '';
-  newPassword = '';
-  confirmNewPassword = '';
-
-  private authSub?: Subscription;
-
-  
-
-  constructor(private router: Router, private authService: AuthService) {}
+  authService = inject(AuthService);
+  router = inject(Router);
 
   ngOnInit() {
-    this.authSub = this.authService.isLoggedIn$.subscribe(isLoggedIn => {
-      if (!isLoggedIn) {
-        this.router.navigate(['/home']);
+    const user = this.authService.supabase.auth.getUser();
+    user.then(({ data }) => {
+      if (data?.user) {
+        this.username = data.user.user_metadata['username'] || null;
+        this.userId = data.user.id;
       }
     });
-  }
 
-  ngOnDestroy() {
-    this.authSub?.unsubscribe();
-  }
+    
 
-  goBack() {
-    this.router.navigate(['/home']);
   }
-
-  logout() {
-    this.authService.logout();
-  }
-
-  saveChanges() { 
-
-    /* implement */ 
-  }
+  goToSettings(){
+    this.router.navigate(['/profile-settings']);
+    }
 }
