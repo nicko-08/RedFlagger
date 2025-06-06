@@ -1,23 +1,38 @@
-<app-header></app-header>
+<div class="relative min-h-screen flex flex-col">
+  <!-- Header with high z-index -->
+  <div class="relative z-50">
+    <app-header></app-header>
+  </div>
+
+  <!-- Dark mode button - adjust z-index to be below header but above content -->
   <button
     (click)="toggleDarkMode()"
-      class="absolute top-40 right-4 z-50 rounded-full bg-gray-500 p-2 shadow-sm flex items-center justify-center md:top-25 md:right-15"
-        aria-label="Toggle Dark Mode">
-        <!-- Moon icon: black in light mode -->
-          <img
-            *ngIf="!isDarkMode"
-            src="dark.svg"
-            alt="Dark Mode"
-            class="w-6 h-6 filter brightness-0 drop-shadow-[0_0_4px_rgba(0,0,0,0.6)]"
-          />
-          <!-- Sun icon: soft yellow in dark mode -->
-          <img
-            *ngIf="isDarkMode"
-            src="light.svg"
-            alt="Light Mode"
-            class="w-6 h-6 filter invert sepia saturate-1000 hue-rotate-40 brightness-180 contrast-90"/>
+    class="fixed top-40 right-4 z-40 rounded-full bg-gray-500 p-2 shadow-sm flex items-center justify-center md:top-25 md:right-15"
+    aria-label="Toggle Dark Mode">
+    <!-- Moon icon: black in light mode -->
+    <img
+      *ngIf="!isDarkMode"
+      src="dark.svg"
+      alt="Dark Mode"
+      class="w-6 h-6 filter brightness-0 drop-shadow-[0_0_4px_rgba(0,0,0,0.6)]"
+    />
+    <!-- Sun icon: soft yellow in dark mode -->
+    <img
+      *ngIf="isDarkMode"
+      src="light.svg"
+      alt="Light Mode"
+      class="w-6 h-6 filter invert sepia saturate-1000 hue-rotate-40 brightness-180 contrast-90"/>
   </button>
-  <div #pageContainer>
-    <router-outlet></router-outlet>
+
+  <!-- Main content with lower z-index -->
+  <main class="flex-1 relative z-30">
+    <div #pageContainer>
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div class="relative z-40">
+    <app-footer></app-footer>
   </div>
-<app-footer></app-footer>
+</div>

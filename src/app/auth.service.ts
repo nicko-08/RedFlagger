@@ -16,7 +16,11 @@ export class AuthService {
   currentUser = signal<{email: string, username: string} | null > (null) ;
 
   constructor(private http: HttpClient){
-
+        // Check session on service init
+    this.getSession().then(session => {
+      this.isLoggedInSubject.next(!!session);
+    });
+    this.listenForAuthChanges();
   }
   
   register(email: string, username: string, password: string): Observable<AuthResponse> {
@@ -37,6 +41,11 @@ export class AuthService {
     const promise = this.supabase.auth.signInWithPassword({
       email,
       password,
+    }).then(response => {
+      if (response.data.session) {
+        this.isLoggedInSubject.next(true);
+      }
+      return response;
     });
     return from(promise);
   }
@@ -44,6 +53,7 @@ export class AuthService {
   logout() {
     this.supabase.auth.signOut();
     this.userStatus.set(null);
+    this.isLoggedInSubject.next(false);
   }
 
   async getSession() {
@@ -51,20 +61,29 @@ export class AuthService {
     return data.session;
   }
 
-listenForAuthChanges(): void{
-  this.supabase.auth.onAuthStateChange(async(event, session)=>{
-    if(event === 'SIGNED_IN' && session?.user?.email_confirmed_at){
+listenForAuthChanges(): void {
+  this.supabase.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session?.user?.email_confirmed_at) {
+      this.isLoggedInSubject.next(true);
+
       const accessToken = session.access_token;
       let stringe = "Bearer " + accessToken;
       const baseHeaders = new HttpHeaders().set('Authorization', stringe);
 
-      this.http.post<{message : string}>('https://redflagger-api-10796636392.asia-southeast1.run.app/user/new',{},{headers: baseHeaders}).subscribe({
-        next: (response: {message: string})=>{
-        },
-        error: (error: any) =>{
+      this.http.post<{ message: string }>(
+        'https://redflagger-api-10796636392.asia-southeast1.run.app/user/new',
+        {},
+        { headers: baseHeaders }
+      ).subscribe({
+        next: (response: { message: string }) => {},
+        error: (error: any) => {
           console.error('Error inserting user:', error);
         },
       });
+    }
+
+    if (event === 'SIGNED_OUT') {
+      this.isLoggedInSubject.next(false);
     }
   });
 }

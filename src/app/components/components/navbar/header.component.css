@@ -8,3 +8,61 @@
 .dark-hover {
   @apply dark:hover:from-[#1a1a1a] dark:hover:to-[#2a2a2a];
 }
+
+header {
+  position: relative;
+  z-index: 1000;
+}
+
+/* Dropdown styles */
+.group:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+/* Make sure links are clickable */
+a {
+  position: relative;
+  z-index: 1;
+}
+
+.group .dropdown-menu {
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  transform-origin: top right;
+}
+
+.group:hover .dropdown-menu,
+.dropdown-menu[class*="block"] {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+[class*="group"] .dropdown-menu {
+  transition: all 0.2s ease-out;
+  transform-origin: top right;
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+[class*="group"] .dropdown-menu[class*="block"] {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* Ensure dropdown stays above other content */
+.dropdown-menu {
+  z-index: 9999 !important;
+}

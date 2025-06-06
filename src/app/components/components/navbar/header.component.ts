@@ -1,11 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit,ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedService } from '../../../shared.service';
-import {HostListener } from '@angular/core';
-
 @Component({
   selector: 'app-header',
   imports: [RouterLink, CommonModule, FormsModule],
@@ -16,14 +14,19 @@ import {HostListener } from '@angular/core';
 export class HeaderComponent implements OnInit {
   
   isLoggedIn = false;
-  userInputUrl: string = "";
   isMenuOpen: boolean = false; 
+  isDropdownOpen = false;
+  userInputUrl: string = "";
   username: string = "";
   
-  
+  @ViewChild('dropdownTrigger') dropdownTrigger!: ElementRef; 
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen; 
+  }
+
+    toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
 
   authService = inject(AuthService);
@@ -63,6 +66,11 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-
-
+    // Check if dropdown is open and click was outside the dropdown trigger
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+      if (this.isDropdownOpen && !this.dropdownTrigger.nativeElement.contains(event.target)) {
+          this.isDropdownOpen = false;
+      }
+  }
 }
