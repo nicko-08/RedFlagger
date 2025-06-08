@@ -36,6 +36,7 @@ export class HeaderComponent implements OnInit {
   // Check if the user is logged in when the component initializes
  
   const session = await this.authService.getSession();
+  
   this.isLoggedIn = !!session; // Set isLoggedIn to true if a session exists
 
 
@@ -45,12 +46,8 @@ export class HeaderComponent implements OnInit {
   
  }
   async logoutUser() {
-  
     this.authService.logout();
       this.isLoggedIn = false; // Update the login status
-      // delay relaod to ensure logout is processed
-    await new Promise(resolve => setTimeout(resolve, 500));
-      window.location.reload(); // Reload the page to reflect the logout
   }
 
   
