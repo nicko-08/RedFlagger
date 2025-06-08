@@ -52,6 +52,9 @@ export class HeaderComponent implements OnInit {
   async logoutUser() {
     this.authService.logout();
       this.isLoggedIn = false; // Update the login status
+      //refresh the page for the changes to take effect 500ms
+      await new Promise(resolve => setTimeout(resolve, 500));
+      window.location.reload();
   }
 
   
@@ -73,8 +76,10 @@ export class HeaderComponent implements OnInit {
     // Check if dropdown is open and click was outside the dropdown trigger
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
-      if (this.isDropdownOpen && !this.dropdownTrigger.nativeElement.contains(event.target)) {
-          this.isDropdownOpen = false;
-      }
+      if (!this.isDropdownOpen || !this.dropdownTrigger) return;
+
+  if (!this.dropdownTrigger.nativeElement.contains(event.target)) {
+    this.isDropdownOpen = false;
   }
+}
 }
