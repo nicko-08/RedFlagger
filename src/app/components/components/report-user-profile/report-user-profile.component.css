@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+.report-card {
+  @apply mb-4 rounded-2xl border border-gray-300 dark:border-gray-700 p-4 bg-white dark:bg-[#1f1f1f] shadow hover:shadow-md transition-all;
+
+  /* Optional subtle hover effect */
+  &:hover {
+    @apply dark:shadow-lg;
+  }
+}
+
+.report-title {
+  @apply text-xl font-semibold text-gray-800 dark:text-white;
+}
+
+.report-meta {
+  @apply text-sm text-gray-500 dark:text-gray-400;
+}
+
+.report-body {
+  @apply mt-2 text-base text-gray-700 dark:text-gray-300;
+}

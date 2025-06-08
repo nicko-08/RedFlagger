@@ -4,6 +4,13 @@
 .custom-dark {
   @apply dark:bg-gradient-to-r dark:from-[#121212] dark:to-[#1e1e1e];
 }
+.flag-container {
+  @apply relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden;
+}
+.video-container {
+  @apply absolute top-0 left-0 w-full h-full object-cover;
+}
+
 
 .dark-hover {
   @apply dark:hover:from-[#1a1a1a] dark:hover:to-[#2a2a2a];
@@ -19,4 +26,28 @@
 
 .label-dark {
   @apply mb-1 block font-medium text-gray-700 dark:text-gray-300;
+}
+
+.username-bottom-left {
+  @apply absolute bottom-4 left-4 sm:bottom-6 sm:left-8 z-10;
+}
+
+.heading1-big {
+  @apply text-white font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wide;
+}
+
+.tabs-container {
+  @apply w-full max-w-5xl mx-auto px-4;
+}
+
+.tab-btn {
+  @apply px-3 py-2 text-base sm:text-lg font-medium text-gray-600 dark:text-gray-300 border-b-2 border-transparent hover:border-gray-400 transition;
+}
+
+.active-tab {
+  @apply text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400;
+}
+
+.tab-content {
+  @apply mt-4 sm:mt-6;
 }

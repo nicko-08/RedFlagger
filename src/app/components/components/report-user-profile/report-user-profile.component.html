@@ -1,0 +1,33 @@
+<!-- Loading Spinner -->
+<div *ngIf="loading" class="flex justify-center items-center py-10">
+  <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
+</div>
+
+<!-- Reports Section -->
+<div *ngIf="!loading && reports.length > 0; else noReports">
+  <div *ngFor="let report of reports" class="report-card border p-4 mb-4 rounded shadow dark:bg-[#2a2a2a] dark:text-white">
+    <div class="report-title text-xl font-semibold mb-2">
+      {{ report.REPORT_CONTENT || 'No reason provided.' }}
+    </div>
+
+    <div class="report-meta text-sm text-gray-500 mb-2">
+      Reported at: {{ report.REPORT_TIME | date:'medium' }}
+    </div>
+
+    <div *ngIf="report.images && report.images.length > 0" class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-3">
+      <img
+        *ngFor="let image of report.images"
+        [src]="image.IMAGE_LINK"
+        alt="Report Image"
+        class="w-full h-auto rounded border"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- No Reports Message -->
+<ng-template #noReports>
+  <p *ngIf="!loading" class="text-center text-gray-500 dark:text-gray-400">
+    You haven't reported any posts yet.
+  </p>
+</ng-template>

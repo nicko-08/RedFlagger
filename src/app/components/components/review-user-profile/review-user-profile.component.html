@@ -1,0 +1,26 @@
+<div class="p-4">
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="flex justify-center items-center py-10">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
+  </div>
+
+  <!-- Reviews List -->
+  <div *ngIf="!loading && reviews.length > 0; else noReviews">
+    <div *ngFor="let review of reviews" class="report-card">
+      <div class="report-title">Review on Post</div>
+      <div class="report-meta">
+        Reviewed at: {{ review.REVIEW_TIME | date:'medium' }}
+      </div>
+      <div class="report-body italic">
+        "{{ review.REVIEW_CONTENT }}"
+      </div>
+    </div>
+  </div>
+
+  <!-- No Reviews Fallback -->
+  <ng-template #noReviews>
+    <p class="text-center text-gray-500 dark:text-gray-400">
+      You haven't made any reviews yet.
+    </p>
+  </ng-template>
+</div>

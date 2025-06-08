@@ -14,6 +14,7 @@ import { CheckEmailComponent} from './components/components/check-email/check-em
 import { PostReportsComponent } from './components/components/post-reports/post-reports.component';
 import { PostReportsReviewsComponent } from './components/components/post-reports-reviews/post-reports-reviews.component';
 import { UserProfileComponent } from './components/components/user-profile/user-profile.component';
+import { ProfileSettingsComponent } from './components/components/profile-settings/profile-settings.component';
 export const routes: Routes = [
   
   { path: 'signup', component: SignUpComponent },
@@ -29,7 +30,9 @@ export const routes: Routes = [
   {path: "check-email", component: CheckEmailComponent},
   {path: "post-reports", component: PostReportsComponent},
   {path: "post-report-reviews", component: PostReportsReviewsComponent},
-  { path: 'user-profile', component: UserProfileComponent }
+  { path: 'user-profile', component: UserProfileComponent },
+  {path: 'profile-settings', component: ProfileSettingsComponent}
+
 
 ];
 
