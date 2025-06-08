@@ -1,47 +1,52 @@
-<main class="main-container custom-dark">
-  <div class="flag-container relative">
-  <video autoplay loop muted playsinline class="video-container w-full h-auto object-cover">
-    <source src="/redflag.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
+<main class="custom-dark main-container">
 
-  <!-- Updated username style and placement -->
-  <div class="username-bottom-left">
-    <h1 class="heading1-big">{{ username }}</h1>
-  </div>
-</div>
+  <!-- Outer wrapper -->
+  <div class="outer-wrapper">
 
-  <div class="flex justify-between items-center mt-6 px-4">
-    <button
-      (click)="goToSettings()"
-      class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition"
-    >
-      Edit Profile
-    </button>
-  </div>
+    <!-- Flag and Username -->
+    <div class="flag-container">
+      <video autoplay loop muted playsinline class="video-container">
+        <source src="/redflag.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      
+      <div class="username-bottom-left bg-opacity-50">
+        <h1 class="heading1-big">{{ username }}</h1>
+      </div>
+    </div>
 
-  <!-- Tabs Section -->
-  <div class="tabs-container mt-8 px-4">
-    <div class="flex border-b border-gray-300 dark:border-gray-600">
+    <!-- Edit Profile Button  -->
+    <div class="flex justify-center mb-10">
       <button
-        class="tab-btn"
-        [class.active-tab]="activeTab === 'reports'"
-        (click)="activeTab = 'reports'"
-      >
-        Reports
-      </button>
-      <button
-        class="tab-btn"
-        [class.active-tab]="activeTab === 'reviews'"
-        (click)="activeTab = 'reviews'"
-      >
-        Reviews
+        (click)="goToSettings()"
+        class="edit-profile-btn">
+        Edit Profile
       </button>
     </div>
 
-    <div class="tab-content mt-4">
-      <app-report-user-profile *ngIf="activeTab === 'reports'" [userId]="userId"></app-report-user-profile>
-      <app-review-user-profile *ngIf="activeTab === 'reviews'" [userId]="userId"></app-review-user-profile>
+    <!-- Tabs Section -->
+    <div class="tabs-container">
+      <div class="flex border-b border-gray-700 dark:border-gray-600">
+        <button
+          class="tab-btn"
+          [class.active-tab]="activeTab === 'reports'"
+          (click)="activeTab = 'reports'"
+        >
+          Reports
+        </button>
+        <button
+          class="tab-btn"
+          [class.active-tab]="activeTab === 'reviews'"
+          (click)="activeTab = 'reviews'"
+        >
+          Reviews
+        </button>
+      </div>
+
+      <div class="tab-content mt-6">
+        <app-report-user-profile *ngIf="activeTab === 'reports'" [userId]="userId"></app-report-user-profile>
+        <app-review-user-profile *ngIf="activeTab === 'reviews'" [userId]="userId"></app-review-user-profile>
+      </div>
     </div>
   </div>
 </main>

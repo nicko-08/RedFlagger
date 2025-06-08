@@ -29,6 +29,10 @@ export class HeaderComponent implements OnInit {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
+    closeDropdown() {
+    this.isDropdownOpen = false;
+  }
+
   authService = inject(AuthService);
   sharedService = inject(SharedService);
 
