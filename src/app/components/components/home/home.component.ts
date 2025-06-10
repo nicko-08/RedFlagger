@@ -21,13 +21,14 @@ export class HomeComponent implements AfterViewInit {
   postReportCount: number | null = 0;
   userReportCount: number | null = 0;
   sharedServe = inject(SharedService);
-
+  
   actualPostCount: number = 0;
   actualUserCount: number = 0;
   actualAccCount: number = 0;
 
   apiUrl: string = "https://redflagger-api-10796636392.asia-southeast1.run.app/stats";
   http = inject(HttpClient);
+  authService = inject(AuthService);
 
   ngOnInit(): void{
     this.http.get<{'Accounts Reported': number; 'Posts Reported': number; 'User Reports': number}>(this.apiUrl).subscribe({
@@ -35,6 +36,8 @@ export class HomeComponent implements AfterViewInit {
         this.animateCount('accReportCount', response['Accounts Reported']);
         this.animateCount('postReportCount', response['Posts Reported']);
         this.animateCount('userReportCount', response['User Reports']);
+        //console log jwt token
+        console.log("JWT Token: ", this.authService.supabase.auth.getSession());
       }
     })
 
