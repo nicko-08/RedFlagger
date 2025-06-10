@@ -58,15 +58,15 @@
 }
 
 .embed-container {
-  @apply flex items-center justify-center rounded-xl border bg-white p-4 transition hover:shadow-lg dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a] dark:hover:from-[#2a2a2a] dark:hover:to-[#3a3a3a];
+  @apply mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8 dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a] dark:hover:from-[#2a2a2a] dark:hover:to-[#3a3a3a];
 }
 
 .embed-div {
-  @apply flex h-full w-full items-center justify-center;
+  @apply rounded-lg transition-all duration-300 dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a] dark:hover:from-[#2a2a2a] dark:hover:to-[#3a3a3a];
 }
 
 .frame-container {
-  @apply ml-8 w-full max-w-md overflow-hidden rounded-md md:ml-20;
+  @apply flex w-full items-center justify-center overflow-hidden rounded-md;
 }
 
 .mid-container {
@@ -90,7 +90,7 @@
 }
 
 .btn-hover {
-  @apply flex-1 rounded-lg bg-red-800 py-2 font-medium text-white transition hover:underline;
+  @apply w-full flex-1 rounded-lg bg-red-800 py-2 font-medium text-white transition hover:underline;
 }
 
 .btn-hover-disable {
@@ -127,4 +127,10 @@
 
 .threat-kahon {
   @apply dark:bg-gradient-to-r dark:from-[#3a3a3a] dark:to-[#2a2a2a] dark:hover:from-[#2a2a2a] dark:hover:to-[#3a3a3a];
+}
+
+.transition-all {
+  transition:
+    stroke-dashoffset 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.3s;
 }

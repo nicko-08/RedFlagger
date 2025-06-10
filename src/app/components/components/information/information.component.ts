@@ -9,6 +9,7 @@ import { AuthService } from '../../../auth.service';
 import { Chart, ChartConfiguration, registerables  } from 'chart.js';
 import { flush } from '@angular/core/testing';
 import { ChartService } from '../../../chart.service';
+
 @Component({
   selector: 'app-information',
   standalone: true, 
@@ -20,6 +21,7 @@ export class InformationComponent implements OnInit {
 Number(arg0: string|null) {
 throw new Error('Method not implemented.');
 }
+
 isLoggedIn = false;
 isModerator = true;
 isLoading = true;
@@ -88,8 +90,8 @@ ngOnInit():void{
 
         }
       });
-      
   }
+  
 
   
   getLinkAndRouteReport():void{
@@ -183,7 +185,9 @@ ngOnInit():void{
       next: (response) => {
         this.threatColor = response.threat?.color ?? 'Unknown';
         this.threatHex = response.threat?.hex ?? '#000000';
-        this.threatLevel = (response.threat?.threat_level ?? 0)// Extract total reports from API response
+        this.threatLevel = (response.threat?.threat_level ?? 0);
+        
+        this.animateGauge();
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
@@ -375,4 +379,54 @@ async deleteReport(report_id: number): Promise<void>{
   requestAnimationFrame(step);
 }
 
+  //para sa progress bar ng theat level//
+  semiCircumference = Math.PI * 80; // 
+  animatedThreatLevel = 0;
+  circumference = 2 * Math.PI * 45; //
+
+  get dashOffset(): number {
+    // Clamp threatLevel between 0 and 10
+    const level = Math.max(0, Math.min(10, this.threatLevel ?? 0));
+    return this.circumference * (1 - level / 10);
+  }
+
+  ngOnChanges() {
+    this.animateGauge();
+  }
+
+animateGauge() {
+  const start = 0;
+  const end = this.threatLevel ?? 0;
+  const duration = 1200; // synced duration
+  const startTime = performance.now();
+
+  const animate = (now: number) => {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easedProgress = this.easeOutElastic(progress); 
+
+    this.animatedThreatLevel = start + (end - start) * easedProgress;
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      this.animatedThreatLevel = end;
+    }
+  };
+
+  requestAnimationFrame(animate);
+}
+easeOutElastic(x: number): number {
+  const c4 = (2 * Math.PI) / 3;
+  return x === 0
+    ? 0
+    : x === 1
+    ? 1
+    : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * c4) + 1;
+}
+
+  get semiDashOffset(): number {
+    const level = Math.max(0, Math.min(10, this.animatedThreatLevel));
+    return this.semiCircumference * (1 - level / 10);
+  }
 }
