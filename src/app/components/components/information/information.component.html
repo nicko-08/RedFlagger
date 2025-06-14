@@ -1,8 +1,17 @@
 <div class="min-h-screen custom-dark">
 <main class="main-container custom-dark">
   @if (isLoading) {
-    <div class="loading-container">
-      <h1 class="loading">Loading data...</h1>
+    <div class="loading-container flex flex-col space-y-4">
+      <ng-lottie
+      [options] = "options"
+      width="400px"
+      height="400px"
+      (animationCreated) = "animationCreated($event)"/>
+      <div class="loading font-normal text-sm">
+        <span [class.opacity-0]="fadeOut" class="transition-opacity duration-500 ease-in-out">
+          {{ currentText }}
+        </span>
+      </div>
     </div>
   } @else {
     <div class="after-load-content">

@@ -9,11 +9,13 @@ import { AuthService } from '../../../auth.service';
 import { Chart, ChartConfiguration, registerables  } from 'chart.js';
 import { flush } from '@angular/core/testing';
 import { ChartService } from '../../../chart.service';
+import { AnimationItem } from 'lottie-web';
+import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 
 @Component({
   selector: 'app-information',
   standalone: true, 
-  imports: [CommonModule, RouterModule], 
+  imports: [CommonModule, RouterModule, LottieComponent], 
   templateUrl: './information.component.html',
   styleUrls: ['./information.component.css']
 })
@@ -65,33 +67,56 @@ sanitizer = inject(DomSanitizer);
 router = inject(Router);
 chartServe = inject(ChartService);
 
+  texts = [
+    'Loading Data',
+    'Finding Post', 
+    'Scrolling the Database', 
+    'Checking if Developers Alive',
+    'Blaming Backend',
+    'Trying not to Vibe Code'
+  ];
+  currentText = this.texts[0];
+  index = 0;
+  fadeOut = false;
+  intervalId: any;
 
 
-ngOnInit():void{
-      this.isLoading = true;
+  ngOnInit(): void {
+    this.isLoading = true;
 
-      let session; 
-      this.authService.getSession().then(
-        (new_session)=>{
-          this.userId = new_session?.user.id;
-          session = new_session;
-          this.isLoggedIn = !!session;
-        }
-      );
-      this.checkRole();
-      this.route.queryParams.subscribe((params) => {
-        this.userInputUrl = params['input'];
-        if(this.userInputUrl){
-          this.getPostContent(this.userInputUrl);
-          
-          this.getReports(this.userInputUrl);
-          const fbPageUrl = 'https://www.facebook.com/plugins/post.php?href=';
-          this.fbEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${fbPageUrl}${encodeURIComponent(this.userInputUrl)}&width=100%`);
+    this.intervalId = setInterval(() => {
+      this.fadeOut = true;
+      setTimeout(() => {
+        this.index = (this.index + 1) % this.texts.length;
+        this.currentText = this.texts[this.index];
+        this.fadeOut = false;
+      }, 500); 
+    }, 2000);
 
-        }
-      });
+    let session;
+    this.authService.getSession().then(
+      (new_session) => {
+        this.userId = new_session?.user.id;
+        session = new_session;
+        this.isLoggedIn = !!session;
+      }
+    );
+    this.checkRole();
+    this.route.queryParams.subscribe((params) => {
+      this.userInputUrl = params['input'];
+      if (this.userInputUrl) {
+        this.getPostContent(this.userInputUrl);
+
+        this.getReports(this.userInputUrl);
+        const fbPageUrl = 'https://www.facebook.com/plugins/post.php?href=';
+        this.fbEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${fbPageUrl}${encodeURIComponent(this.userInputUrl)}&width=100%`);
+
+      }
+    });
   }
-  
+  ngOnDestroy() {
+    clearInterval(this.intervalId);
+  }
 
   
   getLinkAndRouteReport():void{
@@ -428,5 +453,16 @@ easeOutElastic(x: number): number {
   get semiDashOffset(): number {
     const level = Math.max(0, Math.min(10, this.animatedThreatLevel));
     return this.semiCircumference * (1 - level / 10);
+  }
+
+  private animationItem:AnimationItem | undefined;
+
+  options: AnimationOptions = {
+    path: 'animations/loading.json',
+    loop: true,
+  };
+
+  animationCreated(animationItem: AnimationItem): void {
+    this.animationItem = animationItem;
   }
 }
