@@ -22,7 +22,7 @@
 }
 
 .loading {
-  @apply animate-pulse text-6xl font-bold;
+  @apply animate-pulse text-lg font-semibold text-gray-500;
 }
 
 .after-load-content {
