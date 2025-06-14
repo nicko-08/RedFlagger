@@ -16,6 +16,7 @@ import { PostReportsReviewsComponent } from './components/components/post-report
 import { UserProfileComponent } from './components/components/user-profile/user-profile.component';
 import { ProfileSettingsComponent } from './components/components/profile-settings/profile-settings.component';
 import { ResetPasswordComponent } from './components/components/reset-password/reset-password.component';
+import { UpdatePasswordComponent } from './components/components/update-password/update-password.component';
 
 export const routes: Routes = [
   
@@ -34,7 +35,8 @@ export const routes: Routes = [
   {path: "post-report-reviews", component: PostReportsReviewsComponent},
   { path: 'user-profile', component: UserProfileComponent },
   {path: 'profile-settings', component: ProfileSettingsComponent},
-  {path: 'reset-password', component: ResetPasswordComponent}
+  {path: 'reset-password', component: ResetPasswordComponent},
+  { path: 'update-password', component: UpdatePasswordComponent}
 
 ];
 
