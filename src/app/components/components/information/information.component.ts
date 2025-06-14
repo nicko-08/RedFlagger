@@ -164,61 +164,59 @@ chartServe = inject(ChartService);
     }
 
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post?post_url=${encodeURIComponent(this.userInputUrl)}`;
-    const apiPostStatsUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/stats?post_url=${encodeURIComponent(this.userInputUrl)}`;
-    this.http.get<{ POST_CONTENT: string }>(apiUrl).subscribe({
+    this.http.get<{ POST_CONTENT: string, POST_URL: string}>(apiUrl).subscribe({
       next: (response) => {
         this.postContent = response.POST_CONTENT || 'No content available for this post'; // Extract post_content from API response
         this.isLoading = false;
+        this.userInputUrl = response.POST_URL;
+        const apiPostStatsUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/stats?post_url=${encodeURIComponent(response.POST_URL)}`;
+        this.http.get<{ total_reports: number, average_daily_reports: number, peak_reports: number, }>(apiPostStatsUrl).subscribe({
+          next: (response) => {
+
+
+            //Ito yung original method mo, nilagyan ko lang ng animate count para dun sa method pang animate ng numbers//
+
+            /* 
+            this.reportTotal = response.total_reports || 0;// Extract total reports from API response
+            this.averagePostCount = response.average_daily_reports.toFixed(1) || '0'; // Extract average daily reports from API response
+            this.peakReport = response.peak_reports || 0; // Extract peak reports from API response
+            */
+
+            //Ito yung method na pang animate ng numbers//
+            console.log(response);
+            this.animateCount(response.total_reports || 0, 'reportTotal');
+            this.animateCount(Math.floor(response.average_daily_reports || 0), 'averagePostCount');
+            this.animateCount(response.peak_reports || 0, 'peakReport');
+
+          },
+          error: (err) => {
+            console.error('Error fetching post content:', err);
+            this.reportTotal = null;
+            this.averagePostCount = null;
+            this.peakReport = null;
+          }
+
+        });
+        this.http.get<{ threat: { color: string; hex: string; threat_level: number } }>(apiPostStatsUrl).subscribe({
+          next: (response) => {
+            this.threatColor = response.threat?.color ?? 'Unknown';
+            this.threatHex = response.threat?.hex ?? '#000000';
+            this.threatLevel = (response.threat?.threat_level ?? 0);
+
+            this.animateGauge();
+          },
+          error: (err) => {
+            console.error('Error fetching post content:', err);
+            this.threatLevel = null;
+            this.threatColor = null;
+            this.threatHex = null;
+          }
+        });
       },
       error: (err) => {
         console.error('Error fetching post content:', err);
         this.postContent = 'Failed to fetch post content. Please try again.';
         this.isLoading = false;
-      }
-    });
-    
-    this.http.get<{ total_reports: number, average_daily_reports: number, peak_reports: number,  }>(apiPostStatsUrl).subscribe({
-      next: (response) => {
-        
-
-        //Ito yung original method mo, nilagyan ko lang ng animate count para dun sa method pang animate ng numbers//
-
-        /* 
-        this.reportTotal = response.total_reports || 0;// Extract total reports from API response
-        this.averagePostCount = response.average_daily_reports.toFixed(1) || '0'; // Extract average daily reports from API response
-        this.peakReport = response.peak_reports || 0; // Extract peak reports from API response
-        */
-       
-        //Ito yung method na pang animate ng numbers//
-        this.animateCount(response.total_reports || 0, 'reportTotal');
-        this.animateCount(Math.floor(response.average_daily_reports || 0), 'averagePostCount');
-        this.animateCount(response.peak_reports || 0, 'peakReport');
-        
-      },
-      error: (err) => {
-        console.error('Error fetching post content:', err);
-        this.reportTotal = null;
-        this.averagePostCount = null;
-        this.peakReport = null;
-      }
-    
-    });
-
-    
-
-    this.http.get<{threat: {color: string; hex: string; threat_level: number} }>(apiPostStatsUrl).subscribe({
-      next: (response) => {
-        this.threatColor = response.threat?.color ?? 'Unknown';
-        this.threatHex = response.threat?.hex ?? '#000000';
-        this.threatLevel = (response.threat?.threat_level ?? 0);
-        
-        this.animateGauge();
-      },
-      error: (err) => {
-        console.error('Error fetching post content:', err);
-        this.threatLevel = null;
-        this.threatColor = null;
-        this.threatHex = null;
       }
     });
 
