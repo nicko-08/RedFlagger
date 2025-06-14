@@ -21,7 +21,7 @@ export class ResetPasswordComponent {
     this.message = '';
     this.error = '';
     const { error } = await this.authService.supabase.auth.resetPasswordForEmail(this.email, {
-      redirectTo: 'https://redflagger.site/reset-password'  // 👈 Change this to live URL later
+      redirectTo: 'https://redflagger.site/update-password'  // 👈 Change this to live URL later
     });
     
 
