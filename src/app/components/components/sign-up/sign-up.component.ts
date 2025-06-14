@@ -39,7 +39,7 @@ export class SignUpComponent {
         this.errorMessage = result.error.message;
       } else {
         this.signingUp = false;
-        window.location.replace('check-email');
+        this.router.navigate(['/check-email']);
       }
     });
   }

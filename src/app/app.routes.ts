@@ -15,10 +15,12 @@ import { PostReportsComponent } from './components/components/post-reports/post-
 import { PostReportsReviewsComponent } from './components/components/post-reports-reviews/post-reports-reviews.component';
 import { UserProfileComponent } from './components/components/user-profile/user-profile.component';
 import { ProfileSettingsComponent } from './components/components/profile-settings/profile-settings.component';
+import { ResetPasswordComponent } from './components/components/reset-password/reset-password.component';
+
 export const routes: Routes = [
   
   { path: 'signup', component: SignUpComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }, // Default route
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'sign-in', component: SignInComponent},
   { path: 'home', component: HomeComponent},
   { path: 'legal', component: LegalComponent},
@@ -31,8 +33,8 @@ export const routes: Routes = [
   {path: "post-reports", component: PostReportsComponent},
   {path: "post-report-reviews", component: PostReportsReviewsComponent},
   { path: 'user-profile', component: UserProfileComponent },
-  {path: 'profile-settings', component: ProfileSettingsComponent}
-
+  {path: 'profile-settings', component: ProfileSettingsComponent},
+  {path: 'reset-password', component: ResetPasswordComponent}
 
 ];
 

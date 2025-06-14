@@ -92,4 +92,8 @@ getPageData(urlLink: String): Observable<any>{
   return this.http.get('https://redflagger-api.et.r.appspot.com/page?pageurl='+urlLink);
 }
 
+updatePassword(new_Password: string): Observable<any> {
+  return from(this.supabase.auth.updateUser({ password: new_Password }))
+  }
+  
 }
