@@ -10,7 +10,7 @@ import { ReviewUserProfileComponent } from '../review-user-profile/review-user-p
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
-  imports: [CommonModule, ReportUserProfileComponent, ReviewUserProfileComponent] 
+  imports: [CommonModule, ReportUserProfileComponent, ReviewUserProfileComponent]
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   username: string | null = null;
@@ -20,6 +20,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   router = inject(Router);
 
   private authSub?: Subscription;
+
+  iconFileName = 'default.svg';
+  iconColor = 'bg-red-500';
+  bgColor = 'bg-blue-500';
 
   ngOnInit() {
     this.authService.supabase.auth.getUser().then(({ data }) => {
