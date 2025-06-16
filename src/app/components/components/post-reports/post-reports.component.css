@@ -60,11 +60,11 @@
 }
 
 .vote-btn {
-  @apply flex h-6 w-6 items-center justify-center p-1 text-gray-500 transition hover:text-green-500;
+  @apply flex h-6 w-6 items-center justify-center p-1 transition hover:text-green-500;
 }
 
 .downvote-btn {
-  @apply flex h-6 w-6 items-center justify-center p-1 text-gray-500 transition hover:text-green-500;
+  @apply flex h-6 w-6 items-center justify-center p-1 transition hover:text-green-500;
 }
 
 .delete-report-btn {
