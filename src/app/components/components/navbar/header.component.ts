@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
  
   const session = await this.authService.getSession();
   
-  this.isLoggedIn = !!session; // Set isLoggedIn to true if a session exists
+  this.isLoggedIn = !!session; // Set isLoggedIaccessTokenn to true if a session exists
 
 
   if(this.isLoggedIn){

@@ -60,7 +60,7 @@ username: string = '';
   }
 
   updateUsername() {
-    //check if new username is provided and  current password matches to the user's password
+    //check if new username is provided and  current password is correct
     if (this.newUsername && this.confirmPassword1 === this.confirmPassword2) {
       this.authService.supabase.auth.updateUser({
         data: { username: this.newUsername }
