@@ -78,25 +78,22 @@ username: string = '';
   }
 
   updatePassword() {
-    if (this.newPassword && this.confirmNewPassword && this.currentPassword) {
+    if (this.newPassword == this.confirmNewPassword && this.currentPassword) {
       if (this.newPassword === this.confirmNewPassword) {
-        this.authService.supabase.auth.updateUser({
-          password: this.newPassword
-        }).then(({ error }) => {
-          if (error) {
-            console.error('Error updating password:', error.message);
-          } else {
-            console.log('Password updated successfully');
-            this.currentPassword = '';
-            this.newPassword = '';
-            this.confirmNewPassword = '';
-          }
-        });
+        this.authService.updatePassword(this.newPassword)
       } else {
-        console.error('New password confirmation does not match');
+        console.error('New password confirmation does not match or incorrect current password');
       }
-    } else {
-      console.error('Please fill in all fields');
+      //prompt user to enter field if they are empty
+      if (!this.currentPassword) {
+        console.error('Please enter your current password');
+      }
+      if (!this.newPassword) {
+        console.error('Please enter a new password');
+      }
+      if (!this.confirmNewPassword) {
+        console.error('Please confirm your new password');
+      }
     }
   }
 }
