@@ -66,7 +66,6 @@ listenForAuthChanges(): void {
     if (event === 'SIGNED_IN' && session?.user?.email_confirmed_at) {
       this.isLoggedInSubject.next(true);
 
-      
     }
 
     if (event === 'SIGNED_OUT') {

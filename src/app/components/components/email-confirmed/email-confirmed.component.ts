@@ -19,20 +19,6 @@ export class EmailConfirmedComponent {
 
   ngOnInit(): void{
     this.authService.listenForAuthChanges();
-    const accessToken = sessionStorage.getItem('access_token');
-          let stringe = "Bearer " + accessToken;
-          const baseHeaders = new HttpHeaders().set('Authorization', stringe);
-    
-          this.http.post<{ message: string }>(
-            'https://redflagger-api-10796636392.asia-southeast1.run.app/user/new',
-            {},
-            { headers: baseHeaders }
-          ).subscribe({
-            next: (response: { message: string }) => {console.log('User inserted successfully:', response.message);},
-            error: (error: any) => {
-              console.error('Error inserting user:', error);
-            },
-          });
   }
 
   goToHome(){
