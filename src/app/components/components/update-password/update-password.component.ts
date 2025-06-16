@@ -29,7 +29,7 @@ export class UpdatePasswordComponent {
       this.error = 'Password must be at least 8 characters long and include a mix of uppercase, lowercase, numbers, and special characters.';
       return;
     }
-
+    
     this.authService.supabase.auth.setSession({ access_token: this.accessToken!, refresh_token: '' });
     this.authService.updatePassword(this.newPassword);
     this.message = 'Password updated successfully!';
