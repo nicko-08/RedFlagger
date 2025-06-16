@@ -39,6 +39,9 @@ export class PostReportsComponent {
   sanitizer = inject(DomSanitizer);
   router = inject(Router);
 
+  upColor = 'text-red-500'
+  downColor = 'text-blue-500'
+
   async ngOnInit(): Promise<void>{
     let session; await this.authService.getSession().then(
       (new_session)=>{
@@ -86,6 +89,21 @@ export class PostReportsComponent {
 
                   if(report){
                     report.vote_type = response.type;
+
+                    console.log(report.vote_type);
+
+                    if (report.vote_type === "upvote") {
+                      this.upColor = 'text-red-500';
+                      this.downColor = 'text-gray-500';
+                    }
+                    else if (report.vote_type === "downvote") {
+                      this.downColor = 'text-blue-500';
+                      this.upColor = 'text-gray-500';
+                    }else{
+                      this.downColor = 'text-gray-500';
+                      this.upColor = 'text-gray-500';
+                    }
+                    
 
                     report.vote_count = response.vote_count;
                   }
@@ -153,6 +171,17 @@ export class PostReportsComponent {
             }else if (vote_type === "downvote"){
               report.vote_count -= 1;
             }
+          }
+          if (report.vote_type === "upvote") {
+            this.upColor = 'text-red-500';
+            this.downColor = 'text-gray-500';
+          }
+          else if (report.vote_type === "downvote") {
+            this.downColor = 'text-blue-500';
+            this.upColor = 'text-gray-500';
+          } else {
+            this.downColor = 'text-gray-500';
+            this.upColor = 'text-gray-500';
           }
         },
         error: (error: any) => {

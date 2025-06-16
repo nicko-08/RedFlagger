@@ -35,15 +35,15 @@
             </div>
         <!--Vote Buttons-->
         <div *ngIf="isLoggedIn">
-          <button (click)="putVote(report.REPORT_ID, 'upvote')" [class.text-green-500]="report.vote_type === 'upvote'"
+          <button (click)="putVote(report.REPORT_ID, 'upvote')"
             class="vote-btn">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18">
+            <svg [ngClass]="upColor" class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18" >
               <path d="M1 12h16L9 4z"></path>
             </svg>
           </button>
           <p class="vote-count">{{report.vote_count}}</p>
           <button (click)="putVote(report.REPORT_ID, 'downvote')"
-            [class.text-green-500]="report.vote_type === 'downvote'"
+            [ngClass]="downColor"
             class="downvote-btn">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18">
               <path d="M1 6h16l-8 8z"></path>
