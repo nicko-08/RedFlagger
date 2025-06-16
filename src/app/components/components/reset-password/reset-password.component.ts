@@ -21,14 +21,18 @@ export class ResetPasswordComponent {
     this.message = '';
     this.error = '';
     const { error } = await this.authService.supabase.auth.resetPasswordForEmail(this.email, {
-      redirectTo: 'https://redflagger.site/reset-password'  // 👈 Change this to live URL later
+      redirectTo: 'http://localhost:4200/update-password'  // 👈 Change this to live URL later
     });
     
-
     if (error) {
       this.error = error.message;
     } else {
       this.message = 'If this email exists in our system, a reset link has been sent.';
     }
   }
+
+  ngOnInit() {
+    // Optional: handle redirect fragment if you want this component to also support it
+  }
+
 }

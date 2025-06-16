@@ -14,7 +14,6 @@ import { FormsModule } from '@angular/forms';
 export class ProfileSettingsComponent {
 username: string = '';
   showUsernameForm = true;
-  currentUsername = ''; 
   newUsername = '';
   confirmPassword1 = '';
   confirmPassword2 = '';
@@ -50,7 +49,54 @@ username: string = '';
   }
 
   saveChanges() { 
+    if (this.newUsername && this.confirmPassword1 && this.confirmPassword2) {
+      this.updateUsername();
+      return;
+    }
+    if (this.newPassword && this.confirmNewPassword && this.currentPassword) {
+      this.updatePassword();
+      return;
+    }
+  }
 
-    /* implement */ 
+  updateUsername() {
+    //check if new username is provided and  current password matches to the user's password
+    if (this.newUsername && this.confirmPassword1 === this.confirmPassword2) {
+      this.authService.supabase.auth.updateUser({
+        data: { username: this.newUsername }
+      }).then(({ error }) => {
+        if (error) {
+          console.error('Error updating username:', error.message);
+        } else {
+          this.showUsernameForm = false;
+          console.log('Username updated successfully');
+        }
+      });
+    } else {
+      console.error('New username or password confirmation does not match');
+    }
+  }
+
+  updatePassword() {
+    if (this.newPassword && this.confirmNewPassword && this.currentPassword) {
+      if (this.newPassword === this.confirmNewPassword) {
+        this.authService.supabase.auth.updateUser({
+          password: this.newPassword
+        }).then(({ error }) => {
+          if (error) {
+            console.error('Error updating password:', error.message);
+          } else {
+            console.log('Password updated successfully');
+            this.currentPassword = '';
+            this.newPassword = '';
+            this.confirmNewPassword = '';
+          }
+        });
+      } else {
+        console.error('New password confirmation does not match');
+      }
+    } else {
+      console.error('Please fill in all fields');
+    }
   }
 }
