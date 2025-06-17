@@ -12,6 +12,7 @@ import { ChartService } from '../../../chart.service';
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 
+
 @Component({
   selector: 'app-information',
   standalone: true, 
@@ -38,7 +39,7 @@ peakReport: number | null = 0;
 threatColor: string | null = "Loading...";
 threatHex: string | null = null;
 userId: string|undefined = '';
-
+chartReady = false;
 //reports of the post part
 reports: any[] = [];
 reportImages: string[] | null = null;
@@ -111,9 +112,24 @@ chartServe = inject(ChartService);
         const fbPageUrl = 'https://www.facebook.com/plugins/post.php?href=';
         this.fbEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${fbPageUrl}${encodeURIComponent(this.userInputUrl)}&width=100%`);
 
+        this.chartReady = true;
       }
     });
   }
+
+  ngAfterViewInit(): void {
+  // Wait for both userInputUrl and ViewChild to be ready
+  const tryInitChart = () => {
+    if (this.chartReady && this.chartCanvas && this.chartCanvas2) {
+      this.toggleGraph();
+    } else {
+      setTimeout(tryInitChart, 100); // keep checking until ready
+    }
+  };
+
+  tryInitChart();
+}
+
   ngOnDestroy() {
     clearInterval(this.intervalId);
   }
@@ -156,6 +172,7 @@ chartServe = inject(ChartService);
   }
   
 
+  /*
   getPostContent(input: string): void {
     this.isLoading = true;
     if(!this.userInputUrl){
@@ -174,15 +191,6 @@ chartServe = inject(ChartService);
           next: (response) => {
 
 
-            //Ito yung original method mo, nilagyan ko lang ng animate count para dun sa method pang animate ng numbers//
-
-            /* 
-            this.reportTotal = response.total_reports || 0;// Extract total reports from API response
-            this.averagePostCount = response.average_daily_reports.toFixed(1) || '0'; // Extract average daily reports from API response
-            this.peakReport = response.peak_reports || 0; // Extract peak reports from API response
-            */
-
-            //Ito yung method na pang animate ng numbers//
             console.log(response);
             this.animateCount(response.total_reports || 0, 'reportTotal');
             this.animateCount(Math.floor(response.average_daily_reports || 0), 'averagePostCount');
@@ -219,13 +227,72 @@ chartServe = inject(ChartService);
         this.isLoading = false;
       }
     });
-
   }
+*/
+/////NEW METHOD MEDYO BUMILIS NG SLIGHT
+  getPostContent(input: string): void {
+    this.isLoading = true;
 
-  
-  isLightboxOpen = false;
-  
-  images = ["image1.jpg", "image2.jpg", "image3.jpg"]; 
+    if (!this.userInputUrl) {
+      alert('Please enter a valid URL');
+      this.isLoading = false;
+      return;
+    }
+
+    const encodedUrl = encodeURIComponent(this.userInputUrl);
+    const contentUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post?post_url=${encodedUrl}`;
+    const statsUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/stats?post_url=${encodedUrl}`;
+
+    // Fetch post content
+    this.http.get<{ POST_CONTENT: string, POST_URL: string }>(contentUrl).subscribe({
+      next: (contentResponse) => {
+        this.postContent = contentResponse.POST_CONTENT || 'No content available for this post';
+        this.userInputUrl = contentResponse.POST_URL;
+
+        // Fetch stats and threat info in parallel
+        this.http.get<{ 
+          total_reports: number, 
+          average_daily_reports: number, 
+          peak_reports: number, 
+          threat: { color: string, hex: string, threat_level: number } 
+        }>(statsUrl).subscribe({
+          next: (statsResponse) => {
+            const total = statsResponse.total_reports ?? 0;
+            const average = statsResponse.average_daily_reports ?? 0;
+            const peak = statsResponse.peak_reports ?? 0;
+            const threat = statsResponse.threat;
+
+            // Animate numeric values
+            this.animateCount(total, 'reportTotal');
+            this.animateCount(Math.floor(average), 'averagePostCount');
+            this.animateCount(peak, 'peakReport');
+
+            // Set threat visuals
+            this.threatColor = threat?.color ?? 'Unknown';
+            this.threatHex = threat?.hex ?? '#000000';
+            this.threatLevel = threat?.threat_level ?? 0; // this is the target
+            this.animateGauge();
+            this.isLoading = false;
+          },
+          error: (statsErr) => {
+            console.error('Error fetching post stats:', statsErr);
+            this.reportTotal = null;
+            this.averagePostCount = null;
+            this.peakReport = null;
+            this.threatLevel = null;
+            this.threatColor = null;
+            this.threatHex = null;
+            this.isLoading = false;
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching post content:', err);
+        this.postContent = 'Failed to fetch post content. Please try again.';
+        this.isLoading = false;
+      }
+    });
+  }
 
   toggleGraph() {
     if(this.userInputUrl){
@@ -237,14 +304,7 @@ chartServe = inject(ChartService);
     } 
   }
 
-  closeLightbox() {
-    this.isLightboxOpen = false;
-  }
-
-  //Graph part
-  
-  
-
+  //Graph part//
 getReports(input: string): void {
   const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/reports?post_url=${encodeURIComponent(input)}`;
   this.http.get<any[]>(apiUrl).subscribe({
@@ -418,17 +478,17 @@ async deleteReport(report_id: number): Promise<void>{
   }
 
 animateGauge() {
-  const start = 0;
-  const end = this.threatLevel ?? 0;
-  const duration = 1200; // synced duration
+  const start = this.animatedThreatLevel ?? 0;
+  const end = Math.max(0, Math.min(10, this.threatLevel ?? 0));
+  const duration = 30;
   const startTime = performance.now();
 
   const animate = (now: number) => {
     const elapsed = now - startTime;
     const progress = Math.min(elapsed / duration, 1);
-    const easedProgress = this.easeOutElastic(progress); 
+    const eased = this.easeOutCubic(progress);
 
-    this.animatedThreatLevel = start + (end - start) * easedProgress;
+    this.animatedThreatLevel = start + (end - start) * eased;
 
     if (progress < 1) {
       requestAnimationFrame(animate);
@@ -439,14 +499,12 @@ animateGauge() {
 
   requestAnimationFrame(animate);
 }
-easeOutElastic(x: number): number {
-  const c4 = (2 * Math.PI) / 3;
-  return x === 0
-    ? 0
-    : x === 1
-    ? 1
-    : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * c4) + 1;
+
+
+easeOutCubic(x: number): number {
+  return 1 - Math.pow(1 - x, 3);
 }
+
 
   get semiDashOffset(): number {
     const level = Math.max(0, Math.min(10, this.animatedThreatLevel));
