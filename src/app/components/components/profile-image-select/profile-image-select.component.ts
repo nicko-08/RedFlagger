@@ -76,6 +76,10 @@ export class ProfileImageSelectComponent {
     this.closePopup.emit();
   }
 
+  cancel(){
+    this.closePopup.emit();
+  }
+
   async getAccessToken(): Promise<string | null> {
     const session = await this.authService.getSession();
     return session?.access_token || null;
