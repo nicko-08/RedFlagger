@@ -66,20 +66,6 @@ listenForAuthChanges(): void {
     if (event === 'SIGNED_IN' && session?.user?.email_confirmed_at) {
       this.isLoggedInSubject.next(true);
 
-      const accessToken = session.access_token;
-      let stringe = "Bearer " + accessToken;
-      const baseHeaders = new HttpHeaders().set('Authorization', stringe);
-
-      this.http.post<{ message: string }>(
-        'https://redflagger-api-10796636392.asia-southeast1.run.app/user/new',
-        {},
-        { headers: baseHeaders }
-      ).subscribe({
-        next: (response: { message: string }) => {},
-        error: (error: any) => {
-          console.error('Error inserting user:', error);
-        },
-      });
     }
 
     if (event === 'SIGNED_OUT') {

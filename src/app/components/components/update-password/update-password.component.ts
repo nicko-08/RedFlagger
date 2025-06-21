@@ -20,7 +20,7 @@ export class UpdatePasswordComponent {
   error = '';
 
 
-  async updatePassword() {
+  updatePassword() {
     this.message = '';
     this.error = '';
 
@@ -29,17 +29,11 @@ export class UpdatePasswordComponent {
       this.error = 'Password must be at least 8 characters long and include a mix of uppercase, lowercase, numbers, and special characters.';
       return;
     }
-
+    
     this.authService.supabase.auth.setSession({ access_token: this.accessToken!, refresh_token: '' });
-    const { error } = await this.authService.supabase.auth.updateUser(
-      { password: this.newPassword }
-    );
-
-    if (error) {
-      this.error = error.message;
-    } else {
-      this.message = 'Password updated successfully!';
-    }
+    this.authService.updatePassword(this.newPassword);
+    this.message = 'Password updated successfully!';
+    this.newPassword = ''; // Clear the input field after successful update
   }
 
 }

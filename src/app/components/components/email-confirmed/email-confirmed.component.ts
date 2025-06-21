@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-email-confirmed',
@@ -13,6 +14,8 @@ export class EmailConfirmedComponent {
   router = inject(Router);
 
   authService = inject(AuthService);
+  constructor(private http: HttpClient){
+    }
 
   ngOnInit(): void{
     this.authService.listenForAuthChanges();

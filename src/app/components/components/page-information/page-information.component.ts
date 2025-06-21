@@ -80,6 +80,7 @@ chartServe = inject(ChartService);
     const ctx = document.getElementById('myChart') as HTMLCanvasElement;
     const ctx2 = document.getElementById('myChart2') as HTMLCanvasElement;
 
+    // First chart (Frequent Reports)
     this.chart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -88,8 +89,20 @@ chartServe = inject(ChartService);
           {
             label: 'Count',
             data: [], // Start with empty data
-            backgroundColor: '#eb3636',
+            borderColor: 'rgb(249, 115, 22)',
+            backgroundColor: (ctx) => {
+              const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, ctx.chart.height);
+              gradient.addColorStop(0, 'rgba(249, 115, 22, 0.3)');
+              gradient.addColorStop(1, 'rgba(249, 115, 22, 0)');
+              return gradient;
+            },
+            tension: 0.4,
             fill: true,
+            borderWidth: 3,
+            pointRadius: 0,
+            pointHoverRadius: 0,
+            pointBorderWidth: 0,
+            pointBackgroundColor: 'transparent'
           },
         ],
       },
@@ -97,35 +110,78 @@ chartServe = inject(ChartService);
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          y: {
-            beginAtZero: true, // Always start from zero
+          x: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: {
+              color: '#64748b',
+              font: { size: 12 }
+            }
           },
+          y: {
+            beginAtZero: true,
+            grid: { display: false },
+            border: { display: false },
+            ticks: {
+              color: '#64748b'
+            }
+          }
         },
         plugins: {
-          legend: { position: 'top',
-            labels: { color: '#777777', font: { size: 15 } }
-           },
-          title: { display: true, text: 'Frequent Reports',
-            font: { size: 25, weight: 'bold'},
+          legend: {
+            display: false
+          },
+          title: { 
+            display: true, 
+            text: 'Frequent Reports',
+            font: { 
+              size: 20, 
+              weight: 'bold',
+              family: 'Inter, sans-serif'
+            },
             color: '#777777'
-           },
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            backgroundColor: '#1f2937',
+            titleColor: '#f9fafb',
+            bodyColor: '#e5e7eb',
+            padding: 10,
+            cornerRadius: 6
+          }
         },
+        interaction: {
+          mode: 'nearest',
+          axis: 'x',
+          intersect: false
+        }
       },
     });
     
-    //second graph
+    // Second chart (Reports Over Time)
     this.chart2 = new Chart(ctx2, {
-      type: 'line', // Line chart for variety
+      type: 'line',
       data: {
         labels: [], // Start with empty labels
         datasets: [
           {
             label: 'Total Reports',
             data: [], // Start with empty data
-            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-            borderColor: '#36a2eb',
-            borderWidth: 1,
+            borderColor: 'rgb(59, 130, 246)',
+            backgroundColor: (ctx) => {
+              const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, ctx.chart.height);
+              gradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
+              gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+              return gradient;
+            },
+            tension: 0.4,
             fill: true,
+            borderWidth: 3,
+            pointRadius: 0,
+            pointHoverRadius: 0,
+            pointBorderWidth: 0,
+            pointBackgroundColor: 'transparent'
           },
         ],
       },
@@ -133,20 +189,52 @@ chartServe = inject(ChartService);
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          y: {
-            beginAtZero: true, // Always start from zero
+          x: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: {
+              color: '#64748b',
+              font: { size: 12 }
+            }
           },
+          y: {
+            beginAtZero: true,
+            grid: { display: false },
+            border: { display: false },
+            ticks: {
+              color: '#64748b'
+            }
+          }
         },
         plugins: {
-          legend: { position: 'top',
-          labels: { color: '#777777', font: {size: 15} }
-           },
-          title: { display: true, 
+          legend: {
+            display: false
+          },
+          title: { 
+            display: true, 
             text: 'Reports Over Time',
-            font: { size: 22, weight: 'bold' },
+            font: { 
+              size: 20, 
+              weight: 'bold',
+              family: 'Inter, sans-serif'
+            },
             color: '#777777'
           },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            backgroundColor: '#1f2937',
+            titleColor: '#f9fafb',
+            bodyColor: '#e5e7eb',
+            padding: 10,
+            cornerRadius: 6
+          }
         },
+        interaction: {
+          mode: 'nearest',
+          axis: 'x',
+          intersect: false
+        }
       },
     });
   }
@@ -197,12 +285,29 @@ chartServe = inject(ChartService);
       y: {
         beginAtZero: true, // Set min to 0
         max: maxDataValue + 1, // Set max to maxDataValue + 1
+        grid: { display: false },
+        border: { display: false },
+               ticks: {
+        color: '#64748b'
+        }
       },
-    };
+      x: {
+      ...(chart.options.scales as any)?.x,
+        grid: { display: false },
+        border: { display: false },
+        ticks: {
+        color: '#64748b',
+        font: { size: 12 }
+      }
+    }
+  };
   
     chart.update(); // Refresh the chart
   }
 
+
+  /////ORIGINAL CODE, MEDYO MABAGAL NG KAUNTI//////
+  /*
   getPageContent(input: string): void {
 
     if(!this.userInputUrl){
@@ -278,6 +383,65 @@ chartServe = inject(ChartService);
       }
     });
   }
+  */
+
+    ///NEW METHOD, SLIGHTLY BUMILIS DI KO LANG SIGURADO///// 
+    getPageContent(input: string): void {
+    if (!this.userInputUrl) {
+      alert('Please enter a valid URL');
+      return;
+    }
+
+    const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/page?page_url=${encodeURIComponent(this.userInputUrl)}`;
+    const apiPageStatsUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/page/stats?page_url=${encodeURIComponent(this.userInputUrl)}`;
+
+    // First request: Get page name
+    this.http.get<{ PAGE_NAME: string }>(apiUrl).subscribe({
+      next: (response) => {
+        this.pageName = response.PAGE_NAME || 'No content available for this post';
+        if (this.pageName === 'No content available for this post') {
+          alert('No content available for this post');
+          this.router.navigate(['/home']);
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching post content:', err);
+        this.pageName = 'Failed to fetch post content. Please try again.';
+      }
+    });
+
+    // Second request: Get all stats in one call
+    this.http.get<{
+      total_reports: number,
+      average_daily_reports: number,
+      peak_reports: number,
+      threat: {
+        color: string,
+        hex: string,
+        threat_level: number
+      }
+    }>(apiPageStatsUrl).subscribe({
+      next: (response) => {
+        this.animateCount('reportTotal', response.total_reports || 0);
+        this.animateDecimal('averagePostCount', response.average_daily_reports ?? 0);
+        this.animateCount('peakReport', response.peak_reports || 0);
+
+        this.threatColor = response.threat?.color ?? 'Unknown';
+        this.threatHex = response.threat?.hex ?? '#000000';
+        this.threatLevel = (response.threat?.threat_level ?? 0).toFixed(1);
+      },
+      error: (err) => {
+        console.error('Error fetching page stats:', err);
+        this.reportTotal = null;
+        this.averagePostCount = null;
+        this.peakReport = null;
+        this.threatLevel = null;
+        this.threatColor = null;
+        this.threatHex = null;
+      }
+    });
+  }
+  
   getPageLinks(input: string): void{
     if(!this.userInputUrl){
       return;
@@ -316,36 +480,76 @@ chartServe = inject(ChartService);
   
 
   //Method pang Animate ng Numbers sa Stats//
-    animateCount(property: keyof PageInformationComponent, target: number, duration = 1500) {
-    const stepTime = Math.abs(Math.floor(duration / target));
-    let current = 0;
+  animateCount(property: keyof this, target: number, duration = 1500, steps = 100) {
+    const start = 0;
+    const range = target - start;
+    let currentStep = 0;
 
-    const timer = setInterval(() => {
-      if (current >= target) {
-        (this[property] as number) = target;
-        clearInterval(timer);
-      } else {
-        current += 1;
-        (this[property] as number) = current;
+    const easeOutQuad = (t: number) => t * (2 - t); // smoother than linear
+
+    const interval = setInterval(() => {
+      currentStep++;
+      const progress = currentStep / steps;
+      const eased = easeOutQuad(progress);
+      const currentValue = start + range * eased;
+
+      (this as any)[property] = Math.floor(currentValue);
+
+      if (currentStep >= steps) {
+        (this as any)[property] = target;
+        clearInterval(interval);
       }
-    }, stepTime);
-  } 
+    }, duration / steps);
+  }
 
-  animateDecimal(property: keyof PageInformationComponent, target: number, duration = 1500) {
-  const steps = 50;
-  let currentStep = 0;
-  const increment = target / steps;
 
-  const timer = setInterval(() => {
-    currentStep++;
-    if (currentStep >= steps) {
-      (this[property] as string) = target.toFixed(1);
-      clearInterval(timer);
-    } else {
-      const current = increment * currentStep;
-      (this[property] as string) = current.toFixed(1);
-    }
-  }, duration / steps);
-}
+  animateDecimal(property: keyof this, target: number, duration = 1500, steps = 60) {
+    let currentStep = 0;
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+    const start = 0;
+    const range = target;
+
+    const interval = setInterval(() => {
+      currentStep++;
+      const progress = currentStep / steps;
+      const eased = easeOutCubic(progress);
+      const value = start + range * eased;
+
+      (this as any)[property] = value.toFixed(1);
+
+      if (currentStep >= steps) {
+        (this as any)[property] = target.toFixed(1);
+        clearInterval(interval);
+      }
+    }, duration / steps);
+  }
+
+    animateAllStatsTogether(stats: {
+    total: number,
+    peak: number,
+    average: number
+  }, duration = 1500, steps = 60) {
+    let currentStep = 0;
+
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    const interval = setInterval(() => {
+      currentStep++;
+      const progress = currentStep / steps;
+      const eased = easeOutCubic(progress);
+
+      // Update all stats in sync
+      this.reportTotal = Math.floor(stats.total * eased);
+      this.peakReport = Math.floor(stats.peak * eased);
+      this.averagePostCount = (stats.average * eased).toFixed(1);
+
+      if (currentStep >= steps) {
+        this.reportTotal = stats.total;
+        this.peakReport = stats.peak;
+        this.averagePostCount = stats.average.toFixed(1);
+        clearInterval(interval);
+      }
+    }, duration / steps);
+  }
 
 }
