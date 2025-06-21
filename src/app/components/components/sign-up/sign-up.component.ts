@@ -33,6 +33,12 @@ export class SignUpComponent {
     this.signingUp = true;
 
     const rawFormValue = this.signUpForm.getRawValue();
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rawFormValue.email);
+    if (!isValidEmail) {
+      this.signingUp = false;
+      this.errorMessage = 'Please enter a valid email address.';
+      return;
+    }
     this.authService.register(rawFormValue.email, rawFormValue.username, rawFormValue.password).subscribe((result) =>{
       if (result.error) {
         this.signingUp = false;
