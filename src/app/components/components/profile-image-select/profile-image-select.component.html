@@ -46,7 +46,7 @@
     <div
     class="w-full flex justify-end space-x-3"
     >
-        <button [disabled]="originalImage==currentImage" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed transition" (click)="saveImage()">Save</button>
+        <button [disabled]="saving && (originalImage==currentImage)" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed transition" (click)="saveImage()">Save</button>
         <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded" (click)="close()">Cancel</button>
     </div>
   </div>

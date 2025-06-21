@@ -58,5 +58,6 @@
   </div>
   <app-profile-image-select *ngIf="showPopup" 
   (closePopup)="showPopup = false"
+  (imageSaved)="onImageSaved()"
   [currentImage]="userProfileImage"></app-profile-image-select>
 </main>

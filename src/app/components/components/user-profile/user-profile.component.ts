@@ -72,4 +72,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         }
       });
   }
+  onImageSaved(){
+    console.log("detected image change");
+    this.getUserInfo();
+  }
 }
