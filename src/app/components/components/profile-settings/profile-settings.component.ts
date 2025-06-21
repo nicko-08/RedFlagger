@@ -49,12 +49,8 @@ username: string = '';
   }
 
   saveChanges() { 
-    if (this.newUsername && this.confirmPassword1 && this.confirmPassword2) {
+    if (this.newUsername) {
       this.updateUsername();
-      return;
-    }
-    if (this.newPassword && this.confirmNewPassword && this.currentPassword) {
-      this.updatePassword();
       return;
     }
   }
@@ -77,23 +73,5 @@ username: string = '';
     }
   }
 
-  updatePassword() {
-    if (this.newPassword == this.confirmNewPassword && this.currentPassword) {
-      if (this.newPassword === this.confirmNewPassword) {
-        this.authService.updatePassword(this.newPassword)
-      } else {
-        console.error('New password confirmation does not match or incorrect current password');
-      }
-      //prompt user to enter field if they are empty
-      if (!this.currentPassword) {
-        console.error('Please enter your current password');
-      }
-      if (!this.newPassword) {
-        console.error('Please enter a new password');
-      }
-      if (!this.confirmNewPassword) {
-        console.error('Please confirm your new password');
-      }
-    }
-  }
+  
 }
