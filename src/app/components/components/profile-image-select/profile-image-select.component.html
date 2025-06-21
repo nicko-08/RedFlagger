@@ -1,0 +1,53 @@
+<!-- popup.component.html -->
+<div class="fixed inset-0 z-50 flex items-center justify-center">
+  <!-- Background blur + semi-transparent overlay -->
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" (click)="close()"></div>
+
+  <!-- Popup content -->
+  <div class="relative z-10 bg-white p-6 rounded-xl shadow-lg w-96">
+    <div
+    class="w-30 h-30 cursor-pointer border-2 rounded-full overflow-hidden p-1 transition
+    border-blue-500"
+    >
+    <img
+    [src]="'icons/' + currentImage + '.svg'"
+    [alt]="currentImage"
+    class="w-full h-auto object-contain"
+    />
+    </div>
+
+    <hr class="border-gray-300 my-4" />
+
+    <div class="grid grid-cols-3 gap-4">
+    @for (image of images; track $index) {
+        <div
+        class="cursor-pointer border-2 rounded-full overflow-hidden p-1 transition
+        border-gray-400
+        hover:border-blue-500"
+        (click)="selectImage(image)"
+        >
+        <img
+        [src]="'icons/' + image + '.svg'"
+        [alt]="image"
+        class="w-full h-auto object-contain"
+        />
+        </div>
+    }
+    </div>
+
+    @if (exitNotSaved) {
+        <div class="
+            text-sm
+            text-red-600
+        ">
+        Save Changes First
+        </div>
+    }
+    <div
+    class="w-full flex justify-end space-x-3"
+    >
+        <button [disabled]="originalImage==currentImage" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed transition" (click)="saveImage()">Save</button>
+        <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded" (click)="close()">Cancel</button>
+    </div>
+  </div>
+</div>

@@ -6,12 +6,13 @@ import { CommonModule } from '@angular/common';
 import { ReportUserProfileComponent } from '../report-user-profile/report-user-profile.component';
 import { ReviewUserProfileComponent } from '../review-user-profile/review-user-profile.component';
 import { HttpClient } from '@angular/common/http';
+import { ProfileImageSelectComponent } from "../profile-image-select/profile-image-select.component";
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
-  imports: [CommonModule, ReportUserProfileComponent, ReviewUserProfileComponent]
+  imports: [CommonModule, ReportUserProfileComponent, ReviewUserProfileComponent, ProfileImageSelectComponent]
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   username: string | null = null;
@@ -19,10 +20,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   activeTab: 'reports' | 'reviews' = 'reports';
   authService = inject(AuthService);
   router = inject(Router);
+  showPopup = false;
 
   private authSub?: Subscription;
-
-  iconFileName = 'default.svg';
 
   userProfileImage = "default";
   userProfileForeground = "white";

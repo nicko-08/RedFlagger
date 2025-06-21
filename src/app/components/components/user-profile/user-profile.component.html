@@ -2,9 +2,18 @@
 
   <div class="upper-wrapper flex space-x-10 items-end">
     <div class="flex space-x-10 items-end">
-      <div class="w-40 h-40 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden shadow-md">
-        <img [src]="'icons/' + userProfileImage + '.svg'" alt="Profile icon" class="w-30 h-30 object-contain" />
+<!-- Profile button with hover overlay -->
+
+    <div class="relative w-40 h-40 rounded-full overflow-hidden shadow-md cursor-pointer group" (click)="showPopup = true">
+      <img [src]="'icons/' + userProfileImage + '.svg'" alt="Profile icon"
+        class="w-full h-full object-contain transition duration-300 group-hover:blur-sm" />
+
+      <div
+        class="absolute inset-0 flex items-center justify-center bg-black/40 text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition duration-300">
+        Edit
       </div>
+    </div>
+
 
       <div class="username-bottom-left bg-opacity-50">
         <h1 class="heading1-big ">{{ username }}</h1>
@@ -47,4 +56,7 @@
       </div>
     </div>
   </div>
+  <app-profile-image-select *ngIf="showPopup" 
+  (closePopup)="showPopup = false"
+  [currentImage]="userProfileImage"></app-profile-image-select>
 </main>
