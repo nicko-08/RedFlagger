@@ -4,10 +4,9 @@
     <div class="flex space-x-10 items-end">
 <!-- Profile button with hover overlay -->
 
-    <div class="relative w-40 h-40 rounded-full overflow-hidden shadow-md cursor-pointer group" (click)="showProfilePicturePopup = true">
+    <div class="relative bg-gray-100 w-40 h-40 rounded-full overflow-hidden shadow-md cursor-pointer group" (click)="showProfilePicturePopup = true">
       <img [src]="'icons/' + userProfileImage + '.svg'" alt="Profile icon"
         class="w-full h-full object-contain transition duration-300 group-hover:blur-sm" />
-
       <div
         class="absolute inset-0 flex items-center justify-center bg-black/40 text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition duration-300">
         Edit
@@ -25,7 +24,8 @@
       <button
         (click)="showProfileUsernamePopup = true"
         class="edit-profile-btn">
-        <img [src] = "'edit.svg'" class="w-5 h-5">
+        <img [src] = "'edit.svg'" class="w-5 h-5 block dark:hidden">
+        <img [src] = "'edit-dark.svg'" class="w-5 h-5 hidden dark:block">
       </button>
     </div>
   </div>
