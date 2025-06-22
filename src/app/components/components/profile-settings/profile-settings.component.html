@@ -1,24 +1,8 @@
-<div class="bg-white py-8 px-4 custom-dark">
-  <div class="max-w-3xl mx-auto rounded-lg shadow-lg p-6 border-1 border-gray-400 dark-card">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6 dark:text-white">User Profile</h1>
+<div class="fixed inset-0 z-50 flex items-center justify-center">
 
-    <!-- Tabs -->
-    <div class="flex space-x-4 mb-6 ">
-      <button
-        class="px-4 py-2 rounded font-semibold"
-        [ngClass]="showUsernameForm ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'"
-        (click)="showUsernameForm = true"
-      >
-        Username
-      </button>
-      <button
-        class="px-4 py-2 rounded font-semibold"
-        [ngClass]="!showUsernameForm ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'"
-        (click)="showUsernameForm = false"
-      >
-        Password
-      </button>
-    </div>
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" (click)="close()"></div>
+  <div class="relative z-10 w-3xl mx-auto rounded-lg shadow-lg p-6 border-1 border-gray-400 dark-card">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6 dark:text-white">User Profile</h1>
 
     <!-- Username Form -->
     <div *ngIf="showUsernameForm" class="space-y-4">
@@ -34,53 +18,20 @@
       </div>
     </div>
 
-    <!-- Password Form -->
-    <div *ngIf="!showUsernameForm" class="space-y-4">
-      <div>
-        <label class="block text-gray-700 font-medium mb-1 dark:text-white">Current Password</label>
-        <input
-          type="password"
-          [(ngModel)]="currentPassword"
-          placeholder="Enter your Current Password"
-          class="w-full border border-gray-300 rounded px-3 py-2 text-black dark:text-white"
-        />
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1 dark:text-white">Choose New Password</label>
-        <input
-          type="password"
-          [(ngModel)]="newPassword"
-          placeholder="Enter a New Password for your Account"
-          class="w-full border border-gray-300 rounded px-3 py-2 text-black dark:text-white"
-        />
-      </div>
-
-      <div>
-        <label class="block text-gray-700 dark:text-white font-medium mb-1">Confirm New Password</label>
-        <input
-          type="password"
-          [(ngModel)]="confirmNewPassword"
-          placeholder="Re-enter your New Password for Confirmation"
-          class="w-full border border-gray-300 rounded px-3 py-2 text-black dark:text-white"
-        />
-      </div>
-    </div>
-
     <!-- Buttons -->
     <div class="flex justify-between items-center mt-6">
       <button
-        (click)="goBack()"
+        (click)="close()"
         class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition"
       >
-        Back to Home
+        Cancel
       </button>
 
       <button
         (click)="saveChanges()"
         class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
       >
-        Save Changes
+        Save
       </button>
     </div>
   </div>

@@ -4,7 +4,7 @@
     <div class="flex space-x-10 items-end">
 <!-- Profile button with hover overlay -->
 
-    <div class="relative w-40 h-40 rounded-full overflow-hidden shadow-md cursor-pointer group" (click)="showPopup = true">
+    <div class="relative w-40 h-40 rounded-full overflow-hidden shadow-md cursor-pointer group" (click)="showProfilePicturePopup = true">
       <img [src]="'icons/' + userProfileImage + '.svg'" alt="Profile icon"
         class="w-full h-full object-contain transition duration-300 group-hover:blur-sm" />
 
@@ -23,7 +23,7 @@
     <!-- Edit Profile Button  -->
     <div>
       <button
-        (click)="goToSettings()"
+        (click)="showProfileUsernamePopup = true"
         class="edit-profile-btn">
         <img [src] = "'edit.svg'" class="w-5 h-5">
       </button>
@@ -56,8 +56,10 @@
       </div>
     </div>
   </div>
-  <app-profile-image-select *ngIf="showPopup" 
-  (closePopup)="showPopup = false"
+  <app-profile-image-select *ngIf="showProfilePicturePopup" 
+  (closePopup)="showProfilePicturePopup = false"
   (imageSaved)="onImageSaved()"
   [currentImage]="userProfileImage"></app-profile-image-select>
+  <app-profile-settings *ngIf="showProfileUsernamePopup" 
+  (closePopup)="onUsernameSaved()"></app-profile-settings>
 </main>

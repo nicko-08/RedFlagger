@@ -7,12 +7,13 @@ import { ReportUserProfileComponent } from '../report-user-profile/report-user-p
 import { ReviewUserProfileComponent } from '../review-user-profile/review-user-profile.component';
 import { HttpClient } from '@angular/common/http';
 import { ProfileImageSelectComponent } from "../profile-image-select/profile-image-select.component";
+import { ProfileSettingsComponent } from "../profile-settings/profile-settings.component";
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
-  imports: [CommonModule, ReportUserProfileComponent, ReviewUserProfileComponent, ProfileImageSelectComponent]
+  imports: [CommonModule, ReportUserProfileComponent, ReviewUserProfileComponent, ProfileImageSelectComponent, ProfileSettingsComponent]
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   username: string | null = null;
@@ -20,7 +21,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   activeTab: 'reports' | 'reviews' = 'reports';
   authService = inject(AuthService);
   router = inject(Router);
-  showPopup = false;
+  showProfilePicturePopup = false;
+  showProfileUsernamePopup = false;
 
   private authSub?: Subscription;
 
@@ -65,6 +67,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         next: (data) => {
           console.log(data)
           this.userProfileImage = data.user.PROFILE_IMAGE;
+          this.username = data.user.USERNAME;
           console.log(this.userProfileImage);
         },
         error: (err) => {
@@ -74,6 +77,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
   onImageSaved(){
     console.log("detected image change");
+    this.getUserInfo();
+  }
+  onUsernameSaved(){
+    this.showProfileUsernamePopup = false;
     this.getUserInfo();
   }
 }
