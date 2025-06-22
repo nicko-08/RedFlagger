@@ -31,19 +31,24 @@
             <div class="avatar-div">
             <!-- Avatar/Icon -->
             <div class="reporter-avatar">
-                🚩  <!-- Placeholder ng Avatar / Icon -->
+              <img
+              [src]="'icons/' + report.PROFILE_IMAGE + '.svg'"
+              [alt]="report.PROFILE_IMAGE"
+              class="w-full h-auto object-contain"
+              />
             </div>
         <!--Vote Buttons-->
         <div *ngIf="isLoggedIn">
           <button (click)="putVote(report.REPORT_ID, 'upvote')"
+            [ngClass]="report.UP_COLOR"
             class="vote-btn">
-            <svg [ngClass]="upColor" class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18" >
+            <svg  class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18" >
               <path d="M1 12h16L9 4z"></path>
             </svg>
           </button>
           <p class="vote-count">{{report.vote_count}}</p>
           <button (click)="putVote(report.REPORT_ID, 'downvote')"
-            [ngClass]="downColor"
+            [ngClass]="report.DOWN_COLOR"
             class="downvote-btn">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18">
               <path d="M1 6h16l-8 8z"></path>

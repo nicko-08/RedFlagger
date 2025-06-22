@@ -6,6 +6,7 @@ import { SharedService } from '../../../shared.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '../../../auth.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class PostReportsComponent {
 
   upColor = 'text-red-500'
   downColor = 'text-blue-500'
+  noneColor = 'text-gray-500'
 
   async ngOnInit(): Promise<void>{
     let session; await this.authService.getSession().then(
@@ -93,15 +95,15 @@ export class PostReportsComponent {
                     console.log(report.vote_type);
 
                     if (report.vote_type === "upvote") {
-                      this.upColor = 'text-red-500';
-                      this.downColor = 'text-gray-500';
+                      report.UP_COLOR = this.upColor;
+                      report.DOWN_COLOR = this.noneColor;
                     }
                     else if (report.vote_type === "downvote") {
-                      this.downColor = 'text-blue-500';
-                      this.upColor = 'text-gray-500';
+                      report.UP_COLOR = this.noneColor;
+                      report.DOWN_COLOR = this.downColor;
                     }else{
-                      this.downColor = 'text-gray-500';
-                      this.upColor = 'text-gray-500';
+                      report.UP_COLOR = this.noneColor;
+                      report.DOWN_COLOR = this.noneColor;
                     }
                     
 
@@ -173,15 +175,15 @@ export class PostReportsComponent {
             }
           }
           if (report.vote_type === "upvote") {
-            this.upColor = 'text-red-500';
-            this.downColor = 'text-gray-500';
+            report.UP_COLOR = this.upColor;
+            report.DOWN_COLOR = this.noneColor;
           }
           else if (report.vote_type === "downvote") {
-            this.downColor = 'text-blue-500';
-            this.upColor = 'text-gray-500';
+            report.UP_COLOR = this.noneColor;
+            report.DOWN_COLOR = this.downColor;
           } else {
-            this.downColor = 'text-gray-500';
-            this.upColor = 'text-gray-500';
+            report.UP_COLOR = this.noneColor;
+            report.DOWN_COLOR = this.noneColor;
           }
         },
         error: (error: any) => {
@@ -273,7 +275,12 @@ export class PostReportsComponent {
             this.reportTime = REPORT_TIME || 'No time available';
             this.username = USERNAME || 'No username available';
             this.reports.forEach(report => {
-
+              this.getProfileImage(report.USER_ID).then(
+                result =>{
+                  report.PROFILE_IMAGE = result;
+                }
+              )
+              console.log(report.PROFILE_IMAGE);
               this.getVote(report.REPORT_ID); 
               report.EDITING = false;
               report.REVIEW_ERROR = false;
@@ -288,11 +295,25 @@ export class PostReportsComponent {
                   rating: new FormControl(null)
                 }
               )
+
+
           });
         }
       }
   
     });
+  }
+
+  async getProfileImage(userId: string): Promise<string> {
+    try {
+      const response = await firstValueFrom(
+        this.http.get<any>(`https://redflagger-api-10796636392.asia-southeast1.run.app/userProfile?user_id=${userId}`)
+      );
+      return response.user.PROFILE_IMAGE || 'default';
+    } catch (error) {
+      console.error('Failed to get Profile Picture', error);
+      return 'default';
+    }
   }
 
   getReviews(input:string, report_id:number){
@@ -503,4 +524,5 @@ export class PostReportsComponent {
       return false;
     }
   }
+
 }
