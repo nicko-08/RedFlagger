@@ -52,9 +52,14 @@ username: string = '';
   }
 
   saveChanges() { 
-    if (this.newUsername) {
+    
+    if (this.newUsername && this.newUsername.length <= 15) {
       this.updateUsername();
       return;
+    }
+    else{
+      // If new username is not provided or exceeds 15 characters, show error
+      console.error('New username is required and must be 15 characters or less');
     }
   }
 
