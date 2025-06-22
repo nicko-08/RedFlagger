@@ -68,6 +68,7 @@ username: string = '';
           console.error('Error updating username:', error.message);
         } else {
           console.log('Username updated successfully');
+          this.authService.updateUsernameLocally(this.newUsername);
         }
       });
 

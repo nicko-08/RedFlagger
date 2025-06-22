@@ -45,7 +45,9 @@ export class HeaderComponent implements OnInit {
 
 
   if(this.isLoggedIn){
-    this.username = session?.user.user_metadata['username'];
+    this.authService.username$.subscribe((username) => {
+    this.username = username ?? "";
+  });
   }
   
  }
