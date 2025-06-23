@@ -23,8 +23,8 @@
 
       <!-- Username and Edit -->
       <div class="profile-username-edit md:mt-8 mt-1">
-        <h1 class="heading1-big">{{ username }}</h1>
-        <button aria-label="Edit" (click)="showProfileUsernamePopup = true" class="edit-profile-btn">
+        <h1 class="heading1-big min-w-0">{{ username }}</h1>
+        <button aria-label="Edit" (click)="showProfileUsernamePopup = true" class="edit-profile-btn flex-shrink-0">
           <img [src]="'edit.svg'" class="edit-icon-light" alt="Edit" />
           <img [src]="'edit-dark.svg'" class="edit-icon-dark" alt="Edit" />
           <span class="edit-profile-text">Edit</span>
