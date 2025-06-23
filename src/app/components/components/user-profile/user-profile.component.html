@@ -1,65 +1,62 @@
-<main class="custom-dark main-container">
+<main class="custom-dark main-container cursor-default">
 
-  <div class="upper-wrapper flex space-x-10 items-end">
-    <div class="flex space-x-10 items-end">
-<!-- Profile button with hover overlay -->
-
-    <div class="relative bg-gray-100 w-40 h-40 rounded-full overflow-hidden shadow-md cursor-pointer group" (click)="showProfilePicturePopup = true">
-      <img [src]="'icons/' + userProfileImage + '.svg'" alt="Profile icon"
-        class="w-full h-full object-contain transition duration-300 group-hover:blur-sm" />
-      <div
-        class="absolute inset-0 flex items-center justify-center bg-black/40 text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition duration-300">
-        Edit
+  <!-- Profile Section -->
+  <section class="profile-section dark-card-glow card-hover">
+    <div class="profile-image-wrapper">
+      <div class="profile-image-container group hover:scale-105"
+        (click)="showProfilePicturePopup = true">
+        <img [src]="'icons/' + userProfileImage + '.svg'"
+          alt="Profile icon"
+          class="profile-image group-hover:blur-sm"/>
+        <div class="profile-image-edit group-hover:opacity-100">
+          Change
+        </div>
       </div>
     </div>
 
-
-      <div class="username-bottom-left bg-opacity-50">
-        <h1 class="heading1-big ">{{ username }}</h1>
-      </div>
-    </div>
-
-    <!-- Edit Profile Button  -->
-    <div>
-      <button
+    <div class="profile-username-group">
+      <h1 class="heading1-big">{{ username }}</h1>
+      <button aria-label="Edit"
         (click)="showProfileUsernamePopup = true"
-        class="edit-profile-btn">
-        <img [src] = "'edit.svg'" class="w-5 h-5 block dark:hidden">
-        <img [src] = "'edit-dark.svg'" class="w-5 h-5 hidden dark:block">
+        class="edit-profile-btn cursor-pointer">
+        <img [src]="'edit.svg'" class="mr-2 w-5 h-5 block dark:hidden invert brightness-0" alt="Edit" />
+        <img [src]="'edit-dark.svg'" class="w-5 h-5 hidden dark:block" alt="Edit" />
+        <span class="text-lg">Edit</span>
       </button>
     </div>
-  </div>
-  <!-- Outer wrapper -->
-  <div class="outer-wrapper">
-    <!-- Tabs Section -->
+  </section>
+
+  <!-- Tabs Section -->
+  <section class="outer-wrapper dark-card-glow card-hover mt-0 hover:from-gray-200 hover:to-gray-300">
     <div class="tabs-container">
-      <div class="flex border-b border-gray-700 dark:border-gray-600">
+      <div class="flex border-b border-gray-700 dark:border-gray-600 mb-4">
         <button
-          class="tab-btn"
+          class="tab-btn cursor-pointer"
           [class.active-tab]="activeTab === 'reports'"
           (click)="activeTab = 'reports'"
-        >
+          aria-label="Show Reports">
           Reports
         </button>
         <button
-          class="tab-btn"
+          class="tab-btn cursor-pointer"
           [class.active-tab]="activeTab === 'reviews'"
           (click)="activeTab = 'reviews'"
-        >
+          aria-label="Show Reviews">
           Reviews
         </button>
       </div>
-
-      <div class="tab-content mt-6">
+      <div class="tab-content">
         <app-report-user-profile *ngIf="activeTab === 'reports'" [userId]="userId"></app-report-user-profile>
         <app-review-user-profile *ngIf="activeTab === 'reviews'" [userId]="userId"></app-review-user-profile>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Popups -->
   <app-profile-image-select *ngIf="showProfilePicturePopup" 
-  (closePopup)="showProfilePicturePopup = false"
-  (imageSaved)="onImageSaved()"
-  [currentImage]="userProfileImage"></app-profile-image-select>
+    (closePopup)="showProfilePicturePopup = false"
+    (imageSaved)="onImageSaved()"
+    [currentImage]="userProfileImage"></app-profile-image-select>
   <app-profile-settings *ngIf="showProfileUsernamePopup" 
-  (closePopup)="onUsernameSaved()"></app-profile-settings>
+    (closePopup)="onUsernameSaved()"></app-profile-settings>
 </main>

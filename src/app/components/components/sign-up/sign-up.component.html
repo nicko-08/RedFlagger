@@ -1,4 +1,4 @@
-<main class="flex min-h-screen w-full flex-col bg-white lg:flex-row custom-dark">
+<main class="flex min-h-screen w-full flex-col bg-white lg:flex-row custom-dark cursor-default">
   <!-- Sign-up Form Section (LEFT) -->
   <div class="flex w-full px-5 items-center justify-center py-12 lg:w-1/2 lg:py-0">
     <div class="w-full max-w-md rounded-2xl bg-red-800 px-8 py-12 shadow-xl sm:px-10 sm:py-16 md:max-w-lg">
@@ -66,7 +66,7 @@
           <button 
             type="submit" 
             [disabled]="signingUp"
-            class="flex w-full justify-center rounded-lg bg-yellow-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+            class="cursor-pointer flex w-full justify-center rounded-lg bg-yellow-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
           >
             @if(signingUp){
               <h1 class="text-white">SIGNING UP...</h1>    

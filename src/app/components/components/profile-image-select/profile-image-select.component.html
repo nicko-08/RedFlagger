@@ -1,53 +1,51 @@
-<!-- popup.component.html -->
-<div class="fixed inset-0 z-50 flex items-center justify-center">
-  <!-- Background blur + semi-transparent overlay -->
-  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" (click)="close()"></div>
-
-  <!-- Popup content -->
-  <div class="relative z-10 bg-white p-6 rounded-xl shadow-lg w-96">
-    <div
-    class="w-30 h-30 cursor-pointer border-2 rounded-full overflow-hidden p-1 transition
-    border-blue-500"
-    >
-    <img
-    [src]="'icons/' + currentImage + '.svg'"
-    [alt]="currentImage"
-    class="w-full h-auto object-contain"
-    />
-    </div>
-
-    <hr class="border-gray-300 my-4" />
-
-    <div class="grid grid-cols-3 gap-4">
-    @for (image of images; track $index) {
-        <div
-        class="cursor-pointer border-2 rounded-full overflow-hidden p-1 transition
-        border-gray-400
-        hover:border-blue-500"
-        (click)="selectImage(image)"
-        >
+<div class="popup-overlay">
+  <!-- Backdrop -->
+  <div class="popup-backdrop" (click)="close()"></div>
+  <!-- Popup Panel -->
+  <div class="popup-panel dark-card">
+    <h2 class="popup-heading text-center">Select a Profile Icon</h2>
+    <!-- Current Selected Image -->
+<!-- Center wrapper -->
+    <div class="current-image-wrapper">
+      <div class="current-image">
         <img
-        [src]="'icons/' + image + '.svg'"
-        [alt]="image"
-        class="w-full h-auto object-contain"
-        />
-        </div>
-    }
+          [src]="'icons/' + currentImage + '.svg'"
+          [alt]="currentImage"
+          class="popup-image" />
+      </div>
     </div>
-
-    @if (exitNotSaved) {
-        <div class="
-            text-sm
-            text-red-600
-        ">
-        Save Changes First
+    <hr class="popup-divider" />
+    <!-- Image Options -->
+    <div class="image-options">
+      @for (image of images; track $index) {
+        <div class="image-option" (click)="selectImage(image)">
+          <img
+            [src]="'icons/' + image + '.svg'"
+            [alt]="image"
+            class="popup-image"/>
         </div>
+      }
+    </div>
+    <!-- Warning Text -->
+    @if (exitNotSaved) {
+      <div class="warning-text">
+        Save Changes First
+      </div>
     }
-    <div
-    class="w-full flex justify-end space-x-3"
-    >
-        <button [disabled]="saving || (originalImage==currentImage)" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed transition" (click)="saveImage()">Save</button>
-        <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded" (click)="cancel()">Cancel</button>
+    <!-- Buttons -->
+    <div class="popup-buttons justify-between">
+      <button 
+        (click)="cancel()" 
+        class="btn-cancel cursor-pointer">
+        Cancel
+      </button>
+      
+      <button
+        (click)="saveImage()"
+        [disabled]="saving || originalImage === currentImage"
+        class="btn-save cursor-pointer">
+        Save
+      </button>
     </div>
   </div>
 </div>

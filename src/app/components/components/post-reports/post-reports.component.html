@@ -1,4 +1,4 @@
-<main class="main-container custom-dark">
+<main class="main-container custom-dark cursor-default">
   <div class="div-1 custom-dark">
     <div class="back-div">
       <!-- Back Button -->
@@ -41,7 +41,7 @@
         <div *ngIf="isLoggedIn">
           <button (click)="putVote(report.REPORT_ID, 'upvote')"
             [ngClass]="report.UP_COLOR"
-            class="vote-btn">
+            class="vote-btn cursor-pointer">
             <svg  class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18" >
               <path d="M1 12h16L9 4z"></path>
             </svg>
@@ -49,7 +49,7 @@
           <p class="vote-count">{{report.vote_count}}</p>
           <button (click)="putVote(report.REPORT_ID, 'downvote')"
             [ngClass]="report.DOWN_COLOR"
-            class="downvote-btn">
+            class="downvote-btn cursor-pointer">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 18 18">
               <path d="M1 6h16l-8 8z"></path>
             </svg>
@@ -76,7 +76,7 @@
       <img *ngFor="let img of report.IMAGES; let i = index" 
           [src]="img" 
           alt="Reported Image" 
-          class="report-img cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-110"
+          class="report-img"
           [ngClass]="{'': i >= 1}">
     </div>
       <!-- Reviews -->
@@ -90,10 +90,10 @@
         <div class="flex flex-col gap-5" *ngIf="report.EDITING">
           <ul class="ul">
             @for (rating of [4,3,2,1]; track rating) {
-              <li class="li">
+              <li class="li cursor-pointer">
                 <div class="flex items-center ps-3">
                   <input type="radio" id="rating{{rating}}" name="rating" value={{rating}} formControlName="rating"
-                  class="rating">
+                  class="rating cursor-pointer">
                   <label for="age1"
                   class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{rating}}</label><br>    
                 </div>

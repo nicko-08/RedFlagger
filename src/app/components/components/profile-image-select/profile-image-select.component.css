@@ -1,0 +1,78 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+.custom-dark {
+  @apply dark:bg-gradient-to-r dark:from-[#121212] dark:to-[#1e1e1e];
+}
+
+.dark-hover {
+  @apply dark:hover:from-[#1a1a1a] dark:hover:to-[#2a2a2a];
+}
+
+.dark-card {
+  @apply bg-white transition-colors dark:bg-[#2a2a2a] dark:text-white dark:shadow-lg;
+}
+
+.input-dark {
+  @apply rounded border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-[#2a2a2a] dark:text-white;
+}
+
+.label-dark {
+  @apply mb-1 block font-medium text-gray-700 dark:text-gray-300;
+}
+
+.popup-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center;
+}
+
+.popup-backdrop {
+  @apply absolute inset-0 bg-black/30 backdrop-blur-sm;
+}
+
+.popup-panel {
+  @apply relative z-10 w-full max-w-md rounded-xl border p-6 shadow-lg;
+}
+
+.current-image-wrapper {
+  @apply mb-2 flex items-center justify-center;
+}
+
+.current-image {
+  @apply h-28 w-28 cursor-pointer overflow-hidden rounded-full border-2 border-blue-500 p-1 transition;
+}
+
+.popup-heading {
+  @apply mb-4 text-xl font-semibold text-gray-800 dark:text-white;
+}
+
+.popup-image {
+  @apply h-auto w-full object-contain;
+}
+
+.popup-divider {
+  @apply my-4 border-gray-300 dark:border-gray-600;
+}
+
+.image-options {
+  @apply grid grid-cols-3 gap-4;
+}
+
+.image-option {
+  @apply cursor-pointer overflow-hidden rounded-full border-2 border-gray-400 p-1 transition hover:border-blue-500;
+}
+
+.warning-text {
+  @apply mt-4 text-sm text-red-600;
+}
+
+.popup-buttons {
+  @apply mt-6 flex w-full items-center justify-between space-x-3;
+}
+
+.btn-save {
+  @apply rounded bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400;
+}
+
+.btn-cancel {
+  @apply rounded bg-gray-600 px-4 py-2 text-white transition hover:bg-gray-700;
+}

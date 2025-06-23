@@ -18,7 +18,7 @@ body {
   align-items: center;
   min-height: 100vh;
   padding: 2rem;
-  @apply flex min-h-screen flex-col items-center justify-center bg-white text-gray-900 sm:p-4;
+  @apply flex min-h-screen cursor-default flex-col items-center justify-center bg-white text-gray-900 sm:p-4;
 }
 
 .hero-banner {

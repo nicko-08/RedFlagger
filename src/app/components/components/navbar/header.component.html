@@ -30,7 +30,7 @@
 
         <!-- Burger Menu -->
         <button (click)="isMenuOpen = !isMenuOpen"
-                class="md:hidden relative w-7 h-5 flex flex-col justify-between items-center group">
+                class="md:hidden relative w-7 h-5 flex flex-col justify-between items-center group cursor-pointer">
 
         <!-- Top Line -->
             <span class="w-full h-[2px] bg-white rounded transition-all duration-400 ease-in-out group-hover:bg-black"
@@ -87,7 +87,7 @@
   <div class="relative" #dropdownTrigger>
     <!-- DROPDOWN TRIGGER -->
     <button
-      class="ml-1 px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 text-white text-xl font-medium flex items-center gap-1 rounded-lg transition-all duration-150 ease-out group"
+      class="cursor-pointer ml-1 px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 text-white text-xl font-medium flex items-center gap-1 rounded-lg transition-all duration-150 ease-out group"
       (click)="toggleDropdown()">
       <span>Profile</span>
       <svg xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +120,7 @@
 
       <!-- LOGOUT -->
       <a (click)="logoutUser()"
-         class="text-lg flex items-center justify-between w-full px-3 py-1 text-white hover:bg-yellow-700/90 transition-colors duration-150">
+         class="text-lg flex items-center justify-between w-full px-3 py-1 text-white hover:bg-yellow-700/90 transition-colors duration-150 cursor-pointer">
         <span>Logout</span>
         <svg xmlns="http://www.w3.org/2000/svg"
              class="h-4 w-4 opacity-90"

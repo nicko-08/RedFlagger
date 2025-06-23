@@ -72,7 +72,7 @@
 }
 
 .report-img {
-  @apply h-[100px] w-[100px] cursor-pointer rounded-md object-cover shadow-sm;
+  @apply h-[100px] w-[100px] rounded-md object-cover shadow-sm;
 }
 
 .review {

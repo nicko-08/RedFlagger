@@ -2,7 +2,7 @@
 
 .footer-container {
   font-family: "Poppins", sans-serif;
-  @apply relative overflow-hidden border-t border-gray-600 bg-[#400000] py-6 shadow-inner;
+  @apply relative cursor-default overflow-hidden border-t border-gray-600 bg-[#400000] py-6 shadow-inner;
 }
 
 .outer-div {
