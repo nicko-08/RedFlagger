@@ -46,7 +46,7 @@
 }
 
 .heading1-big {
-  @apply min-w-0 truncate text-3xl font-extrabold tracking-wide text-gray-700 sm:text-4xl md:text-5xl dark:text-gray-300;
+  @apply min-w-0 text-3xl font-extrabold tracking-wide text-gray-700 sm:text-4xl md:text-5xl dark:text-gray-300;
 }
 
 .tabs-container {
