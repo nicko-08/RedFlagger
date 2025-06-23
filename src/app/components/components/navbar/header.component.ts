@@ -1,4 +1,4 @@
-import { Component, inject, OnInit,ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, inject, OnInit,ViewChild, ElementRef, HostListener, EventEmitter, Output } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../auth.service';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
   isDropdownOpen = false;
   userInputUrl: string = "";
   username: string = "";
+  @Output() startLogout = new EventEmitter<void>();
   
   @ViewChild('dropdownTrigger') dropdownTrigger!: ElementRef; 
 
@@ -52,14 +53,13 @@ export class HeaderComponent implements OnInit {
   
  }
   async logoutUser() {
-    this.authService.logout();
-      this.isLoggedIn = false; // Update the login status
-      //refresh the page for the changes to take effect 500ms
-      await new Promise(resolve => setTimeout(resolve, 500));
-      window.location.reload();
-  }
-
+  this.startLogout.emit();
+  await this.authService.logout();
+  this.isLoggedIn = false; // Update the isLoggedIn status
+  await new Promise(resolve => setTimeout(resolve, 1500)); 
+  window.location.reload();
   
+}
 
   searchAction(): void{
   this.sharedService.determinePostType(this.userInputUrl);

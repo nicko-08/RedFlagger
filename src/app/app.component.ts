@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
 export class AppComponent implements OnInit, AfterViewInit{
 
   isDarkMode = false;
-
+  logoutLoading = false;
   title = 'Redflagger';
   authService = inject(AuthService)
   
@@ -44,6 +44,11 @@ export class AppComponent implements OnInit, AfterViewInit{
     }
   }
 
+  
+
+  showLogoutLoading() {
+    this.logoutLoading = true;
+  }
    toggleDarkMode(): void {
     this.isDarkMode = !this.isDarkMode;
     if (this.isDarkMode) {

@@ -80,96 +80,110 @@
           [ngClass]="{'': i >= 1}">
     </div>
       <!-- Reviews -->
-      <form [formGroup]="report.REVIEW_DATA" class="flex flex-col gap-3 mt-2">
-        <input 
-        class="review" 
-            type="text" placeholder="Add Review"
-            (focus)="onAddReviewFocus(report.REPORT_ID)"
-            (blur)="onAddReviewBlur(report.REPORT_ID)"
-            formControlName = "content">
-        <div class="flex flex-col gap-5" *ngIf="report.EDITING">
-          <ul class="ul">
-            @for (rating of [4,3,2,1]; track rating) {
-              <li class="li cursor-pointer">
-                <div class="flex items-center ps-3">
-                  <input type="radio" id="rating{{rating}}" name="rating" value={{rating}} formControlName="rating"
-                  class="rating cursor-pointer">
-                  <label for="age1"
-                  class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{rating}}</label><br>    
-                </div>
-              </li>
-            }  
-          </ul>
-          @if (report.REVIEW_ERROR) {
-            <p>
-              Missing Fields in review, could not submit
-            </p>
-          }
-          <!-- Review Buttons -->
-          <div class="flex flex-row gap-6" *ngIf="report.EDITING">
-            <button class="add-review-btn"
-              (click)="addReview(report.REPORT_ID)">
-              Add Review
-            </button>
-            <button
-              (click)="cancelReview(report.REPORT_ID)"
-              class="cancel-review-btn">
-              Cancel
-            </button>   
-          </div>
-        </div>
-      </form>
-    <br>
-    <div>  
-        <button class="view-reviews-btn" 
-                    (click)="viewReviews(report.REPORT_ID)">
-          @if(report.VIEWING_REVIEW){
-            <!--Pabago nalang to icons-->
-            Hide Reviews
-          }@else {
-            <!--Pabago nalang to icons-->
-            View Reviews
-          }
-        </button>
-        @if(report.VIEWING_REVIEW){
-          <div class="flex flex-col gap-1 ">
-            @for (review of report.REVIEWS; track $index) {
-              <div class="relative flex gap-2 p-1 border-1 rounded-lg shadow-sm">
-                @if (review.USER_ID === userId || isModerator) {
-                  <button 
-                     class="mod-review-btn"
-                     (click)="deleteReviews(report.REPORT_ID, review.REVIEW_ID)">
-                    <svg class="stroke-red-500" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 12L14 16M14 12L10 16M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </button>
-                }
-                <!-- Comment Content -->
-                <div class="comment-div">
-                  <!-- Avatar -->
-                  <div class="flex-shrink-0">
-                    <div class="comment-avatar">
-                      🚩 <!-- Placeholder ng Avatar ng Commentor -->
-                    </div>
-                  </div>
-                  <!-- Comment Content -->
-                  <div class="flex flex-col">
-                    <h2 class="text-sm font-semibold text-black dark:text-white">
-                      {{review.USERNAME}}
-                    </h2>
-                    <p class="text-sm text-black mt-1 dark:text-white">
-                      {{review.REVIEW_CONTENT}}
-                    </p>
-                    <p class="text-xs text-black mt-1 dark:text-white">
-                      ⭐ {{review.RATING}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              }
-            </div>
-            }
-        </div>
+      <!-- Review Form -->
+<form [formGroup]="report.REVIEW_DATA" class="flex flex-col gap-3 mt-4 p-4 rounded-lg bg-gray-100 dark:bg-[#1f1f1f] shadow-sm">
+  <input 
+    class="p-2 rounded border dark:bg-[#2a2a2a] dark:text-white border-gray-300 dark:border-gray-700"
+    type="text"
+    placeholder="Write your review..."
+    (focus)="onAddReviewFocus(report.REPORT_ID)"
+    (blur)="onAddReviewBlur(report.REPORT_ID)"
+    formControlName="content"
+  />
+
+  <div *ngIf="report.EDITING" class="flex flex-col gap-4">
+    <!-- Star Rating -->
+    <div class="flex items-center gap-2">
+  <ng-container *ngFor="let rating of [1,2,3,4]">
+    <label class="cursor-pointer">
+      <input
+        type="radio"
+        [value]="rating"
+        formControlName="rating"
+        class="hidden"
+      />
+      <ng-container *ngIf="report.REVIEW_DATA.get('rating')?.value >= rating; else emptyStar">
+        <!-- Filled Star SVG -->
+        <svg width="30" height="30" viewBox="0 0 249 237" fill="black" xmlns="http://www.w3.org/2000/svg">
+          <path d="M111.185 9.9787C115.376 -2.91965 133.624 -2.91964 137.815 9.97871L157.391 70.229C159.266 75.9973 164.641 79.9028 170.706 79.9028H234.057C247.619 79.9028 253.258 97.2574 242.286 105.229L191.034 142.466C186.127 146.031 184.074 152.35 185.948 158.118L205.525 218.369C209.716 231.267 194.953 241.993 183.981 234.021L132.729 196.784C127.822 193.219 121.178 193.219 116.271 196.784L65.019 234.021C54.047 241.993 39.2843 231.267 43.4753 218.369L63.0518 158.118C64.926 152.35 62.8728 146.031 57.966 142.466L6.71399 105.229C-4.258 97.2574 1.38086 79.9028 14.943 79.9028H78.2939C84.3591 79.9028 89.7345 75.9973 91.6087 70.229L111.185 9.9787Z" fill="#FFC300"/>
+        </svg>
+      </ng-container>
+      <ng-template #emptyStar>
+        <!-- Unfilled Star SVG -->
+        <svg width="30" height="30" viewBox="0 0 249 237" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M120.695 13.0693C121.893 9.38411 127.107 9.38408 128.305 13.0693L147.881 73.3193C151.094 83.2078 160.309 89.9023 170.706 89.9023H234.057C237.931 89.9023 239.543 94.861 236.408 97.1387L185.156 134.376C176.745 140.487 173.225 151.32 176.438 161.208L196.015 221.459C197.212 225.144 192.993 228.208 189.858 225.931L138.606 188.694C130.195 182.583 118.805 182.583 110.394 188.694L59.1416 225.931C56.0069 228.208 51.7884 225.144 52.9854 221.459L72.5625 161.208C75.7752 151.32 72.2552 140.487 63.8438 134.376L12.5918 97.1387C9.45709 94.861 11.0685 89.9023 14.9434 89.9023H78.2939C88.6913 89.9023 97.9061 83.2078 101.119 73.3193L120.695 13.0693Z" stroke="#FFC300" stroke-width="20"/>
+        </svg>
+      </ng-template>
+    </label>
+  </ng-container>
+</div>
+
+    <!-- Error Message -->
+    <p *ngIf="report.REVIEW_ERROR" class="text-red-500 text-sm">
+      Missing fields in review. Please complete all inputs.
+    </p>
+
+    <!-- Submit/Cancel Buttons -->
+    <div class="flex gap-4 mt-2">
+      <button
+        type="button"
+        (click)="addReview(report.REPORT_ID)"
+        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition"
+      >
+        Submit Review
+      </button>
+      <button
+        type="button"
+        (click)="cancelReview(report.REPORT_ID)"
+        class="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded transition"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</form>
+
+<!-- View Reviews Toggle -->
+<div class="mt-4">
+  <button
+    (click)="viewReviews(report.REPORT_ID)"
+    class="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+  >
+    {{ report.VIEWING_REVIEW ? 'Hide Reviews' : 'View Reviews' }}
+  </button>
+</div>
+
+<!-- Reviews List -->
+<div *ngIf="report.VIEWING_REVIEW" class="flex flex-col gap-3 mt-2">
+  <div *ngFor="let review of report.REVIEWS" class="p-3 rounded-lg bg-white dark:bg-[#2a2a2a] shadow-md relative flex gap-3 items-start">
+    <!-- Optional: Delete Icon -->
+    <button
+      *ngIf="review.USER_ID === userId || isModerator"
+      (click)="deleteReviews(report.REPORT_ID, review.REVIEW_ID)"
+      class="absolute top-2 right-2 hover:text-red-500"
+    >
+      ✖
+    </button>
+
+    <!-- Avatar -->
+    <div class="w-10 h-10 bg-red-100 dark:bg-red-800 rounded-full flex items-center justify-center text-xl">
+      🚩
+    </div>
+
+    <!-- Review Content -->
+    <div class="flex-1">
+      <h2 class="text-sm font-semibold text-gray-900 dark:text-white">
+        {{ review.USERNAME }}
+      </h2>
+      <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">
+        {{ review.REVIEW_CONTENT }}
+      </p>
+      <p class="text-xs text-yellow-600 mt-1">
+        ⭐ {{ review.RATING }}
+      </p>
+    </div>
+  </div>
+</div>
       </div>
     </div>
 </main>
