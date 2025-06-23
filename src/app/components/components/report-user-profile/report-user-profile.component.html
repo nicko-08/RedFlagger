@@ -5,7 +5,9 @@
 
 <!-- Reports Section -->
 <div *ngIf="!loading && reports.length > 0; else noReports">
-  <div *ngFor="let report of reports" class="report-card border p-4 mb-4 rounded shadow dark:bg-[#2a2a2a] dark:text-white">
+  <div *ngFor="let report of reports" 
+  (click)="goToPostReports(report.POST_ID)" 
+  class="report-card border p-4 mb-4 rounded shadow dark:bg-[#2a2a2a] dark:text-white">
     <div class="report-title text-xl font-semibold mb-2">
       {{ report.REPORT_CONTENT || 'No reason provided.' }}
     </div>
