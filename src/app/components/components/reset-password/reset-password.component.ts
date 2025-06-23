@@ -16,23 +16,32 @@ export class ResetPasswordComponent {
   email = '';
   message = '';
   error = '';
+  isResetting = false;
 
   async resetPassword() {
+    this.isResetting = true;
     this.message = '';
     this.error = '';
-    const { error } = await this.authService.supabase.auth.resetPasswordForEmail(this.email, {
-      redirectTo: 'http://redflagger.site/update-password' 
+
+    try {
+      const { error } = await this.authService.supabase.auth.resetPasswordForEmail(this.email, {
+        redirectTo: 'http://redflagger.site/update-password'
     });
-    
+
     if (error) {
       this.error = error.message;
     } else {
       this.message = 'If this email exists in our system, a reset link has been sent.';
     }
+    } catch (err) {
+    this.error = 'Something went wrong. Please try again later.';
+    }
+
+    this.isResetting = false; // Re-enable if you want to allow re-clicking
   }
 
   ngOnInit() {
-    // Optional: handle redirect fragment if you want this component to also support it
+    
   }
 
 }
