@@ -18,7 +18,7 @@
           </div>
 
           <label for="description" class="desc1">Page Description</label>
-          <textarea formControlName="content" id="description" placeholder="Describe Your Experience" required class="desc2">
+          <textarea formControlName="content" id="description" placeholder="Describe Your Experience" required class="desc2 custom-dark dark-hover">
           </textarea>
           <div *ngIf="reportForm.get('description')?.invalid && reportForm.get('description')?.touched" class="text-red-200 text-sm">
             Description is required.
@@ -28,7 +28,7 @@
         
         <div class="images-container">
           <label for="images" class="images">Images</label>
-          <div class="div3">
+          <div class="div3 custom-dark dark-hover">
             
             <ng-container *ngIf="previewUrls.length > 0">
               <div [ngClass]="{
@@ -62,14 +62,13 @@
             </div>
 
             <div *ngIf="imageError" class="text-red-200 text-sm mt-2">{{ imageError }}</div>
-            <p class="text-sm text-white mt-1">*Max 3 images supported (jpg, png, jpeg, gif, jfif)*</p>
-
+            <p class="text-xs text-black dark:text-white mt-1">*Max 3 images supported (jpg, png, jpeg, gif, jfif)*</p>
+          </div>
             <button type="submit"
               class="submit-btn"
               [disabled]="reportForm.invalid || images.length > 3 || submitting">
               Submit Report
             </button>
-          </div>
         </div>
       </div>
     </form>
