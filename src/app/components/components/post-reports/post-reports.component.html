@@ -30,12 +30,11 @@
         class="report-div">
             <div class="avatar-div">
             <!-- Avatar/Icon -->
-            <div class="reporter-avatar">
+            <div class="reporter-avatar dark-card-glow dark-hover">
               <img
-              [src]="'icons/' + report.PROFILE_IMAGE + '.svg'"
-              [alt]="report.PROFILE_IMAGE"
-              class="w-full h-auto object-contain"
-              />
+                [src]="'icons/' + report.PROFILE_IMAGE + '.svg'"
+                [alt]="report.PROFILE_IMAGE"
+                class="avatar-img"/>
             </div>
         <!--Vote Buttons-->
         <div *ngIf="isLoggedIn">
@@ -81,9 +80,9 @@
     </div>
       <!-- Reviews -->
       <!-- Review Form -->
-<form [formGroup]="report.REVIEW_DATA" class="flex flex-col gap-3 mt-4 p-4 rounded-lg bg-gray-100 dark:bg-[#1f1f1f] shadow-sm">
+<form [formGroup]="report.REVIEW_DATA" class="flex flex-col gap-3 mt-4 p-4 rounded-lg bg-gray-100 custom-dark shadow-sm dark-hover">
   <input 
-    class="p-2 rounded border dark:bg-[#2a2a2a] dark:text-white border-gray-300 dark:border-gray-700"
+    class="p-2 rounded border custom-dark text-black dark:text-white dark-hover"
     type="text"
     placeholder="Write your review..."
     (focus)="onAddReviewFocus(report.REPORT_ID)"
@@ -155,7 +154,7 @@
 
 <!-- Reviews List -->
 <div *ngIf="report.VIEWING_REVIEW" class="flex flex-col gap-3 mt-2">
-  <div *ngFor="let review of report.REVIEWS" class="p-3 rounded-lg bg-white dark:bg-[#2a2a2a] shadow-md relative flex gap-3 items-start">
+  <div *ngFor="let review of report.REVIEWS" class="p-3 rounded-lg bg-white custom-dark dark-hover shadow-md relative flex gap-3 items-start">
     <!-- Optional: Delete Icon -->
     <button
       *ngIf="review.USER_ID === userId || isModerator"
@@ -166,8 +165,11 @@
     </button>
 
     <!-- Avatar -->
-    <div class="w-10 h-10 bg-red-100 dark:bg-red-800 rounded-full flex items-center justify-center text-xl">
-      🚩
+    <div class="reporter-avatar dark-card-glow dark-hover">
+      <img
+        [src]="'icons/' + report.PROFILE_IMAGE + '.svg'"
+        [alt]="report.PROFILE_IMAGE"
+        class="avatar-img"/>
     </div>
 
     <!-- Review Content -->
