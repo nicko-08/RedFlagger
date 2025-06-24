@@ -62,7 +62,6 @@ export class ChartService {
             tension: 0.4, 
             fill: true,
             borderWidth: 3,
-
             pointRadius: 0,
             pointHoverRadius: 0,
             pointBorderWidth: 0,
@@ -73,13 +72,33 @@ export class ChartService {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        spanGaps: true, 
         scales: {
           x: {
-            grid: { display: false },
-            border: { display: false },
-            ticks: {
+            grid: {
+              color: '#e5e7eb',
+              drawBorder: false,
+              lineWidth: 1,
+              ...( { borderDash: [4, 4] } as any )
+            },
+            border: {
+              display: false
+            },
+            ticks: {   
               color: '#64748b',
-              font: { size: 12 }
+              autoSkip: true, 
+              maxTicksLimit: 38, 
+              maxRotation: 30,   
+              minRotation: 30,
+              font: {
+                size: 12,
+                family: 'Inter, sans-serif'
+              },
+              callback: function(value, index, ticks) {
+                const label = this.getLabelForValue(value as number);
+                const date = new Date(label);
+                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+              }
             }
           },
           y: {
@@ -122,7 +141,6 @@ export class ChartService {
         }
       }
     };
-
     return new Chart(canvas, config);
   }
 
@@ -134,15 +152,18 @@ export class ChartService {
       total_reports_over_time: { date: string; total_reports: number }[];
     }>(apiUrl).subscribe({
       next: (response) => {
-        const freq = response.frequency_over_time.map(item => ({
+        let freq = response.frequency_over_time.map(item => ({
           date: item.date,
           value: item.count
         }));
 
-        const totals = response.total_reports_over_time.map(item => ({
+        let totals = response.total_reports_over_time.map(item => ({
           date: item.date,
           value: item.total_reports
         }));
+
+        freq = this.aggregate(freq);
+        totals = this.aggregate(totals);
 
         if (freq.length > 0) this.updateChart(this.chart, freq);
         if (totals.length > 0) this.updateChart(this.chart2, totals);
@@ -153,10 +174,18 @@ export class ChartService {
     });
   }
 
+
   private updateChart(chart: Chart, dataArray: { date: string; value: number }[]): void {
-    const labels = dataArray.map(item => item.date);
-    const data = dataArray.map(item => item.value);
+    let labels = dataArray.map(item => item.date);
+    let data = dataArray.map(item => item.value);
+
+    if (data.length === 1) {
+      labels = [labels[0], labels[0]];
+      data = [data[0], data[0]];
+    }
+
     const max = Math.max(...data);
+    const min = Math.min(...data);
 
     chart.data.labels = labels;
     chart.data.datasets[0].data = data;
@@ -166,6 +195,7 @@ export class ChartService {
       ['y']: {
         ...chart.options.scales?.['y'],
         beginAtZero: true,
+        min: 0, 
         max: max + 1,
         grid: { display: false },
         border: { display: false },
@@ -176,5 +206,33 @@ export class ChartService {
     };
 
     chart.update();
+  }
+
+  private aggregate(data: {date: string, value: number}[]): {date: string, value: number}[] {
+    if (data.length === 0) return [];
+
+    data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    const buckets = new Map<string, number>();
+    const baseDate = new Date(data[0].date);
+    baseDate.setHours(0, 0, 0, 0); 
+
+    data.forEach(({ date, value }) => {
+      const currentDate = new Date(date);
+      currentDate.setHours(0, 0, 0, 0);
+
+      const diffDays = Math.floor((currentDate.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24));
+      const bucketIndex = Math.floor(diffDays / 2);
+
+      const bucketStartDate = new Date(baseDate);
+      bucketStartDate.setDate(baseDate.getDate() + bucketIndex * 2);
+      const bucketKey = bucketStartDate.toISOString().slice(0, 10);
+
+      buckets.set(bucketKey, Math.max(value, buckets.get(bucketKey) || 0));
+    });
+
+    return Array.from(buckets.entries())
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([date, value]) => ({ date, value }));
   }
 }
