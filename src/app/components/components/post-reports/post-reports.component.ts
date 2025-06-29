@@ -44,7 +44,6 @@ export class PostReportsComponent {
   noneColor = 'text-gray-500'
 
   ngOnInit(): void {
-    
   this.authService.getSession().then((session) => {
     this.userId = session?.user.id;
     this.isLoggedIn = !!session;
@@ -52,9 +51,10 @@ export class PostReportsComponent {
 
     this.route.queryParams.subscribe((params) => {
       this.userInputUrl = params['input'];
-      const filterParam = params['filter'];
+      this.timeFilter = params['filter'] || 'all'; // ← Set timeFilter from URL or default to 'all'
+
       if (this.userInputUrl) {
-        this.getReports(this.userInputUrl)
+        this.getReports(this.userInputUrl);
       }
     });
   });
@@ -522,6 +522,8 @@ export class PostReportsComponent {
     }
   }
 applyFilters(): void {
+  console.log(!isNaN(Number(this.timeFilter)))
+  console.log(this.timeFilter)
   const now = new Date();
 
   this.filtered = this.reports
@@ -529,7 +531,9 @@ applyFilters(): void {
       const reportDate = new Date(report.REPORT_TIME);
 
       if (!isNaN(Number(this.timeFilter))){
+        console.log("gfff");
         return report.REPORT_ID == this.timeFilter;
+        
       }
 
       switch (this.timeFilter) {
