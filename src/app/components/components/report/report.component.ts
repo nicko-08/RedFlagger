@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../auth.service';
-import { ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-report',
-  imports:[ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css']
 })
@@ -17,13 +17,14 @@ export class ReportComponent {
   previewUrls: string[] = [];
   imageError: string | null = null;
   userLink: string | null = null;
+  submitting = false;
+
+  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
 
   route = inject(ActivatedRoute);
   authService = inject(AuthService);
   session = this.authService.getSession();
   router = inject(Router);
-
-  submitting = false;
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.reportForm = this.fb.group({
@@ -32,7 +33,7 @@ export class ReportComponent {
     });
   }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.userLink = params['link'] || null;
 
@@ -48,19 +49,28 @@ export class ReportComponent {
     if (!target.files) return;
     const files = Array.from(target.files);
 
-    // Alert and set an error if the user selects more than 3 images
     if (files.length > 3) {
       this.imageError = 'You can upload a maximum of 3 images.';
       alert('You can upload a maximum of 3 images.');
       return;
     }
 
-    // Clear any previous data
-    
     this.imageError = null;
 
-    // Process each file to generate its preview
     files.forEach((file) => {
+      const isDuplicate = this.images.some(existing =>
+      existing.name === file.name &&
+      existing.size === file.size &&
+      existing.type === file.type
+      );
+      
+      if (isDuplicate) {
+        alert("Duplicate image detected. Please select a different image.");
+        console.error("Duplicate file blocked:", file.name);
+        return;
+      }
+
+        
       this.images.push(file);
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -68,11 +78,25 @@ export class ReportComponent {
       };
       reader.readAsDataURL(file);
     });
+
+    
+    this.fileInputRef.nativeElement.value = '';
+  }
+
+  removeImage(url: string): void {
+    const index = this.previewUrls.indexOf(url);
+    if (index !== -1) {
+      this.previewUrls.splice(index, 1);
+      this.images.splice(index, 1);
+    }
+
+    
+    this.fileInputRef.nativeElement.value = '';
   }
 
   async onSubmit(): Promise<void> {
     this.submitting = true;
-    //required urls for http POST
+
     if (this.reportForm.valid && this.images.length <= 3) {
       const baseUrl = 'https://redflagger-api-10796636392.asia-southeast1.run.app/report/new';
       const postUrl = encodeURIComponent(this.reportForm.get('pageLink')?.value);
@@ -83,29 +107,26 @@ export class ReportComponent {
       this.images.forEach((file) => {
         formData.append('images', file);
       });
-      
-      //to get the user token if logged in (will ask UI/UX to disable report button for user)
+
       const accessToken = await this.getAccessToken();
       if (!accessToken) {
         alert('Failed to retrieve access token. Please log in again.');
-        this.router.navigate(['/home'])
+        this.router.navigate(['/home']);
         return;
       }
 
-
-      //main function of HTTP POST
       const headers = new HttpHeaders({
         Authorization: `Bearer ${accessToken}`,
       });
 
       this.http.post(apiUrl, formData, { headers }).subscribe({
         next: (response: any) => {
-
           alert('Report submitted successfully!');
           this.userLink = this.reportForm.get('pageLink')?.value;
           this.reportForm.reset();
           this.images = [];
           this.previewUrls = [];
+          this.fileInputRef.nativeElement.value = '';
           this.router.navigate(['information'], { queryParams: { input: this.userLink } });
           this.submitting = false;
         },
@@ -118,7 +139,6 @@ export class ReportComponent {
     }
   }
 
-  //to get session token (user's unique token)
   private async getAccessToken(): Promise<string | null> {
     const session = await this.authService.getSession();
     return session?.access_token || null;

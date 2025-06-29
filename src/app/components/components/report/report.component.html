@@ -1,81 +1,76 @@
 <main class="main-container custom-dark">
   <div class="report-container">
     <div class="div1">
-        <button class="back2reports-btn" (click)="prevPage()">
-            Back To Reports
-        </button> 
+      <button class="back2reports-btn" (click)="prevPage()">
+        Back To Reports
+      </button>
     </div>
-        <h2 class="heading2">REPORT</h2>
-            <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
-        <div class="div2">
-              <!-- Page Link and Description -->
-              <div class="page-link">
-                <label for="pageLink" class="page-link2">
-                    Page Link
-                </label>
-                  <input formControlName="pageLink" 
-                  type="url" id="pageLink" 
-                  placeholder="Enter Page Link" 
-                  required class="page-link3"/>
-                  <div *ngIf="reportForm.get('pageLink')?.invalid && reportForm.get('pageLink')?.touched" 
-                       class="text-white mb-3 text-sm">
-                      Please enter a valid URL.
-                  </div>
-                <label for="description" class="desc1">
-                    Page Description
-                </label>
-                    <textarea formControlName="content" id="description" 
-                        placeholder="Describe Your Experience" 
-                        required class="desc2">
-                    </textarea>
-                  <div *ngIf="reportForm.get('description')?.invalid && reportForm.get('description')?.touched" 
-                       class="text-red-200 text-sm">
-                      Description is required.
-                  </div>
+
+    <h2 class="heading2">REPORT</h2>
+    <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+      <div class="div2">
+       
+        <div class="page-link">
+          <label for="pageLink" class="page-link2">Page Link</label>
+          <input formControlName="pageLink" type="url" id="pageLink" placeholder="Enter Page Link" required class="page-link3" />
+          <div *ngIf="reportForm.get('pageLink')?.invalid && reportForm.get('pageLink')?.touched" class="text-white mb-3 text-sm">
+            Please enter a valid URL.
+          </div>
+
+          <label for="description" class="desc1">Page Description</label>
+          <textarea formControlName="content" id="description" placeholder="Describe Your Experience" required class="desc2 custom-dark dark-hover">
+          </textarea>
+          <div *ngIf="reportForm.get('description')?.invalid && reportForm.get('description')?.touched" class="text-red-200 text-sm">
+            Description is required.
+          </div>
+        </div>
+
+        
+        <div class="images-container">
+          <label for="images" class="images">Images</label>
+          <div class="div3 custom-dark dark-hover">
+            
+            <ng-container *ngIf="previewUrls.length > 0">
+              <div [ngClass]="{
+                      'grid grid-cols-1': previewUrls.length === 1,
+                      'grid grid-cols-2 md:grid-cols-1': previewUrls.length === 2,
+                      'grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3': previewUrls.length === 3
+                    }" class="gap-1 p-2 w-full h-full">
+                <img *ngFor="let preview of previewUrls" [src]="preview"
+                  class="w-full h-full object-cover rounded cursor-pointer"
+                  (click)="removeImage(preview)"
+                  [ngClass]="{'object-contain': previewUrls.length === 1, 'object-cover': previewUrls.length > 1}" />
               </div>
-              <!-- Images -->
-              <div class="images-container">
-                <label for="images" class="images">
-                    Images
-                </label>
-                  <div class="div3">
-                      <ng-container *ngIf="previewUrls.length > 0; else uploadPrompt">
-                          <div [ngClass]="{
-                              'grid grid-cols-1': previewUrls.length === 1,
-                              'grid grid-cols-2 md:grid-cols-1': previewUrls.length === 2,
-                              'grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3': previewUrls.length === 3
-                            }" 
-                            class="gap-1 p-2 w-full h-full">
-                            <img *ngFor="let preview of previewUrls" [src]="preview"
-                                class="w-full h-full object-cover rounded" 
-                                [ngClass]="{'object-contain': previewUrls.length === 1, 'object-cover': previewUrls.length > 1}"/>
-                          </div>
-                          <div *ngIf="previewUrls.length === 3" 
-                                class="text-white text-sm mt-1">
-                              Maximum of 3 images selected
-                          </div>
-                      </ng-container>
-                      <ng-template #uploadPrompt>
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                              stroke="currentColor" class="w-12 h-12 text-gray-500 mb-2">
-                              <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
-                          </svg>
-                          <p class="text-gray-600 dark:text-white text-sm">Click to upload an image</p>
-                      </ng-template>
-                      <input type="file" id="images" accept=".jpg,.png,.jpeg,.gif,.jfif" (change)="onFileChange($event)"
-                          multiple [disabled]="previewUrls.length === 3"
-                          class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                  </div>
-                  <div *ngIf="imageError" class="text-red-200 text-sm mt-2">{{ imageError }}</div>
-                  <p class="text-sm text-white mt-1">*Max 3 images supported (jpg, png, jpeg, gif, jfif)*</p>
-                  <button type="submit"
-                      class="submit-btn"
-                      [disabled]="reportForm.invalid || images.length > 3 ||submitting">
-                      Submit Report
-                  </button>
-                </div>
+              <div *ngIf="previewUrls.length === 3" class="text-white text-sm mt-1">
+                Maximum of 3 images selected
+              </div>
+            </ng-container>
+
+            
+            <div *ngIf="previewUrls.length < 3" class="relative w-full h-40 border border-dashed border-gray-400 flex items-center justify-center rounded mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor"
+                class="w-12 h-12 text-gray-500 mb-2 pointer-events-none">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
+              </svg>
+              <p class="text-gray-600 dark:text-white text-sm pointer-events-none">Click to upload an image</p>
+              <input #fileInput type="file" id="images" accept=".jpg,.png,.jpeg,.gif,.jfif"
+       (change)="onFileChange($event)"
+       multiple [disabled]="previewUrls.length === 3"
+       class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
             </div>
-        </form>
-    </div>
+
+            <div *ngIf="imageError" class="text-red-200 text-sm mt-2">{{ imageError }}</div>
+            <p class="text-xs text-black dark:text-white mt-1">*Max 3 images supported (jpg, png, jpeg, gif, jfif)*</p>
+          </div>
+            <button type="submit"
+              class="submit-btn"
+              [disabled]="reportForm.invalid || images.length > 3 || submitting">
+              Submit Report
+            </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </main>

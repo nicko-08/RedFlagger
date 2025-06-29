@@ -76,168 +76,183 @@ chartServe = inject(ChartService);
   }
 
   //Graph part
-  initializeChart() {
-    const ctx = document.getElementById('myChart') as HTMLCanvasElement;
-    const ctx2 = document.getElementById('myChart2') as HTMLCanvasElement;
+initializeChart() {
+  const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+  const ctx2 = document.getElementById('myChart2') as HTMLCanvasElement;
 
-    // First chart (Frequent Reports)
-    this.chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: [], // Start with empty labels
-        datasets: [
-          {
-            label: 'Count',
-            data: [], // Start with empty data
-            borderColor: 'rgb(249, 115, 22)',
-            backgroundColor: (ctx) => {
-              const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, ctx.chart.height);
-              gradient.addColorStop(0, 'rgba(249, 115, 22, 0.3)');
-              gradient.addColorStop(1, 'rgba(249, 115, 22, 0)');
-              return gradient;
+  // Frequent Reports chart with modern design
+  this.chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: 'Count',
+          data: [],
+          borderColor: 'rgb(249, 115, 22)',
+          backgroundColor: (ctx) => {
+            const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, ctx.chart.height);
+            gradient.addColorStop(0, 'rgba(249, 115, 22, 0.3)');
+            gradient.addColorStop(1, 'rgba(249, 115, 22, 0)');
+            return gradient;
+          },
+          tension: 0.4,
+          fill: true,
+          borderWidth: 3,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          pointBorderWidth: 0,
+          pointBackgroundColor: 'transparent'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      spanGaps: true,
+      scales: {
+        x: {
+          grid: {
+            color: '#e5e7eb',
+            drawBorder: false,
+            lineWidth: 1,
+            ...( { borderDash: [4, 4] } as any )
             },
-            tension: 0.4,
-            fill: true,
-            borderWidth: 3,
-            pointRadius: 0,
-            pointHoverRadius: 0,
-            pointBorderWidth: 0,
-            pointBackgroundColor: 'transparent'
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            grid: { display: false },
-            border: { display: false },
-            ticks: {
-              color: '#64748b',
-              font: { size: 12 }
-            }
-          },
-          y: {
-            beginAtZero: true,
-            grid: { display: false },
-            border: { display: false },
-            ticks: {
-              color: '#64748b'
+          border: { display: false },
+          ticks: {
+            color: '#64748b',
+            autoSkip: true,
+            maxTicksLimit: 38,
+            maxRotation: 30,
+            minRotation: 30,
+            font: { size: 12, family: 'Inter, sans-serif' },
+            callback: function(value) {
+              const label = this.getLabelForValue(value as number);
+              const date = new Date(label);
+              return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
             }
           }
         },
-        plugins: {
-          legend: {
-            display: false
-          },
-          title: { 
-            display: true, 
-            text: 'Frequent Reports',
-            font: { 
-              size: 20, 
-              weight: 'bold',
-              family: 'Inter, sans-serif'
-            },
-            color: '#777777'
-          },
-          tooltip: {
-            mode: 'index',
-            intersect: false,
-            backgroundColor: '#1f2937',
-            titleColor: '#f9fafb',
-            bodyColor: '#e5e7eb',
-            padding: 10,
-            cornerRadius: 6
-          }
-        },
-        interaction: {
-          mode: 'nearest',
-          axis: 'x',
-          intersect: false
+        y: {
+          beginAtZero: true,
+          grid: { display: false },
+          border: { display: false },
+          ticks: { color: '#64748b' }
         }
       },
-    });
-    
-    // Second chart (Reports Over Time)
-    this.chart2 = new Chart(ctx2, {
-      type: 'line',
-      data: {
-        labels: [], // Start with empty labels
-        datasets: [
-          {
-            label: 'Total Reports',
-            data: [], // Start with empty data
-            borderColor: 'rgb(59, 130, 246)',
-            backgroundColor: (ctx) => {
-              const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, ctx.chart.height);
-              gradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
-              gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
-              return gradient;
-            },
-            tension: 0.4,
-            fill: true,
-            borderWidth: 3,
-            pointRadius: 0,
-            pointHoverRadius: 0,
-            pointBorderWidth: 0,
-            pointBackgroundColor: 'transparent'
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            grid: { display: false },
-            border: { display: false },
-            ticks: {
-              color: '#64748b',
-              font: { size: 12 }
-            }
-          },
-          y: {
-            beginAtZero: true,
-            grid: { display: false },
-            border: { display: false },
-            ticks: {
-              color: '#64748b'
-            }
-          }
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Frequent Reports',
+          font: { size: 20, weight: 'bold', family: 'Inter, sans-serif' },
+          color: '#777777'
         },
-        plugins: {
-          legend: {
-            display: false
-          },
-          title: { 
-            display: true, 
-            text: 'Reports Over Time',
-            font: { 
-              size: 20, 
-              weight: 'bold',
-              family: 'Inter, sans-serif'
-            },
-            color: '#777777'
-          },
-          tooltip: {
-            mode: 'index',
-            intersect: false,
-            backgroundColor: '#1f2937',
-            titleColor: '#f9fafb',
-            bodyColor: '#e5e7eb',
-            padding: 10,
-            cornerRadius: 6
-          }
-        },
-        interaction: {
-          mode: 'nearest',
-          axis: 'x',
-          intersect: false
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          backgroundColor: '#1f2937',
+          titleColor: '#f9fafb',
+          bodyColor: '#e5e7eb',
+          padding: 10,
+          cornerRadius: 6
         }
       },
-    });
-  }
+      interaction: {
+        mode: 'nearest',
+        axis: 'x',
+        intersect: false
+      }
+    }
+  });
+
+  // Reports Over Time chart with modern design
+  this.chart2 = new Chart(ctx2, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: 'Total Reports',
+          data: [],
+          borderColor: 'rgb(59, 130, 246)',
+          backgroundColor: (ctx) => {
+            const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, ctx.chart.height);
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
+            gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            return gradient;
+          },
+          tension: 0.4,
+          fill: true,
+          borderWidth: 3,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          pointBorderWidth: 0,
+          pointBackgroundColor: 'transparent'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      spanGaps: true,
+      scales: {
+        x: {
+          grid: {
+            color: '#e5e7eb',
+            drawBorder: false,
+            lineWidth: 1,
+            ...( { borderDash: [4, 4] } as any )
+            },
+          border: { display: false },
+          ticks: {
+            color: '#64748b',
+            autoSkip: true,
+            maxTicksLimit: 38,
+            maxRotation: 30,
+            minRotation: 30,
+            font: { size: 12, family: 'Inter, sans-serif' },
+            callback: function(value) {
+              const label = this.getLabelForValue(value as number);
+              const date = new Date(label);
+              return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            }
+          }
+        },
+        y: {
+          beginAtZero: true,
+          grid: { display: false },
+          border: { display: false },
+          ticks: { color: '#64748b' }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Reports Over Time',
+          font: { size: 20, weight: 'bold', family: 'Inter, sans-serif' },
+          color: '#777777'
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          backgroundColor: '#1f2937',
+          titleColor: '#f9fafb',
+          bodyColor: '#e5e7eb',
+          padding: 10,
+          cornerRadius: 6
+        }
+      },
+      interaction: {
+        mode: 'nearest',
+        axis: 'x',
+        intersect: false
+      }
+    }
+  });
+}
+
 
   // Fetch data from the API and update the chart
   fetchData(input: string) {
