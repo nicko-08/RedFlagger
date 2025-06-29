@@ -29,7 +29,7 @@ export class PostReportsComponent {
   username: string | null = null;
   userId: string|undefined = '';
   filtered: any[] = []; // store the filtered and sorted list
-  timeFilter: 'all' | 'day' | 'month' | 'year' = 'all';
+  timeFilter: 'all' | 'day' | 'month' | 'year' | number = 'all';
   sortOrder: 'asc' | 'desc' = 'desc';
 
   authService = inject(AuthService);
@@ -527,6 +527,10 @@ applyFilters(): void {
   this.filtered = this.reports
     .filter(report => {
       const reportDate = new Date(report.REPORT_TIME);
+
+      if (!isNaN(Number(this.timeFilter))){
+        return report.REPORT_ID == this.timeFilter;
+      }
 
       switch (this.timeFilter) {
         case 'day':
