@@ -25,8 +25,22 @@
           Reports of Users
       </h3>
     </div>
+    <div class="flex items-center gap-2 mt-4 ml-4">
+  <label for="filter" class="text-white">Filter by:</label>
+  <select
+    id="filter"
+    class="p-2 rounded border dark:text-white dark:bg-gray-800"
+    [(ngModel)]="timeFilter"
+    (change)="onFilterChange()"
+  >
+    <option value="all">All</option>
+    <option value="day">Today</option>
+    <option value="month">This Month</option>
+    <option value="year">This Year</option>
+  </select>
+</div>
     <!-- Box ng Report -->
-    <div *ngFor="let report of reports" 
+    <div *ngFor="let report of filtered"
         class="report-div">
             <div class="avatar-div">
             <!-- Avatar/Icon -->
@@ -61,7 +75,7 @@
               {{ report.USERNAME }}
             </h3>
             <h3 class="text-md text-black dark:text-white">
-              {{reportTime}}
+              {{report.REPORT_TIME | date:'MMM d, y, h:mm a'}}
             </h3>
           </div>
           <button *ngIf="isModerator || report.OWNERSHIP" (click)="deleteReport(report.REPORT_ID)"

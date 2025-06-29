@@ -46,7 +46,7 @@ main {
 }
 
 .page-link3 {
-  @apply mb-4 w-full rounded-lg border-2 border-gray-300 bg-white p-3 text-left text-black focus:border-red-600 focus:ring-2 focus:ring-red-600 sm:p-4 dark:text-white;
+  @apply mb-4 w-full rounded-lg border-2 border-gray-300 bg-white p-3 text-left text-black focus:border-red-600 focus:ring-2 focus:ring-red-600 sm:p-4 dark:text-black;
 }
 
 .desc1 {

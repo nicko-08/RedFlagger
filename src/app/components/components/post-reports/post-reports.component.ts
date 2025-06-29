@@ -5,14 +5,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SharedService } from '../../../shared.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '../../../auth.service';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
-
 
 @Component({
   selector: 'app-post-reports',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './post-reports.component.html',
   styleUrl: './post-reports.component.css'
 })
@@ -30,8 +28,9 @@ export class PostReportsComponent {
   reportTime: string | null = null;
   username: string | null = null;
   userId: string|undefined = '';
-
-
+  filtered: any[] = []; // store the filtered and sorted list
+  timeFilter: 'all' | 'day' | 'month' | 'year' = 'all';
+  sortOrder: 'asc' | 'desc' = 'desc';
 
   authService = inject(AuthService);
   http = inject(HttpClient);
@@ -44,24 +43,21 @@ export class PostReportsComponent {
   downColor = 'text-blue-500'
   noneColor = 'text-gray-500'
 
-  async ngOnInit(): Promise<void>{
-    let session; await this.authService.getSession().then(
-      (new_session)=>{
-        this.userId = new_session?.user.id;
-        session = new_session;
-
-      }
-    );
+  ngOnInit(): void {
+    
+  this.authService.getSession().then((session) => {
+    this.userId = session?.user.id;
     this.isLoggedIn = !!session;
     this.checkRole();
+
     this.route.queryParams.subscribe((params) => {
-    this.userInputUrl = params['input'];
-    if(this.userInputUrl){
-      this.getReports(this.userInputUrl);
-    }
-
-
-  })
+      this.userInputUrl = params['input'];
+      const filterParam = params['filter'];
+      if (this.userInputUrl) {
+        this.getReports(this.userInputUrl)
+      }
+    });
+  });
 }
 
   async getAccessToken(): Promise<string | null> {
@@ -262,7 +258,7 @@ export class PostReportsComponent {
     });
   }
   
-  getReports(input: string): void {
+   getReports(input: string): void {
     const apiUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/reports?post_url=${encodeURIComponent(input)}`;
     this.http.get<any[]>(apiUrl).subscribe({
       next: (response: any[]) => {
@@ -274,6 +270,7 @@ export class PostReportsComponent {
             this.reportContent = REPORT_CONTENT || 'No content available';
             this.reportTime = REPORT_TIME || 'No time available';
             this.username = USERNAME || 'No username available';
+            this.applyFilters();
             this.reports.forEach(report => {
               this.getProfileImage(report.USER_ID).then(
                 result =>{
@@ -524,5 +521,40 @@ export class PostReportsComponent {
       return false;
     }
   }
+applyFilters(): void {
+  const now = new Date();
 
+  this.filtered = this.reports
+    .filter(report => {
+      const reportDate = new Date(report.REPORT_TIME);
+
+      switch (this.timeFilter) {
+        case 'day':
+          return reportDate.toDateString() === now.toDateString();
+        case 'month':
+          return (
+            reportDate.getMonth() === now.getMonth() &&
+            reportDate.getFullYear() === now.getFullYear()
+          );
+        case 'year':
+          return reportDate.getFullYear() === now.getFullYear();
+        default: // 'all'
+          return true;
+      }
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.REPORT_TIME).getTime();
+      const dateB = new Date(b.REPORT_TIME).getTime();
+      return this.sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+    });
+}
+  onFilterChange(): void {
+  this.router.navigate([], {
+    relativeTo: this.route,
+    queryParams: { input: this.userInputUrl, filter: this.timeFilter },
+    queryParamsHandling: 'merge',
+  });
+
+  this.applyFilters();
+}
 }
