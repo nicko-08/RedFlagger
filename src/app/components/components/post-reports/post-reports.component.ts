@@ -522,8 +522,7 @@ export class PostReportsComponent {
     }
   }
 applyFilters(): void {
-  console.log(!isNaN(Number(this.timeFilter)))
-  console.log(this.timeFilter)
+  
   const now = new Date();
 
   this.filtered = this.reports
@@ -531,7 +530,7 @@ applyFilters(): void {
       const reportDate = new Date(report.REPORT_TIME);
 
       if (!isNaN(Number(this.timeFilter))){
-        console.log("gfff");
+        
         return report.REPORT_ID == this.timeFilter;
         
       }
