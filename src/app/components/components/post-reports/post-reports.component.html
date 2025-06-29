@@ -61,6 +61,9 @@
             <h3 class="text-lg text-black dark:text-white">
               {{ report.USERNAME }}
             </h3>
+            <h3 class="text-md text-black dark:text-white">
+              {{reportTime}}
+            </h3>
           </div>
           <button *ngIf="isModerator || report.OWNERSHIP" (click)="deleteReport(report.REPORT_ID)"
             class="delete-report-btn">
