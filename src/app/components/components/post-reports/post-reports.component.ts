@@ -21,6 +21,7 @@ export class PostReportsComponent {
   
   isLoggedIn!: boolean;
   isModerator!: boolean;
+  hoveredRating: number = 0;
 
   reports: any[] = [];
   reportImages: string[] | null = null;
@@ -555,13 +556,21 @@ applyFilters(): void {
       return this.sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
     });
 }
-  onFilterChange(): void {
-  this.router.navigate([], {
-    relativeTo: this.route,
-    queryParams: { input: this.userInputUrl, filter: this.timeFilter },
-    queryParamsHandling: 'merge',
-  });
+    onFilterChange(): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { input: this.userInputUrl, filter: this.timeFilter },
+      queryParamsHandling: 'merge',
+    });
 
-  this.applyFilters();
-}
+    this.applyFilters();
+  }
+
+  onStarHover(rating: number) {
+    this.hoveredRating = rating;
+  }
+
+  onStarLeave() {
+    this.hoveredRating = 0;
+  }
 }
