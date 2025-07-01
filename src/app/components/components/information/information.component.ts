@@ -24,7 +24,7 @@ export class InformationComponent implements OnInit {
   Number(arg0: string | null) {
     throw new Error('Method not implemented.');
   }
-
+  postId: number| null = null;
   isLoggedIn = false;
   isModerator = true;
   isLoading = true;
@@ -113,9 +113,10 @@ export class InformationComponent implements OnInit {
         this.fbEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${fbPageUrl}${encodeURIComponent(this.userInputUrl)}&width=100%`);
 
         this.chartReady = true;
+        
       }
     });
-    this.connectRealtime(11);
+    
   }
 
   ngAfterViewInit(): void {
@@ -246,11 +247,12 @@ export class InformationComponent implements OnInit {
     const statsUrl = `https://redflagger-api-10796636392.asia-southeast1.run.app/post/stats?post_url=${encodedUrl}`;
 
     // Fetch post content
-    this.http.get<{ POST_CONTENT: string, POST_URL: string }>(contentUrl).subscribe({
+    this.http.get<{ POST_CONTENT: string, POST_URL: string, POST_ID: number }>(contentUrl).subscribe({
       next: (contentResponse) => {
+        this.postId = contentResponse.POST_ID
         this.postContent = contentResponse.POST_CONTENT || 'No content available for this post';
         this.userInputUrl = contentResponse.POST_URL;
-
+        this.connectRealtime(this.postId);
         // Fetch stats and threat info in parallel
         this.http.get<{
           total_reports: number,
