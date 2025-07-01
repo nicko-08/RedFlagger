@@ -252,6 +252,7 @@ export class InformationComponent implements OnInit {
         this.postId = contentResponse.POST_ID
         this.postContent = contentResponse.POST_CONTENT || 'No content available for this post';
         this.userInputUrl = contentResponse.POST_URL;
+        console.log(this.postId);
         this.connectRealtime(this.postId);
         // Fetch stats and threat info in parallel
         this.http.get<{
