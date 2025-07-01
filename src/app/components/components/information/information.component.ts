@@ -549,7 +549,7 @@ export class InformationComponent implements OnInit {
       const average = data.average_daily_reports ?? 0;
       const peak = data.peak_reports ?? 0;
       const threat = data.threat;
-
+      
       // Animate numeric values
       this.animateCount(total, 'reportTotal');
       this.animateCount(Math.floor(average), 'averagePostCount');
@@ -561,6 +561,11 @@ export class InformationComponent implements OnInit {
       this.threatLevel = threat?.threat_level ?? 0; // this is the target
       this.animateGauge();
       this.isLoading = false;
+
+      console.log(data.frequency_over_time)
+      console.log(data.total_reports_over_time)
+      this.chartServe.updateChart1(data.frequency_over_time)
+      this.chartServe.updateChart2(data.total_reports_over_time)
     };
 
     this.socket.onclose = () => {

@@ -20,13 +20,18 @@ export class ChartService {
     canvas2: HTMLCanvasElement,
     userInputUrl: string
   ): void {
+    if (this.chart) {
+      this.chart.destroy();
+    }
     this.chart = this.createModernLineChart(
       canvas1,
       'Frequent Reports',
       'Count',
       'rgb(249, 115, 22)'
     );
-
+    if (this.chart2) {
+      this.chart2.destroy();
+    }
     this.chart2 = this.createModernLineChart(
       canvas2,
       'Reports Over Time',
@@ -204,7 +209,8 @@ export class ChartService {
         }
       }
     };
-
+    console.log("labels",labels)
+    console.log("data",data)
     chart.update();
   }
 
@@ -235,4 +241,23 @@ export class ChartService {
       .sort((a, b) => a[0].localeCompare(b[0]))
       .map(([date, value]) => ({ date, value }));
   }
+
+  public updateChart1(dataArray: { date: string; count: number }[]){
+    let freq = dataArray.map (item => ({
+          date: item.date,
+          value: item.count
+        }));
+  this.updateChart(this.chart, freq)
+
+  }
+
+  public updateChart2(dataArray: { date: string; total_reports: number }[]){
+    let totals = dataArray.map (item => ({
+          date: item.date,
+          value: item.total_reports
+        }));
+    this.updateChart(this.chart2, totals)
+  }
 }
+
+
