@@ -1,4 +1,27 @@
 <main class="main-container custom-dark cursor-default">
+  <div *ngIf="isModerator" class="w-full max-w-4xl mb-6 border-b border-gray-300 dark:border-gray-600 flex">
+  <button
+    (click)="activeTab = 'user'"
+    [ngClass]="{
+      'border-b-4 border-red-600 text-red-600 font-semibold': activeTab === 'user',
+      'text-gray-500 hover:text-red-600': activeTab !== 'user'
+    }"
+    class="px-6 py-3 text-lg focus:outline-none transition-all"
+  >
+    User Reports
+  </button>
+
+  <button
+    (click)="activeTab = 'admin'"
+    [ngClass]="{
+      'border-b-4 border-red-600 text-red-600 font-semibold': activeTab === 'admin',
+      'text-gray-500 hover:text-red-600': activeTab !== 'admin'
+    }"
+    class="px-6 py-3 text-lg focus:outline-none transition-all"
+  >
+    Admin Panel
+  </button>
+</div>
   <div class="div-1 custom-dark">
     <!-- BACK AND REPORT BUTTONS -->
     <div class="back-div">
@@ -15,7 +38,7 @@
     <div class="header-div">
       <h3 class="header">Reports of Users</h3>
     </div>
-
+<div *ngIf="activeTab === 'user'" class="custom-dark">
     <!-- FILTER -->
     <div class="flex flex-row items-center gap-3 mt-6 ml-4">
       <label
@@ -200,4 +223,8 @@
       </div>
     </div>
   </div>
+</div>
+  <div *ngIf="activeTab === 'admin'" class="div-1 custom-dark">
+  <app-post-reports-admin></app-post-reports-admin>
+</div>
 </main>

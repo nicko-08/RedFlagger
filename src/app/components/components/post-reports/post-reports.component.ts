@@ -7,10 +7,11 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '../../../auth.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
+import { PostReportsAdminComponent } from "../post-reports-admin/post-reports-admin.component";
 
 @Component({
   selector: 'app-post-reports',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, PostReportsAdminComponent],
   templateUrl: './post-reports.component.html',
   styleUrl: './post-reports.component.css'
 })
@@ -22,6 +23,7 @@ export class PostReportsComponent {
   isLoggedIn!: boolean;
   isModerator!: boolean;
   hoveredRating: number = 0;
+  activeTab: 'user' | 'admin' = 'user';
 
   reports: any[] = [];
   reportImages: string[] | null = null;
