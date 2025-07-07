@@ -1,1 +1,58 @@
-<p>post-reports-admin works!</p>
+<!-- Header -->
+<div class="header-div">
+  <h3 class="header">Archived Reports</h3>
+</div>
+
+<!-- Loading Screen -->
+<div *ngIf="isLoading" class="flex flex-col justify-center items-center w-full h-[50vh] p-10 space-y-4">
+  <svg class="animate-spin h-10 w-10 text-red-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l5-5-5-5v4a12 12 0 100 24v-4a8 8 0 01-8-8z"></path>
+  </svg>
+  <p class="text-xl text-gray-700 dark:text-white">This may take a while...</p>
+</div>
+
+<!-- Toast Notification -->
+<div *ngIf="toastMessage" class="fixed top-[3.5rem] right-4 z-50 px-4 py-2 rounded-lg text-white shadow-lg"
+  [ngClass]="{
+    'bg-green-600': toastType === 'success',
+    'bg-red-600': toastType === 'error'
+  }">
+  {{ toastMessage }}
+</div>
+
+<!-- Reports Section -->
+<div *ngIf="!isLoading">
+  <div *ngFor="let report of reports" class="report-div transition duration-300 ease-in-out" [@fadeInOut]>
+    <div class="avatar-div">
+      <!-- Avatar -->
+      <div class="reporter-avatar dark-card-glow dark-hover">
+        <img [src]="'icons/' + report.PROFILE_IMAGE + '.svg'" [alt]="report.PROFILE_IMAGE" class="avatar-img" />
+      </div>
+
+      <!-- Info -->
+      <div class="flex flex-col sm:flex-row w-full">
+        <div class="flex-1">
+          <h3 class="text-lg text-black dark:text-white">{{ report.USERNAME }}</h3>
+          <h3 class="text-md text-black dark:text-white">{{ report.REPORT_TIME | date:'MMM d, y, h:mm a' }}</h3>
+        </div>
+        <div class="flex gap-2">
+          <button
+            (click)="recoverReport(report.REPORT_ID)"
+            class="delete-report-btn bg-green-700 hover:bg-green-600"
+            [disabled]="loadingRecoverIds.includes(report.REPORT_ID)">
+            {{ loadingRecoverIds.includes(report.REPORT_ID) ? 'Recovering...' : 'Recover' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report Content -->
+    <p class="text-black text-1xl mt-1 dark:text-white">{{ report.REPORT_CONTENT }}</p>
+
+    <!-- Images -->
+    <div class="flex flex-1 mt-1 gap-2">
+      <img *ngFor="let img of report.IMAGES" [src]="img" alt="Reported Image" class="report-img" />
+    </div>
+  </div>
+</div>

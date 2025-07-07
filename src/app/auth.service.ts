@@ -96,4 +96,8 @@ updatePassword(new_Password: string): Observable<any> {
   return from(this.supabase.auth.updateUser({ password: new_Password }))
   }
   
+  async getAccessToken(): Promise<string | null> {
+  const session = await this.getSession(); 
+  return session?.access_token || null;
+}
 }

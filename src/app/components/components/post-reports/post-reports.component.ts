@@ -8,6 +8,7 @@ import { AuthService } from '../../../auth.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { PostReportsAdminComponent } from "../post-reports-admin/post-reports-admin.component";
+import { ReportSyncService } from '../../../report-sync.service';
 
 @Component({
   selector: 'app-post-reports',
@@ -41,6 +42,7 @@ export class PostReportsComponent {
   sharedService = inject(SharedService);
   sanitizer = inject(DomSanitizer);
   router = inject(Router);
+  reportSyncService = inject(ReportSyncService);
 
   upColor = 'text-red-500'
   downColor = 'text-blue-500'
@@ -58,6 +60,11 @@ export class PostReportsComponent {
 
       if (this.userInputUrl) {
         this.getReports(this.userInputUrl);
+        this.reportSyncService.getRecoveredReport().subscribe((recovered) => {
+        if (recovered) {
+          this.reports.push(recovered); // Or re-fetch if needed
+        }
+      });
       }
     });
   });

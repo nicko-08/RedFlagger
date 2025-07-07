@@ -4,6 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import {provideCacheableAnimationLoader, provideLottieOptions} from 'ngx-lottie';
 import player from 'lottie-web';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideLottieOptions({
       player: () => player,
     }),
-    provideCacheableAnimationLoader()
+    provideCacheableAnimationLoader(),
+    provideAnimations(),
   ]
 };
