@@ -105,6 +105,9 @@
           <div class="flex-1">
             <h3 class="text-lg text-black dark:text-white">{{ report.USERNAME }}</h3>
             <h3 class="text-md text-black dark:text-white">{{ report.REPORT_TIME | date:'MMM d, y, h:mm a' }}</h3>
+            <h2 *ngIf="isModerator" class="text-sm text-black dark:text-white">
+            Post will expire in {{ getExpirationCountdown(report.REPORT_TIME) }}
+            </h2>
           </div>
           <button *ngIf="isModerator || report.OWNERSHIP" (click)="deleteReport(report.REPORT_ID)" class="delete-report-btn">
             Delete Report

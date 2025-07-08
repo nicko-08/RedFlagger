@@ -9,6 +9,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { firstValueFrom } from 'rxjs';
 import { PostReportsAdminComponent } from "../post-reports-admin/post-reports-admin.component";
 import { ReportSyncService } from '../../../report-sync.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-post-reports',
@@ -582,4 +583,19 @@ applyFilters(): void {
   onStarLeave() {
     this.hoveredRating = 0;
   }
+  getExpirationCountdown(reportTime: string): string {
+  const creation = moment(reportTime);
+  const expiration = creation.clone().add(1, 'year');
+  const now = moment();
+
+  if (now.isAfter(expiration)) {
+    return `Expired (${expiration.format('MMM D, YYYY')})`;
+  }
+
+  const duration = moment.duration(expiration.diff(now));
+  const months = Math.floor(duration.asMonths());
+  const days = Math.floor(duration.subtract(months, 'months').asDays());
+
+  return `in ${months} month${months !== 1 ? 's' : ''}, ${days} day${days !== 1 ? 's' : ''} (${expiration.format('MMM D, YYYY')})`;
+}
 }

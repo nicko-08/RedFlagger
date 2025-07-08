@@ -126,4 +126,13 @@ showToast(message: string, type: 'success' | 'error') {
     this.toastMessage = null;
   }, 3000);
 }
+downloadReport(postId: string): void {
+  if (this.isLoading) return;
+
+  const url = `https://redflagger-api-10796636392.asia-southeast1.run.app/download?post_id=${postId}`;
+  window.open(url, '_blank');
+}
+
+
+
 }

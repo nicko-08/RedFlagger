@@ -1,6 +1,20 @@
 <!-- Header -->
 <div class="header-div">
   <h3 class="header">Archived Reports</h3>
+  <div class="flex justify-center mt-2">
+  <button
+    [disabled]="isLoading"
+    (click)="downloadReport(reports[0].POST_ID)"
+    class="px-4 py-2 rounded font-semibold transition duration-200 text-white"
+    [ngClass]="{
+      'bg-red-600 hover:bg-red-500': !isLoading,
+      'bg-gray-400 cursor-not-allowed': isLoading
+    }"
+  >
+    {{ isLoading ? 'Generating report…' : 'Download Report' }}
+  </button>
+</div>
+
 </div>
 
 <!-- Loading Screen -->
